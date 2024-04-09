@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <title>Coral Database</title>
@@ -31,111 +32,143 @@
         }
 		
 		.slidecontainer {
-		width: 100%; 
+			width: 50%; /* Adjusted width */
+			margin-bottom: 20px; /* Added margin */
 		}
 
 		.slider {
-		-webkit-appearance: none;  /* Override default CSS styles */
-		appearance: none;
-		width: 50%; /* Full-width */
-		height: 25px; /* Specified height */
-		background: #d3d3d3; /* Grey background */
-		outline: none; /* Remove outline */
-		opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
-		-webkit-transition: .2s; /* 0.2 seconds transition on hover */
-		transition: opacity .2s;
+			-webkit-appearance: none;  
+			appearance: none;
+			width: 50%; /* Adjusted width */
+			height: 5px; /* Adjusted height */
+			background: #000000; 
+			outline: none; 
+			opacity: 0.7; 
+			-webkit-transition: .2s; 
+			transition: opacity .2s;
 		}
 
 		/* Mouse-over effects */
 		.slider:hover {
-		opacity: 1; /* Fully shown on mouse-over */
+			opacity: 1; 
 		}
 
-		/* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+		/* The slider handle */
 		.slider::-webkit-slider-thumb {
-		-webkit-appearance: none; /* Override default look */
-		appearance: none;
-		width: 25px; /* Set a specific slider handle width */
-		height: 25px; /* Slider handle height */
-		background: #04AA6D; /* Green background */
-		cursor: pointer; /* Cursor on hover */
+			-webkit-appearance: none; 
+			appearance: none;
+			width: 18px; 
+			height: 18px; 
+			background: #800080; 
+			cursor: pointer; 
+			border-radius: 50%; 
 		}
 
 		.slider::-moz-range-thumb {
-		width: 25px; /* Set a specific slider handle width */
-		height: 25px; /* Slider handle height */
-		background: #04AA6D; /* Green background */
-		cursor: pointer; /* Cursor on hover */
+			width: 10px; 
+			height: 10px; 
+			background: #800080; 
+			cursor: pointer; 
+			border-radius: 50%; 
+		}
+
+		.example-text {
+			margin-left: 10px;
+		}
+
+		/* Collapsible section style */
+		.collapsible {
+			background-color: #777;
+			color: white;
+			cursor: pointer;
+			padding: 12px; /* Adjusted padding */
+			width: 100%;
+			border: none;
+			text-align: left;
+			outline: none;
+			font-size: 15px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.active, .collapsible:hover {
+			background-color: #555;
+		}
+
+		.content {
+			padding: 0 18px;
+			display: none;
+			overflow: hidden;
+			background-color: #f1f1f1;
 		}
     </style>
 </head>
 <body>
 
-	var slider = document.getElementById("width");
-	var output = document.getElementById("width");
-	output.innerHTML = slider.value; // Display the default slider value
-
-	// Update the current slider value (each time you drag the slider handle)
-	slider.oninput = function() {
-	  output.innerHTML = this.value;
-}
     <h1><strong>Porites (Stony Coral) Database</strong></h1>
     <h3>
     This page allows you to search the coral database hosted on bioed which can be used to genetic variant information and phenotypic data on corals of interest.
     </h3>
     <div class="user-input">
+		<div class="collapsible">Filters &#9662;</div>
+		<div class="content">
+			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
+				Input Tag ID:  <input type="text" name="tagid">
+				<span class="example-text">(Example Tag IDs:  )</span> <br><br>
 
+				<div class="collapsible">Additional Phenotypic Data Filters &#9662;</div>
+				<div class="content">
+					<div class="slidecontainer">
+						Length (cm):<input type="range" min="0" max="50" value="0" class="slider" id="length">
+						<span class="example-text">(Range: 0 to 50)</span> <br><br>
 
-    <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
-        Input Tag ID:  <input type="text" name="tagid">
-        <span class="example-text">(Example Tag IDs:  )</span> <br><br>
-		
-        Location:  <input type="checkbox" name="location" value="Channel-North"> Channel-North
-		<input type="checkbox" name="location" value="Creek-West"> Creek-West
-		<input type="checkbox" name="location" value="Creek-East"> Creek-East 
-		<input type="checkbox" name="location" value="Channel-South"> Channel-South
-		<br><br>
-		
-		Alive Status: <input type="checkbox" name="status" value="Dead"> Dead
-		<input type="checkbox" name="status" value="Alive"> Alive
-		<input type="checkbox" name="status" value="Missing"> Missing <br><br>
-		
-		Length (cm): <input type="text" name="length">
-        <span class="example-text">(Range: 0 to 50)</span> <br><br>
-		
+						Width (cm): <input type="range" min="0" max="50" value="0" class="slider" id="width">
+						<span class="example-text">(Range: 0 to 50)</span> <br><br>
 
-		<div class="slidecontainer">
-			Width (cm)<input type="range" min="0" max="50" value="1" class="slider" id="width">        
-			<span class="example-text">(Range: 0 to 50)</span> 
-		</div><br><br>
-		
-		Height (cm): <input type="text" name="height">
-        <span class="example-text">(Range: 0 to 30)</span> <br><br>
-		
-		Ecological Volume (units): <input type="text" name="eco_vol">
-        <span class="example-text">(Range: 0 to 35,000)</span> <br><br>
-		
-		Natural Log of Ecological Volume (units): <input type="text" name="ln_eco_vol">
-        <span class="example-text">(Range: -4 to 12)</span> <br><br>
-		
-		Volume Cylinder (units): <input type="text" name="vol_cylinder">
-        <span class="example-text">(Range: 0 to 10)</span> <br><br>
-		
-		Input Tip ID: <input type="text" name="tipid">
-        <span class="example-text">(Example Tip IDs: )</span> <br><br>
-		
-		Input Coral ID: <input type="text" name="coralid">
-        <span class="example-text">(Example Coral IDs: )</span> <br><br>
-		
-		Quality Threshold: <input type="text" name="quality">
-        <span class="example-text">(Example quality cutoff: )</span> <br><br>
-		
-		Allele Frequency: <input type="text" name="allele_freq">
-        <span class="example-text">(Range: 0 to 1 )</span> <br><br>
+						Height (cm): <input type="range" min="0" max="30" value="0" class="slider" id="height">
+						<span class="example-text">(Range: 0 to 30)</span> <br><br>
 
-        <input type="submit" value="Submit"><br><br>
-    </form>
+						Ecological Volume (units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol">
+						<span class="example-text">(Range: 0 to 35,000)</span> <br><br>
+
+						Natural Log of Ecological Volume (units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol">
+						<span class="example-text">(Range: -4 to 12)</span> <br><br>
+					</div>
+				</div>
+
+				<div class="collapsible">VCF Filters &#9662;</div>
+				<div class="content">
+					<div class="slidecontainer">
+						Quality Threshold: <input type="range" min="0" max="100" value="0" class="slider" id="quality">
+						<span class="example-text">(Example quality cutoff: )</span> <br><br>
+
+						Allele Frequency: <input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq">
+						<span class="example-text">(Range: 0 to 1 )</span> <br><br>
+					</div>
+				</div>
+
+				<input type="submit" value="Submit"><br><br>
+			</form>
+		</div>
     </div>
 
+	<script>
+		// Collapsible section functionality
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function() {
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				} else {
+					content.style.display = "block";
+				}
+			});
+		}
+	</script>
 </body>
 </html>
