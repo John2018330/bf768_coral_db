@@ -36,7 +36,7 @@ ignore 1 lines
 drop table if exists y2015;
 
 create table y2015 (
-	tagid int NOT NULL,
+	tagid varchar(10) NOT NULL,
 	location varchar(30),
 	notes varchar(100),
 	alive_status varchar(10),
@@ -49,7 +49,7 @@ create table y2015 (
 	ln_ecovolume float,
 	Volume_Cylinder float,
 	tip_number int,
-	old_tag int,
+	old_tag varchar(10),
 	Branch_Diameter_1 float,
 	Branch_Diameter_2 float,
 	Branch_Diameter_3 float,
