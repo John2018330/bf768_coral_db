@@ -127,3 +127,49 @@ branch_diameter_1 = NULLIF(@branch_diameter_1,''),
 branch_diameter_2 = NULLIF(@branch_diameter_2,''),
 branch_diameter_3 = NULLIF(@branch_diameter_3,''),
 average_bd = NULLIF(@average_bd,'');
+
+-- 2017 phenotypic data table
+--    tagid primary key
+
+drop table if exists y2017;
+
+create table y2017 (
+	tagid varchar(30) NOT NULL,
+	location varchar(30),
+	notes varchar(100),
+	alive_status varchar(50),
+	length_cm float,
+	width_cm float,
+	height_cm float,
+	lw_div_4 float,
+	lw_div_4_sq float,
+	eco_volume float,
+	ln_eco_volume float,
+	volume_cylinder float,
+	tip_number varchar(100),
+	old_tag varchar(50),
+	PRIMARY KEY (tagid)
+) engine = INNODB;
+
+-- When loading in data, must utilize NULLIF for columns that have 
+-- empty values, i.e. set cell to NULL if cell value = ''
+
+load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2017.tsv' into table y2017
+ignore 1 lines 
+(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
+@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag)
+SET
+notes = NULLIF(@notes,''),
+length_cm = NULLIF(@length_cm,''),
+width_cm = NULLIF(@width_cm,''),
+height_cm = NULLIF(@height_cm,''),
+lw_div_4 = NULLIF(@lw_div_4,''),
+lw_div_4_sq = NULLIF(@lw_div_4_sq,''),
+eco_volume = NULLIF(@eco_volume,''),
+ln_eco_volume = NULLIF(@ln_eco_volume,''),
+volume_cylinder = NULLIF(@volume_cylinder,''),
+tip_number = NULLIF(@tip_number,''),
+old_tag = NULLIF(@old_tag,'');
+
+
+
