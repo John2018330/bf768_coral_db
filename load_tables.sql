@@ -32,45 +32,98 @@ ignore 1 lines
 
 
 -- 2015 phenotypic data table
---     tagid primary, int
+--     tagid primary key, character
+
 drop table if exists y2015;
 
 create table y2015 (
-	tagid varchar(10) NOT NULL,
+	tagid varchar(30) NOT NULL,
 	location varchar(30),
 	notes varchar(100),
-	alive_status varchar(10),
-	length float,
-	width float,
-	height float,
+	alive_status varchar(50),
+	length_cm float,
+	width_cm float,
+	height_cm float,
 	lw_div_4 float,
 	lw_div_4_sq float,
 	eco_volume float,
-	ln_ecovolume float,
-	Volume_Cylinder float,
-	tip_number int,
-	old_tag varchar(10),
-	Branch_Diameter_1 float,
-	Branch_Diameter_2 float,
-	Branch_Diameter_3 float,
-	Average_BD float,
+	ln_eco_volume float,
+	volume_cylinder float,
+	tip_number varchar(100),
+	old_tag varchar(50),
+	branch_diameter_1 float,
+	branch_diameter_2 float,
+	branch_diameter_3 float,
+	average_bd float,
 	PRIMARY KEY (tagid)
 ) engine = INNODB;
 
+
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
-load data local infile '/Users/jz/Desktop/BU/Spring 2024 BF768 Bio Databases/project/final_data/metadata_2015.csv' INTO TABLE y2015
-fields terminated by ","
+
+load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2015.tsv' INTO TABLE y2015
 ignore 1 lines 
-(tagid, location, @notes, alive_status, length, width, height, lw_div_4, lw_div_4_sq, eco_volume, @ln_ecovolume, @Volume_Cylinder, 
-tip_number, @old_tag, @Branch_Diameter_1, @Branch_Diameter_2, @Branch_Diameter_3, Average_BD)
-SET 
+(tagid, location, @notes, alive_status, length_cm, width_cm, height_cm, lw_div_4, lw_div_4_sq, eco_volume,
+@ln_eco_volume, @volume_cylinder, tip_number, @old_tag, @branch_diameter_1, @branch_diameter_2, @branch_diameter_3, average_bd)
+SET
 notes = NULLIF(@notes,''),
-ln_ecovolume = NULLIF(@ln_ecovolume,''),
-Volume_Cylinder = NULLIF(@Volume_Cylinder,''),
+ln_eco_volume = NULLIF(@ln_eco_volume,''),
+volume_cylinder = NULLIF(@volume_cylinder,''),
 old_tag = NULLIF(@old_tag,''),
-Branch_Diameter_1 = NULLIF(@Branch_Diameter_1,''),
-Branch_Diameter_2 = NULLIF(@Branch_Diameter_2,''),
-Branch_Diameter_3 = NULLIF(@Branch_Diameter_3,'');
+branch_diameter_1 = NULLIF(@branch_diameter_1,''),
+branch_diameter_2 = NULLIF(@branch_diameter_2,''),
+branch_diameter_3 = NULLIF(@branch_diameter_3,'');
+
+ 
+-- 2016 phenotypic data table
+--     tagid primary key, character
+
+drop table if exists y2016;
+
+create table y2016 (
+	tagid varchar(30) NOT NULL,
+	location varchar(30),
+	notes varchar(100),
+	alive_status varchar(50),
+	length_cm float,
+	width_cm float,
+	height_cm float,
+	lw_div_4 float,
+	lw_div_4_sq float,
+	eco_volume float,
+	ln_eco_volume float,
+	volume_cylinder float,
+	tip_number varchar(100),
+	old_tag varchar(50),
+	branch_diameter_1 float,
+	branch_diameter_2 float,
+	branch_diameter_3 float,
+	average_bd float,
+	PRIMARY KEY (tagid)
+) engine = INNODB;
 
 
+-- When loading in data, must utilize NULLIF for columns that have 
+-- empty values, i.e. set cell to NULL if cell value = ''
+
+load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2016.tsv' INTO TABLE y2016
+ignore 1 lines 
+(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
+@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag, @branch_diameter_1, @branch_diameter_2, @branch_diameter_3, @average_bd)
+SET
+notes = NULLIF(@notes,''),
+length_cm = NULLIF(@length_cm,''),
+width_cm = NULLIF(@width_cm,''),
+height_cm = NULLIF(@height_cm,''),
+lw_div_4 = NULLIF(@lw_div_4,''),
+lw_div_4_sq = NULLIF(@lw_div_4_sq,''),
+eco_volume = NULLIF(@eco_volume,''),
+ln_eco_volume = NULLIF(@ln_eco_volume,''),
+volume_cylinder = NULLIF(@volume_cylinder,''),
+tip_number = NULLIF(@tip_number,''),
+old_tag = NULLIF(@old_tag,''),
+branch_diameter_1 = NULLIF(@branch_diameter_1,''),
+branch_diameter_2 = NULLIF(@branch_diameter_2,''),
+branch_diameter_3 = NULLIF(@branch_diameter_3,''),
+average_bd = NULLIF(@average_bd,'');
