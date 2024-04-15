@@ -181,7 +181,7 @@ create table y2018 (
 	tagid varchar(30) NOT NULL,
 	location varchar(30),
 	notes varchar(100),
-	alive_status varchar(50),
+	alive_status varchar(100),
 	length_cm float,
 	width_cm float,
 	height_cm float,
@@ -192,17 +192,19 @@ create table y2018 (
 	volume_cylinder float,
 	tip_number varchar(100),
 	old_tag varchar(50),
+	bd_single_branches float,
 	PRIMARY KEY (tagid)
 ) engine = INNODB;
 
 
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
+-- HAD TO TWEAK ORIGINAL FILE bc of duplicate keys in combined coral rows
 
 load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2018.tsv' into table y2018
 ignore 1 lines 
 (tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
-@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag)
+@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag, @bd_single_branches)
 SET
 notes = NULLIF(@notes,''),
 length_cm = NULLIF(@length_cm,''),
@@ -214,4 +216,5 @@ eco_volume = NULLIF(@eco_volume,''),
 ln_eco_volume = NULLIF(@ln_eco_volume,''),
 volume_cylinder = NULLIF(@volume_cylinder,''),
 tip_number = NULLIF(@tip_number,''),
-old_tag = NULLIF(@old_tag,'');
+old_tag = NULLIF(@old_tag,''),
+bd_single_branches = NULLIF(@bd_single_branches,'');
