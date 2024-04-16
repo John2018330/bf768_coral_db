@@ -218,3 +218,42 @@ volume_cylinder = NULLIF(@volume_cylinder,''),
 tip_number = NULLIF(@tip_number,''),
 old_tag = NULLIF(@old_tag,''),
 bd_single_branches = NULLIF(@bd_single_branches,'');
+
+
+
+-- ID Table: contains a mapping of id's across 
+-- years for joining phenotypic year tables.
+--   primary key (id)
+
+drop table if exists id_table;
+
+create table id_table (
+	id int NOT NULL,
+	2018_id varchar(30),
+	2017_id varchar(30),
+	2016_id varchar(30),
+	2015_id varchar(30),
+	PRIMARY KEY (id)
+) engine = INNODB;
+
+
+
+-- When loading in data, must utilize NULLIF for columns that have 
+-- empty values, i.e. set cell to NULL if cell value = ''
+
+-- Manually created id_table.tsv from original phenotypic data based 
+-- on ID's to join 
+
+load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/id_table.tsv' into table id_table
+lines terminated by '\n'
+ignore 1 lines
+(id, @2018_id, @2017_id, @2016_id, @2015_id)
+SET
+2018_id = NULLIF(@2018_id,''),
+2017_id = NULLIF(@2017_id,''),
+2016_id = NULLIF(@2016_id,''),
+2015_id = NULLIF(@2015_id,'');
+
+
+select * from id_table;
+
