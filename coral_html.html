@@ -29,146 +29,252 @@
             border: 1px solid ;
             padding: 10px;
             margin-bottom: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
         }
-		
-		.slidecontainer {
-			width: 50%; /* Adjusted width */
-			margin-bottom: 20px; /* Added margin */
-		}
 
-		.slider {
-			-webkit-appearance: none;  
-			appearance: none;
-			width: 50%; /* Adjusted width */
-			height: 5px; /* Adjusted height */
-			background: #000000; 
-			outline: none; 
-			opacity: 0.7; 
-			-webkit-transition: .2s; 
-			transition: opacity .2s;
-		}
+        .filter-tab {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #777;
+            color: white;
+            border: none;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            outline: none;
+            transition: background-color 0.3s;
+            margin-right: 10px; /* Added */
+            margin-top: -7px; /* Adjusted */
+        }
 
-		/* Mouse-over effects */
-		.slider:hover {
-			opacity: 1; 
-		}
+        .filter-tab:hover {
+            background-color: #555;
+        }
 
-		/* The slider handle */
-		.slider::-webkit-slider-thumb {
-			-webkit-appearance: none; 
-			appearance: none;
-			width: 18px; 
-			height: 18px; 
-			background: #800080; 
-			cursor: pointer; 
-			border-radius: 50%; 
-		}
+        .filter-section {
+            position: absolute;
+            top: 0;
+            left: -400px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 20px;
+            z-index: 1;
+            transition: left 0.3s ease;
+            border-right: 1px solid #ccc;
+            border-radius: 0 5px 5px 0;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
 
-		.slider::-moz-range-thumb {
-			width: 10px; 
-			height: 10px; 
-			background: #800080; 
-			cursor: pointer; 
-			border-radius: 50%; 
-		}
+        .user-input.active .filter-section {
+            left: 0;
+        }
 
-		.example-text {
-			margin-left: 10px;
-		}
+        .slidecontainer {
+            width: 100%;
+            margin-bottom: 20px;
+        }
 
-		/* Collapsible section style */
-		.collapsible {
-			background-color: #777;
-			color: white;
-			cursor: pointer;
-			padding: 12px; /* Adjusted padding */
-			width: 100%;
-			border: none;
-			text-align: left;
-			outline: none;
-			font-size: 15px;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
+        .slider {
+            -webkit-appearance: none;  
+            appearance: none;
+            width: 90%;
+            height: 5px;
+            background: #000000; 
+            outline: none; 
+            opacity: 0.7; 
+            -webkit-transition: .2s; 
+            transition: opacity .2s;
+        }
 
-		.active, .collapsible:hover {
-			background-color: #555;
-		}
+        .slider:hover {
+            opacity: 1; 
+        }
 
-		.content {
-			padding: 0 18px;
-			display: none;
-			overflow: hidden;
-			background-color: #f1f1f1;
-		}
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none; 
+            appearance: none;
+            width: 18px; 
+            height: 18px; 
+            background: #800080; 
+            cursor: pointer; 
+            border-radius: 50%; 
+        }
+
+        .slider::-moz-range-thumb {
+            width: 10px; 
+            height: 10px; 
+            background: #800080; 
+            cursor: pointer; 
+            border-radius: 50%; 
+        }
+
+        .example-text {
+            margin-left: 10px;
+        }
+
+        .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            width: 100%;
+            border: 1px solid black;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .collapsible.active {
+            background-color: #555;
+        }
+
+        .collapsible:hover {
+            background-color: #555;
+        }
+
+        .arrow {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .content {
+            padding: 10px 18px;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            display: none;
+        }
+
+        .active .content {
+            display: block;
+        }
+
+        .submit-btn {
+            background-color: #777;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #555;
+        }
+
+        .tab {
+            cursor: pointer;
+            padding: 8px;
+            background-color: #777;
+            color: white;
+            border: none;
+            outline: none;
+            transition: background-color 0.3s;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+        }
+
+        .tab:hover {
+            background-color: #555;
+        }
+
+        .tabs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .tabs .spacer {
+            flex: 1;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+        }
     </style>
 </head>
 <body>
 
-    <h1><strong>Porites (Stony Coral) Database</strong></h1>
-    <h3>
-    This page allows you to search the coral database hosted on bioed which can be used to genetic variant information and phenotypic data on corals of interest.
-    </h3>
-    <div class="user-input">
-		<div class="collapsible">Filters &#9662;</div>
-		<div class="content">
-			<form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
-				Input Tag ID:  <input type="text" name="tagid">
-				<span class="example-text">(Example Tag IDs:  )</span> <br><br>
+<h1><strong>Porites (Stony Coral) Database</strong></h1>
 
-				<div class="collapsible">Additional Phenotypic Data Filters &#9662;</div>
-				<div class="content">
-					<div class="slidecontainer">
-						Length (cm):<input type="range" min="0" max="50" value="0" class="slider" id="length">
-						<span class="example-text">(Range: 0 to 50)</span> <br><br>
+<div class="tabs">
+    <div class="tab">Home</div>
+    <div class="spacer"></div>
+    <div class="tab" onclick="toggleHelp()">Help</div>
+</div>
 
-						Width (cm): <input type="range" min="0" max="50" value="0" class="slider" id="width">
-						<span class="example-text">(Range: 0 to 50)</span> <br><br>
+<div class="user-input">
+    <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
+        <button class="filter-tab" onclick="toggleFilter()">☰ Filters</button> 
 
-						Height (cm): <input type="range" min="0" max="30" value="0" class="slider" id="height">
-						<span class="example-text">(Range: 0 to 30)</span> <br><br>
+        <input type="submit" value="Submit" class="submit-btn"><br><br>
+    </form>
 
-						Ecological Volume (units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol">
-						<span class="example-text">(Range: 0 to 35,000)</span> <br><br>
+    <div class="filter-section">
+        <div class="collapsible" onclick="toggleSection(this)">&#9654; Phenotypic Data Filters</div>
+        <div class="content">
+            <div class="slidecontainer">
+                Input Tag ID:  <input type="text" name="tagid">
+                <span class="example-text">(Example Tag IDs:  )</span> <br><br>
+                Length Range: 0cm to 50cm):<input type="range" min="0" max="50" value="0" class="slider" id="length"><br><br>
 
-						Natural Log of Ecological Volume (units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol">
-						<span class="example-text">(Range: -4 to 12)</span> <br><br>
-					</div>
-				</div>
+                Width (Range: 0cm to 50cm): <input type="range" min="0" max="50" value="0" class="slider" id="width"><br><br>
 
-				<div class="collapsible">VCF Filters &#9662;</div>
-				<div class="content">
-					<div class="slidecontainer">
-						Quality Threshold: <input type="range" min="0" max="100" value="0" class="slider" id="quality">
-						<span class="example-text">(Example quality cutoff: )</span> <br><br>
+                Height (Range: 0cm to 30cm): <input type="range" min="0" max="30" value="0" class="slider" id="height"><br><br>
 
-						Allele Frequency: <input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq">
-						<span class="example-text">(Range: 0 to 1 )</span> <br><br>
-					</div>
-				</div>
+                Ecological Volume (Range: 0 to 35,000units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol"><br><br>
 
-				<input type="submit" value="Submit"><br><br>
-			</form>
-		</div>
+                Natural Log of Ecological Volume (Range: -4 to 12units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol"><br><br>
+            </div>
+        </div>
+
+        <div class="collapsible" onclick="toggleSection(this)">&#9654; VCF Filters</div>
+        <div class="content">
+            <div class="slidecontainer">
+                Quality Threshold: (Example quality cutoff: ) <input type="range" min="0" max="100" value="0" class="slider" id="quality"><br><br>
+
+                Allele Frequency:  (Range: 0 to 1)<input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq"><br><br>
+            </div>
+        </div>
     </div>
+</div>
 
-	<script>
-		// Collapsible section functionality
-		var coll = document.getElementsByClassName("collapsible");
-		var i;
+<div class="overlay" onclick="toggleFilter()"></div>
 
-		for (i = 0; i < coll.length; i++) {
-			coll[i].addEventListener("click", function() {
-				this.classList.toggle("active");
-				var content = this.nextElementSibling;
-				if (content.style.display === "block") {
-					content.style.display = "none";
-				} else {
-					content.style.display = "block";
-				}
-			});
-		}
-	</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".filter-tab").click(function(event) {
+            $(".filter-section").toggleClass("active");
+            $(".overlay").toggle();
+        });
+
+        $(".collapsible").click(function() {
+            $(this).toggleClass("active");
+            $(this).next().slideToggle();
+        });
+
+        $(".overlay").click(function() {
+            $(".filter-section").removeClass("active");
+            $(this).hide();
+        });
+
+        $(".tab").click(function() {
+            $(".overlay").removeClass("active");
+        });
+    });
+</script>
 </body>
 </html>
