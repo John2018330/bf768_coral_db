@@ -29,252 +29,216 @@
             border: 1px solid ;
             padding: 10px;
             margin-bottom: 20px;
-            position: relative;
+        }
+		
+		.slidecontainer {
+			width: 50%; 
+			margin-bottom: 20px;
+		}
+
+		.slider {
+			-webkit-appearance: none;  
+			appearance: none;
+			width: 50%;
+			height: 5px; 
+			background: #000000; 
+			outline: none; 
+			opacity: 0.7; 
+			-webkit-transition: .2s; 
+			transition: opacity .2s;
+		}
+		.slider:hover {
+			opacity: 1; 
+		}
+		.slider::-webkit-slider-thumb {
+			-webkit-appearance: none; 
+			appearance: none;
+			width: 18px; 
+			height: 18px; 
+			background: #800080; 
+			cursor: pointer; 
+			border-radius: 50%; 
+		}
+
+		.slider::-moz-range-thumb {
+			width: 10px; 
+			height: 10px; 
+			background: #800080; 
+			cursor: pointer; 
+			border-radius: 50%; 
+		}
+		.example-text {
+			margin-left: 10px;
+		}
+		.tabbar {
             display: flex;
-            align-items: center;
-        }
-
-        .filter-tab {
-            cursor: pointer;
-            padding: 8px;
-            background-color: #777;
-            color: white;
-            border: none;
-            border-top-left-radius: 5px;
-            border-bottom-left-radius: 5px;
-            outline: none;
-            transition: background-color 0.3s;
-            margin-right: 10px; /* Added */
-            margin-top: -7px; /* Adjusted */
-        }
-
-        .filter-tab:hover {
-            background-color: #555;
-        }
-
-        .filter-section {
-            position: absolute;
-            top: 0;
-            left: -400px;
-            width: 300px;
-            background: rgba(255, 255, 255, 0.7);
-            padding: 20px;
-            z-index: 1;
-            transition: left 0.3s ease;
-            border-right: 1px solid #ccc;
-            border-radius: 0 5px 5px 0;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .user-input.active .filter-section {
-            left: 0;
-        }
-
-        .slidecontainer {
-            width: 100%;
-            margin-bottom: 20px;
-        }
-
-        .slider {
-            -webkit-appearance: none;  
-            appearance: none;
-            width: 90%;
-            height: 5px;
-            background: #000000; 
-            outline: none; 
-            opacity: 0.7; 
-            -webkit-transition: .2s; 
-            transition: opacity .2s;
-        }
-
-        .slider:hover {
-            opacity: 1; 
-        }
-
-        .slider::-webkit-slider-thumb {
-            -webkit-appearance: none; 
-            appearance: none;
-            width: 18px; 
-            height: 18px; 
-            background: #800080; 
-            cursor: pointer; 
-            border-radius: 50%; 
-        }
-
-        .slider::-moz-range-thumb {
-            width: 10px; 
-            height: 10px; 
-            background: #800080; 
-            cursor: pointer; 
-            border-radius: 50%; 
-        }
-
-        .example-text {
-            margin-left: 10px;
-        }
-
-        .collapsible {
-            background-color: #777;
-            color: white;
-            cursor: pointer;
-            padding: 8px;
-            width: 100%;
-            border: 1px solid black;
-            text-align: left;
-            outline: none;
-            font-size: 15px;
-            display: flex;
-            justify-content: flex-start;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-
-        .collapsible.active {
-            background-color: #555;
-        }
-
-        .collapsible:hover {
-            background-color: #555;
-        }
-
-        .arrow {
-            margin-right: 10px;
-            font-size: 18px;
-        }
-
-        .content {
-            padding: 10px 18px;
-            overflow: hidden;
-            background-color: #f1f1f1;
-            display: none;
-        }
-
-        .active .content {
-            display: block;
-        }
-
-        .submit-btn {
-            background-color: #777;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            cursor: pointer;
-            font-size: 15px;
-            transition: background-color 0.3s;
-            margin-top: 10px;
-        }
-
-        .submit-btn:hover {
-            background-color: #555;
+            width: auto;
+            justify-content: space-between;
+            background-color: #e9e8eb;
+            padding: 10px;
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
 
         .tab {
+            flex-grow: 1;
+            text-align: center;
             cursor: pointer;
-            padding: 8px;
-            background-color: #777;
-            color: white;
-            border: none;
-            outline: none;
-            transition: background-color 0.3s;
-            border-top-right-radius: 5px;
-            border-bottom-right-radius: 5px;
         }
 
-        .tab:hover {
-            background-color: #555;
+        .tab.active {
+            background-color: #ccc;
+            box-shadow: none;
         }
 
-        .tabs {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .tabs .spacer {
-            flex: 1;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+        .tabcontent {
             display: none;
         }
+
+        .active-tabcontent {
+            display: block;
+        }
+		.collapsible {
+        background-color: #777;
+        color: white;
+        cursor: pointer;
+        padding: 12px;
+        width: auto;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+        display: flex;
+        align-items: center;
+		}
+		.collapsible.active, .collapsible:hover {
+			background-color: #555;
+		}
+
+		.collapsible::before {
+			content: "\25BA"; 
+			margin-right: 10px;
+		}
+
+		.active.collapsible::before {
+			content: "\25BC";
+		}
+
+		.content {
+			padding: 0 18px;
+			display: none;
+			overflow: hidden;
+			background-color: #f1f1f1;
+		}
+		button {
+            height:40px;
+            width:75px;
+            border-radius: 25px;
+        }
+
+
     </style>
 </head>
 <body>
 
-<h1><strong>Porites (Stony Coral) Database</strong></h1>
+    <h1><strong>Porites (Stony Coral) Database</strong></h1>
 
-<div class="tabs">
-    <div class="tab">Home</div>
-    <div class="spacer"></div>
-    <div class="tab" onclick="toggleHelp()">Help</div>
-</div>
+    <div class="tabbar">
+        <div class="tab" onclick="openTab(event, 'intro')">Intro</div>
+        <div class="tab" onclick="openTab(event, 'data')">Data</div>
+        <div class="tab" onclick="openTab(event, 'media')">Media</div>
+        <div class="tab" onclick="openTab(event, 'about')">About</div>
+        <div class="tab" onclick="openTab(event, 'help')">Help</div>
+    </div>
 
-<div class="user-input">
-    <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
-        <button class="filter-tab" onclick="toggleFilter()">☰ Filters</button> 
+    <div id="intro" class="tabcontent active-tabcontent"><br>
+        Corals are important
+    </div>
 
-        <input type="submit" value="Submit" class="submit-btn"><br><br>
-    </form>
+    <div id="data" class="tabcontent">
+        <p style="font-size:18px;">This tab allows the user to explore the coral phenotypic and vcf data. The data can also be filtered by the options present in the filters section.</p>
+        <div class="user-input">
+            <div class="collapsible">Filters</div>
+            <div class="content">
+                <br>
+                <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
+                    Input Tag ID: <input type="text" name="tagid">
+                    <span class="example-text">(Example Tag IDs: )</span> <br><br>
 
-    <div class="filter-section">
-        <div class="collapsible" onclick="toggleSection(this)">&#9654; Phenotypic Data Filters</div>
-        <div class="content">
-            <div class="slidecontainer">
-                Input Tag ID:  <input type="text" name="tagid">
-                <span class="example-text">(Example Tag IDs:  )</span> <br><br>
-                Length Range: 0cm to 50cm):<input type="range" min="0" max="50" value="0" class="slider" id="length"><br><br>
+                    <div class="collapsible">Phenotypic Data Filters</div>
+                    <div class="content"><br>
+                        <div class="slidecontainer">
+                            Ecological Volume (units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol">
+                            <span class="example-text">(Range: 0 to 35,000)</span> <br><br>
 
-                Width (Range: 0cm to 50cm): <input type="range" min="0" max="50" value="0" class="slider" id="width"><br><br>
+                            Natural Log of Ecological Volume (units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol">
+                            <span class="example-text">(Range: -4 to 12)</span> <br><br>
 
-                Height (Range: 0cm to 30cm): <input type="range" min="0" max="30" value="0" class="slider" id="height"><br><br>
+                            Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
+                            <input type="checkbox" name="location" value="Channel-South"> Channel-North
+                            <input type="checkbox" name="location" value="Creek-West"> Creek-West
+                            <input type="checkbox" name="location" value="Creek-East"> Creek-East<br>
+                        </div>
+                    </div>
 
-                Ecological Volume (Range: 0 to 35,000units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol"><br><br>
+                    <div class="collapsible">VCF Filters</div>
+                    <div class="content"><br>
+                        <div class="slidecontainer">
+                            Allele Frequency: <input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq">
+                            <span class="example-text">(Range: 0 to 1 )</span> <br><br>
+                        </div>
+                    </div><br>
 
-                Natural Log of Ecological Volume (Range: -4 to 12units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol"><br><br>
-            </div>
-        </div>
-
-        <div class="collapsible" onclick="toggleSection(this)">&#9654; VCF Filters</div>
-        <div class="content">
-            <div class="slidecontainer">
-                Quality Threshold: (Example quality cutoff: ) <input type="range" min="0" max="100" value="0" class="slider" id="quality"><br><br>
-
-                Allele Frequency:  (Range: 0 to 1)<input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq"><br><br>
+                    <button id="submit_button" type="button">Submit</button><br><br>
+                </form>
             </div>
         </div>
     </div>
-</div>
 
-<div class="overlay" onclick="toggleFilter()"></div>
+    <div id="media" class="tabcontent"><br>
+        Link to coral pics
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $(".filter-tab").click(function(event) {
-            $(".filter-section").toggleClass("active");
-            $(".overlay").toggle();
-        });
+    <div id="about" class="tabcontent"><br>
+        Developed by cats
+    </div>
 
-        $(".collapsible").click(function() {
-            $(this).toggleClass("active");
-            $(this).next().slideToggle();
-        });
+    <div id="help" class="tabcontent"><br>
+        Help me plz.
+    </div>
 
-        $(".overlay").click(function() {
-            $(".filter-section").removeClass("active");
-            $(this).hide();
-        });
+	<script>
+		// JavaScript for tabs functionality
+		function openTab(evt, tabName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tab");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].classList.remove("active");
+			}
+			document.getElementById(tabName).style.display = "block";
+			evt.currentTarget.classList.add("active");
+		}
 
-        $(".tab").click(function() {
-            $(".overlay").removeClass("active");
-        });
-    });
-</script>
+		// Collapsible section functionality
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+			coll[i].addEventListener("click", function() {
+				console.log("Clicked!");
+				this.classList.toggle("active");
+				var content = this.nextElementSibling;
+				if (content.style.display === "block") {
+					content.style.display = "none";
+				} else {
+					content.style.display = "block";
+				}
+			});
+		}
+	</script>
+
 </body>
 </html>
