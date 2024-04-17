@@ -43,7 +43,34 @@ if form:
     allele_freq = form.getvalue("allele_freq")
  
     # Construct the SQL query based on form data
-    query = "SELECT * FROM vcf WHERE "
+    query = "SELECT * FROM vcf WHERE AF > " + str(allele_freq)
+
+    yquery = ""
+    yquery = "SELECT * FROM "
+    for i in year:
+        yquery += i + " JOIN "
+    yquery = yquery[:-5]
+
+    query += "WHERE ln_ecological_vol > " + str(ln_ecological_vol) + " "
+
+
+    if len(location) > 0:
+        yquery += "AND "
+        for i in location:
+            yquery += "location = " + "'" + i + "'" + " OR "
+        yquery = yquery[:-3]
+
+
+    if len(mortality) > 0:
+        yquery += "AND "
+        for i in mortality:
+            print(i)
+            yquery += "mortality = " + "'" + i + "'" + " OR "
+            yquery = yquery[:-3]
+
+
+
+
 
     if allele_freq:
         query += f"AF <= {allele_freq}"

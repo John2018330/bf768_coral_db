@@ -101,7 +101,10 @@
 <body>
 
     <h1><strong>Porites (Stony Coral) Database</strong></h1>
-
+    
+    <!-- --------------
+        WEBSITE TABS 
+    ---------------- -->
     <div class="tabbar">
         <div class="tab" onclick="openTab(event, 'intro')">Intro</div>
         <div class="tab" onclick="openTab(event, 'data')">Data</div>
@@ -110,86 +113,125 @@
         <div class="tab" onclick="openTab(event, 'help')">Help</div>
     </div>
 
+    <!-- ------------------
+        INTRODUCTION TAB
+    -------------------- -->
     <div id="intro" class="tabcontent active-tabcontent"><br>
         <div class="user-input">
             Corals are important
         </div>
     </div>
 
+    <!-- ---------------------
+        DATABASE SEARCH TAB
+    ----------------------- -->
     <div id="data" class="tabcontent">
         <p style="font-size:18px;">This tab allows the user to explore the coral phenotypic and vcf data. The data can also be filtered by the options present in the filters section.</p>
         <div class="user-input">
+            <!-- All Filters -->
             <div class="collapsible">Filters</div>
             <div class="content">
                 <br>
-                <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
-                    Input Tag ID: <input type="text" name="tagid">
-                    <span class="example-text">(Example Tag IDs: )</span>
-                    <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
-                    Input Scaffold: <input type="text" name="scaffold">
-                    <span class="example-text">(Example Scaffolds: )</span> <br><br>
+                Input Tag ID: <input type="text" name="tagid">
+                <span class="example-text">(Example Tag IDs: )</span>
+                <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
+                Input Scaffold: <input type="text" name="scaffold">
+                <span class="example-text">(Example Scaffolds: )</span> <br><br>
 
-                    <div class="collapsible">Phenotypic Data Filters</div>
-                    <div class="content"><br>
-                        <div class="slidecontainer">
-                            Ecological Volume (units):<div id="eco_vol_value" class="hover-value"></div><br>
-                            <div id="eco_vol"></div>
-                            <br><br><br>
+                <!-- Phenotypic Data Filters -->
+                <div class="collapsible">Phenotypic Data Filters</div>
+                <div class="content"><br>
+                    <div class="slidecontainer">
+                        <!-- QUESTIONS ABOUT ECO VOLUME ????????????????????????????????????
+                        should probably only include ln eco volume for convenience
+                        Is the slider supposed to be greater than/less than???????????????????-->
+                        Ecological Volume (units):<div id="eco_vol_value" class="hover-value"></div><br>
+                        <div id="eco_vol"></div>
+                        <br><br><br>
 
-                            Natural Log of Ecological Volume (units):<div id="ln_eco_vol_value" class="hover-value"></div><br>
-                            <div id="ln_eco_vol"></div>
-                            <br><br><br>
+                        Natural Log of Ecological Volume (units):<div id="ln_eco_vol_value" class="hover-value"></div><br>
+                        <div id="ln_eco_vol"></div>
+                        <br><br><br>
 
-                            Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
-                            <input type="checkbox" name="location" value="Channel-South"> Channel-North
-                            <input type="checkbox" name="location" value="Creek-West"> Creek-West
-                            <input type="checkbox" name="location" value="Creek-East"> Creek-East<br><br>
+                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
+                        <input type="checkbox" name="location" value="Channel-South"> Channel-North
+                        <input type="checkbox" name="location" value="Creek-West"> Creek-West
+                        <input type="checkbox" name="location" value="Creek-East"> Creek-East<br><br>
 
-                            Year: <input type="checkbox" name="year" value="2015"> 2015
-                            <input type="checkbox" name="year" value="2016"> 2016
-                            <input type="checkbox" name="year" value="2017"> 2017
-                            <input type="checkbox" name="year" value="2018"> 2018<br><br>
+                        Year: <input type="checkbox" name="year" value="2015"> 2015
+                        <input type="checkbox" name="year" value="2016"> 2016
+                        <input type="checkbox" name="year" value="2017"> 2017
+                        <input type="checkbox" name="year" value="2018"> 2018<br><br>
 
-                            Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
-                            <input type="checkbox" name="mortality" value="Missing"> Missing
-                            <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
-                        </div>
+                        Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
+                        <input type="checkbox" name="mortality" value="Missing"> Missing
+                        <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
                     </div>
+                </div>
 
-                    <div class="collapsible">VCF Filters</div>
-                    <div class="content"><br>
-                        <div class="slidecontainer">
-                            Allele Frequency:<div id="allele_freq_value" class="hover-value"></div><br>
-                            <div id="allele_freq"></div><br><br><br>
-							
-                    <button id="submit_button" type="button">Submit</button><br><br>
-						</div>
-					</div>
-                </form>
+                <!-- VCF Data Filters -->
+                <div class="collapsible">VCF Filters</div>
+                <div class="content"><br>
+                    <div class="slidecontainer">
+                        Allele Frequency:<div id="allele_freq_value" class="hover-value"></div><br>
+                        <div id="allele_freq"></div><br><br><br>
+                    </div>
+                </div>
+                <br>
+
+                <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
+                LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
+                <button id="submit_button" type="button">Submit</button><br><br>
+                <button id="csv_button" type="button">Download csv</button><br><br>
             </div>
         </div>
     </div>
+    <!-- Output data table -->     <!-- DOES THIS GO HERE???????????????????-->
+    <div id="out_table"></div>
+    <div id="store_results"></div>         <!-- Random div to store results of query (for download button?)-->
+    
 
+    <!-- ----------- 
+        MEDIA TAB
+    ------------- -->
     <div id="media" class="tabcontent"><br>
         <div class="user-input">
             Link to coral pics
         </div>
     </div>
 
+    <!-- --------------
+        ABOUT US TAB
+    ---------------- -->
     <div id="about" class="tabcontent"><br>
         <div class="user-input">
             Developed by cats
         </div>
     </div>
 
+    <!-- ---------
+        HELP TAB
+    ----------- -->
     <div id="help" class="tabcontent"><br>
         <div class="user-input">
             Help me plz.
         </div>
     </div>
 
+    <!-- ------------------------
+        JAVASCRIPT/JQUERY/AJAX
+    --------------------------- -->
+    <!-- Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- Main -->
     <script>
+        //////////////////////////
+        //  JAVASCRIPT FOR UI   //
+        //////////////////////////
+
         // JavaScript for tabs functionality
         function openTab(evt, tabName) {
             var i, tabcontent, tablinks;
@@ -222,7 +264,7 @@
             });
         }
 		
-		//Sliders
+		// Sliders
         var ecoVolSlider = document.getElementById('eco_vol');
 		var ecoVol_field = document.getElementById('eco_vol_value');
         var lnEcoVolSlider = document.getElementById('ln_eco_vol');
@@ -280,7 +322,130 @@
 		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
 			allele_field.innerHTML = values[handle];
 		});
-		
+
+		////////////////////
+        // Document Load  //
+        ////////////////////
+        
+        // ???????????????? We want a table to be loaded when the webpage is loaded right ?????????????????????
+        // We should do that in the document.ready
+        $(document).ready(function() {
+            // Ajax call to populate table first with 2015 data
+            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
+                {'selector':'default_query'},
+                function(data){
+                    create_table(data)},
+                "json");
+        })
+
+        ////////////////////
+        // AAAAJJJAAAXXXX //
+        ////////////////////
+        $("#submit_button").click(function(){
+            // Empty data table
+            $("#out_table").empty();
+            
+            // Retrieve filters              ???????????? for checkboxes do i retrieve 'eco_vol_value' or just 'eco_vol'?????????????????
+            let tagid = $("#tagid").val();
+            let scaffoldid = $("#scaffold").val();
+            let location = $("#location").val();
+            let mortality = $("#mortality").val();
+            let year = $("#year").val();
+            let eco_vol = $("#eco_vol_value").val();
+            let ln_eco_vol = $("#ln_eco_vol_value").val();
+            let allele_freq = $("#allele_freq_value").val();
+
+            // AJAX call
+            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
+                {'tagid':tagid,
+                    'scaffoldid':scaffoldid,
+                    'location':location,
+                    'mortality':mortality,
+                    'year':year,
+                    'eco':eco_vol,
+                    'ln_eco_vol':ln_eco_vol,
+                    'allele_freq':allele_freq},
+                function(data){
+                    create_table(data)},
+                "json");
+        })
+
+        //////////////////////////////////////
+        // Create table from returned query //
+        //////////////////////////////////////
+        function create_table(json) {
+            // Initialize variable to store HTML table
+            let table_body_contents = "";
+
+            // ????????????????? STORE QUERY RESULTS FOR DOWNLOAD ????????????????????
+            // Is this the best way to implement this? <div id="store_results">...</div>
+            $("#store_results").append(json);
+            
+            // ???????????? NEEDS MAJOR WORK?????????????????
+            // When am I supposed to include VCF column?
+            for (let row= 0; row<json.length; row++) {
+
+                tagid = json[row][0];
+                location = json[row][1];
+                notes = json[row][2];
+                alive_status = json[row][3];
+                length_cm = json[row][4];
+                width_cm = json[row][5];
+                height_cm = json[row][6];
+                lw_div_4 = json[row][7];
+                lw_div_4_sq = json[row][8];
+                eco_volume = json[row][9];
+                ln_eco_volume = json[row][10];
+                volume_cylinder = json[row][11];
+                tip_number = json[row][12];
+                old_tag = json[row][13];
+                
+                table_body_contents +=  `<tr>
+                                            <td>${tagid}</td>
+                                            <td>${location}</td>
+                                            <td>${notes}</td>
+                                            <td>${alive_status}</td>
+                                            <td>${length_cm}</td>
+                                            <td>${width_cm}</td>
+                                            <td>${height_cm}</td>
+                                            <td>${lw_div_4}</td>
+                                            <td>${lw_div_4_sq}</td>
+                                            <td>${eco_volume}</td>
+                                            <td>${ln_eco_volume}</td>
+                                            <td>${volume_cylinder}</td>
+                                            <td>${tip_number}</td>
+                                            <td>${old_tag}</td>
+                                        </tr>`;
+            }
+
+                var table_template = `  <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Tag ID</th>
+                                                    <th>Location</th>
+                                                    <th>Notes</th>
+                                                    <th>Alive Status</th>
+                                                    <th>Length (cm)</th>
+                                                    <th>Width (cm)</th>
+                                                    <th>Height (cm)</th>
+                                                    <th>(Length + Width)/4</th>
+                                                    <th>((Length + Width)/4)^2</th>
+                                                    <th>Ecological Volume</th>
+                                                    <th>ln(Ecological Volume)</th>
+                                                    <th>Volume Cylinder</th>
+                                                    <th>Tip Number</th>
+                                                    <th>Old Tag</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                ${table_body_contents}
+                                            </tbody>
+                                        </table>`;
+
+                $("#out_table").append(table_template);
+        }
+
+
     </script>
 
 </body>
