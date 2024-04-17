@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import cgi
 import pymysql
 import cgitb
@@ -34,27 +32,28 @@ connection, cursor = connect_database("Team_7", "saumyapo", "saumyapo")
 vcf_table = ""
 
 if form:
+    # Retrieve form data
     tagid = form.getvalue("tagid")
-    location = form.getvalue("location")
-    status = form.getvalue("status")
-    length = form.getvalue("length")
-    width = form.getvalue("width")
-    height = form.getvalue("height")
+    scaffoldid = form.getvalue("scaffoldid")
+    location = form.getlist("location")
+    mortality = form.getlist("mortality")
+    year = form.getlist("year")
     ecological_vol = form.getvalue("eco_vol")
     ln_ecological_vol = form.getvalue("ln_eco_vol")
-    volume_cylinder = form.getvalue("vol_cylinder")
-    tipid = form.getvalue("tipid")
-    coralid = form.getvalue("coralid")
-    quality = form.getvalue("quality")
     allele_freq = form.getvalue("allele_freq")
  
+    # Construct the SQL query based on form data
+    query = "SELECT * FROM vcf WHERE "
 
-    query = "SELECT * FROM vcf WHERE AF <= ALL (SELECT AF FROM vcf)"
+    if allele_freq:
+        query += f"AF <= {allele_freq}"
 
     try:
+        # Execute the query
         results = execute_query(cursor, query)
 
         if results:
+            # Generate HTML table for query results
             vcf_table_template = Template(
             """
             <table>
@@ -98,8 +97,11 @@ if form:
     except pymysql.Error as e:
         error_message = f'<p style="color:red;">Error executing query: {e}</p>'
 
-print("Content-type: text/html\n")
-print(vcf_table)
-
 cursor.close()
 connection.close()
+
+# Print content type
+print("Content-type: text/html\n")
+
+# Print HTML content including query results
+print(vcf_table)
