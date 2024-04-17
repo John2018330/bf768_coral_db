@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Coral Database</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
     <style>
         h1 {
             text-align: center;
@@ -24,47 +25,13 @@
             padding: 10px;
             margin-bottom: 20px;
         }
-		
-		.slidecontainer {
-			width: 50%; 
-			margin-bottom: 20px;
-		}
-
-		.slider {
-			-webkit-appearance: none;  
-			appearance: none;
-			width: 50%;
-			height: 5px; 
-			background: #000000; 
-			outline: none; 
-			opacity: 0.7; 
-			-webkit-transition: .2s; 
-			transition: opacity .2s;
-		}
-		.slider:hover {
-			opacity: 1; 
-		}
-		.slider::-webkit-slider-thumb {
-			-webkit-appearance: none; 
-			appearance: none;
-			width: 18px; 
-			height: 18px; 
-			background: #800080; 
-			cursor: pointer; 
-			border-radius: 50%; 
-		}
-
-		.slider::-moz-range-thumb {
-			width: 10px; 
-			height: 10px; 
-			background: #800080; 
-			cursor: pointer; 
-			border-radius: 50%; 
-		}
-		.example-text {
-			margin-left: 10px;
-		}
-		.tabbar {
+        .slidecontainer {
+            width: 50%;
+        }
+        .example-text {
+            margin-left: 10px;
+        }
+        .tabbar {
             display: flex;
             width: auto;
             justify-content: space-between;
@@ -72,61 +39,62 @@
             padding: 10px;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
-
         .tab {
             flex-grow: 1;
             text-align: center;
             cursor: pointer;
         }
-
         .tab.active {
             background-color: #ccc;
             box-shadow: none;
         }
-
         .tabcontent {
             display: none;
         }
-
         .active-tabcontent {
             display: block;
         }
-		.collapsible {
-        background-color: #777;
-        color: white;
-        cursor: pointer;
-        padding: 12px;
-        width: auto;
-        border: none;
-        text-align: left;
-        outline: none;
-        font-size: 15px;
-        display: flex;
-        align-items: center;
-		}
-		.collapsible.active, .collapsible:hover {
-			background-color: #555;
-		}
-
-		.collapsible::before {
-			content: "\25BA"; 
-			margin-right: 10px;
-		}
-
-		.active.collapsible::before {
-			content: "\25BC";
-		}
-
-		.content {
-			padding: 0 18px;
-			display: none;
-			overflow: hidden;
-			background-color: #f1f1f1;
-		}
-		button {
+        .collapsible {
+            background-color: #777;
+            color: white;
+            cursor: pointer;
+            padding: 12px;
+            width: auto;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .collapsible.active, .collapsible:hover {
+            background-color: #555;
+        }
+        .collapsible::before {
+            content: "\25BA";
+            margin-right: 10px;
+        }
+        .active.collapsible::before {
+            content: "\25BC";
+        }
+        .content {
+            padding: 0 18px;
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+        }
+        button {
             height:40px;
             width:75px;
             border-radius: 25px;
+        }
+        .hover-value {
+            font-size: 15px;
+            margin-top: 5px;
+        }
+        .noUi-value {
+            color: black; 
+            font-size: 15px;
         }
     </style>
 </head>
@@ -143,9 +111,9 @@
     </div>
 
     <div id="intro" class="tabcontent active-tabcontent"><br>
-		<div class="user-input">
-			Corals are important
-		</div>
+        <div class="user-input">
+            Corals are important
+        </div>
     </div>
 
     <div id="data" class="tabcontent">
@@ -157,30 +125,32 @@
                 <form name="myForm" action="https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py" method="get">
                     Input Tag ID: <input type="text" name="tagid">
                     <span class="example-text">(Example Tag IDs: )</span>
-					<p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
-					Input Scaffold: <input type="text" name="scaffold">
+                    <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
+                    Input Scaffold: <input type="text" name="scaffold">
                     <span class="example-text">(Example Scaffolds: )</span> <br><br>
 
                     <div class="collapsible">Phenotypic Data Filters</div>
                     <div class="content"><br>
                         <div class="slidecontainer">
-                            Ecological Volume (units): <input type="range" min="0" max="35000" value="0" class="slider" id="eco_vol">
-                            <span class="example-text">(Range: 0 to 35,000)</span> <br><br>
+                            Ecological Volume (units):<div id="eco_vol_value" class="hover-value"></div><br>
+                            <div id="eco_vol"></div>
+                            <br><br><br>
 
-                            Natural Log of Ecological Volume (units): <input type="range" min="-4" max="12" value="0" class="slider" id="ln_eco_vol">
-                            <span class="example-text">(Range: -4 to 12)</span> <br><br>
+                            Natural Log of Ecological Volume (units):<div id="ln_eco_vol_value" class="hover-value"></div><br>
+                            <div id="ln_eco_vol"></div>
+                            <br><br><br>
 
                             Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
                             <input type="checkbox" name="location" value="Channel-South"> Channel-North
                             <input type="checkbox" name="location" value="Creek-West"> Creek-West
                             <input type="checkbox" name="location" value="Creek-East"> Creek-East<br><br>
-							
-							Year: <input type="checkbox" name="year" value="2015"> 2015
+
+                            Year: <input type="checkbox" name="year" value="2015"> 2015
                             <input type="checkbox" name="year" value="2016"> 2016
                             <input type="checkbox" name="year" value="2017"> 2017
                             <input type="checkbox" name="year" value="2018"> 2018<br><br>
-							
-							Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
+
+                            Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
                             <input type="checkbox" name="mortality" value="Missing"> Missing
                             <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
                         </div>
@@ -189,12 +159,12 @@
                     <div class="collapsible">VCF Filters</div>
                     <div class="content"><br>
                         <div class="slidecontainer">
-                            Allele Frequency: <input type="range" min="0" max="1" step="0.01" value="0" class="slider" id="allele_freq">
-                            <span class="example-text">(Range: 0 to 1 )</span> <br><br>
-                        </div>
-                    </div><br>
-
+                            Allele Frequency:<div id="allele_freq_value" class="hover-value"></div><br>
+                            <div id="allele_freq"></div><br><br><br>
+							
                     <button id="submit_button" type="button">Submit</button><br><br>
+						</div>
+					</div>
                 </form>
             </div>
         </div>
@@ -202,55 +172,116 @@
 
     <div id="media" class="tabcontent"><br>
         <div class="user-input">
-			Link to coral pics
-		</div>
+            Link to coral pics
+        </div>
     </div>
 
     <div id="about" class="tabcontent"><br>
         <div class="user-input">
-			Developed by cats
-		</div>
+            Developed by cats
+        </div>
     </div>
 
     <div id="help" class="tabcontent"><br>
         <div class="user-input">
-			Help me plz.
-		</div>
+            Help me plz.
+        </div>
     </div>
 
-	<script>
-		// JavaScript for tabs functionality
-		function openTab(evt, tabName) {
-			var i, tabcontent, tablinks;
-			tabcontent = document.getElementsByClassName("tabcontent");
-			for (i = 0; i < tabcontent.length; i++) {
-				tabcontent[i].style.display = "none";
-			}
-			tablinks = document.getElementsByClassName("tab");
-			for (i = 0; i < tablinks.length; i++) {
-				tablinks[i].classList.remove("active");
-			}
-			document.getElementById(tabName).style.display = "block";
-			evt.currentTarget.classList.add("active");
-		}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.js"></script>
+    <script>
+        // JavaScript for tabs functionality
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tab");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.classList.add("active");
+        }
 
-		// Collapsible section functionality
-		var coll = document.getElementsByClassName("collapsible");
-		var i;
+        // Collapsible section functionality
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
 
-		for (i = 0; i < coll.length; i++) {
-			coll[i].addEventListener("click", function() {
-				console.log("Clicked!");
-				this.classList.toggle("active");
-				var content = this.nextElementSibling;
-				if (content.style.display === "block") {
-					content.style.display = "none";
-				} else {
-					content.style.display = "block";
-				}
-			});
-		}
-	</script>
+        for (i = 0; i < coll.length; i++) {
+            coll[i].addEventListener("click", function() {
+                console.log("Clicked!");
+                this.classList.toggle("active");
+                var content = this.nextElementSibling;
+                if (content.style.display === "block") {
+                    content.style.display = "none";
+                } else {
+                    content.style.display = "block";
+                }
+            });
+        }
+		
+		//Sliders
+        var ecoVolSlider = document.getElementById('eco_vol');
+		var ecoVol_field = document.getElementById('eco_vol_value');
+        var lnEcoVolSlider = document.getElementById('ln_eco_vol');
+		var lnVol_field = document.getElementById('ln_eco_vol_value');
+        var alleleFreqSlider = document.getElementById('allele_freq');
+		var allele_field = document.getElementById('allele_freq_value');
+
+        noUiSlider.create(ecoVolSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': 0,
+                'max': 35000
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 10000, 20000, 30000, 35000],
+                density: 4
+            }
+        });
+		ecoVolSlider.noUiSlider.on('update', function (values, handle) {
+			ecoVol_field.innerHTML = values[handle];
+		});
+		
+        noUiSlider.create(lnEcoVolSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': -4,
+                'max': 12
+            },
+            pips: {
+                mode: 'values',
+                values: [-4, 0, 4, 8, 12],
+                density: 4
+            }
+        });
+		lnEcoVolSlider.noUiSlider.on('update', function (values, handle) {
+			lnVol_field.innerHTML = values[handle];
+		});
+
+        noUiSlider.create(alleleFreqSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': 0,
+                'max': 1
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 0.25, 0.5, 0.75, 1],
+                density: 4
+            }
+        });
+		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
+			allele_field.innerHTML = values[handle];
+		});
+		
+    </script>
 
 </body>
 </html>
