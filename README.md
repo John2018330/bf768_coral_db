@@ -30,6 +30,7 @@ UI to implement for VCF
 - [ ] Slider for allele frequency
 - [ ] Slider for quality filtering maybe
 - [ ] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
+- [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
 
 
 List of CGI forms (queries)
