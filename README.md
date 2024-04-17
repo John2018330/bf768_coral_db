@@ -21,13 +21,13 @@ UI to implement for phenotypic data
 'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
 - [ ] Slider for important numeric column like eco volume (query = WHERE X > Y) 
 - [ ] Group by Location
-- [ ] Checkboxes for year
-- [ ] Filter by alive or dead
+- [x] Checkboxes for year
+- [x] Filter by alive or dead
 - [ ] Auxillary If group by, offer additional filters (having x > y)
 - [ ] Auxillary Provide option for performing aggregate functions
 
 UI to implement for VCF
-- [ ] Slider for allele frequency
+- [x] Slider for allele frequency
 - [ ] Slider for quality filtering maybe
 - [ ] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
 - [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
