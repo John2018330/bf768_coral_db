@@ -228,7 +228,7 @@
 					<div class="content">
 					 <ul>
 						<li>
-							<p>A straightforward way to retrieve information on a particular coral is to input a Tag ID or Scaffold ID of interest.
+							<p>A straightforward way to retrieve information on a particular coral is to input a Tag ID or Scaffold ID of interest. Note that it is possible for multiple SNPs to exist per scaffold.
 							</p>
 						</li>
 						<li>
@@ -424,6 +424,10 @@
                 function(data){
                     create_table(data)},
                 "json");
+
+            // Ajax to fill in dropdown menu
+            
+        
         })
 
         ////////////////////
@@ -433,14 +437,14 @@
             // Empty data table
             $("#out_table").empty();
             
-            // Retrieve filters              ???????????? for checkboxes do i retrieve 'eco_vol_value' or just 'eco_vol'?????????????????
+            // Retrieve filters
             let tagid = $("#tagid").val();
             let scaffoldid = $("#scaffold").val();
             let location = $("#location").val();
             let mortality = $("#mortality").val();
             let year = $("#year").val();
-            let eco_vol = $("#eco_vol_value").val();
-            let ln_eco_vol = $("#ln_eco_vol_value").val();
+            let eco_vol_val = $("#eco_vol_value").val();
+            let ln_eco_vol_val = $("#ln_eco_vol_value").val();
             let allele_freq = $("#allele_freq_value").val();
 
             // AJAX call
@@ -450,8 +454,8 @@
                     'location':location,
                     'mortality':mortality,
                     'year':year,
-                    'eco':eco_vol,
-                    'ln_eco_vol':ln_eco_vol,
+                    'eco':eco_vol_val,
+                    'ln_eco_vol':ln_eco_vol_val,
                     'allele_freq':allele_freq},
                 function(data){
                     create_table(data)},
@@ -480,11 +484,11 @@
                 length_cm = json[row][4];
                 width_cm = json[row][5];
                 height_cm = json[row][6];
-                eco_volume = json[row][9];
-                ln_eco_volume = json[row][10];
-                volume_cylinder = json[row][11];
-                tip_number = json[row][12];
-                old_tag = json[row][13];
+                eco_volume = json[row][7];
+                ln_eco_volume = json[row][8];
+                volume_cylinder = json[row][9];
+                tip_number = json[row][10];
+                old_tag = json[row][11];
                 
                 table_body_contents +=  `<tr>
                                             <td>${tagid}</td>
@@ -529,6 +533,5 @@
 
 
     </script>
-
 </body>
 </html>

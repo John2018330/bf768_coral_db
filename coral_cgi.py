@@ -1,7 +1,9 @@
 import cgi
 import pymysql
 import cgitb
+import json
 from string import Template
+
 
 cgitb.enable()
 form = cgi.FieldStorage()
@@ -70,57 +72,14 @@ if form:
 
 
 
-
-
     if allele_freq:
         query += f"AF <= {allele_freq}"
 
     try:
         # Execute the query
         results = execute_query(cursor, query)
-
-        if results:
-            # Generate HTML table for query results
-            vcf_table_template = Template(
-            """
-            <table>
-            <thead>
-            <tr>
-            <th>CORAL_ID</th><th>BAM_ID</th><th>CHROM</th><th>POS</th><th>ID</th><th>REF</th><th>ALT</th><th>QUAL</th><th>FILTER</th><th>NS</th><th>INFO_DP</th><th>AF</th><th>GT</th><th>FORMAT_DP</th><th>GL</th><th>PL</th><th>GP</th>
-            </tr>
-            </thead>
-            <tbody>
-            ${table_rows}
-            </tbody>
-            </table>
-            """
-            )
-            table_rows = ""
-            for row in results:
-                table_rows += """
-                <tr>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                <td>%s</td>
-                </tr>
-                """ % (row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7], row[8], row[9], row[10], row[11], row[12], row[13], row[14], row[15], row[16], row[17])
-            vcf_table = vcf_table_template.safe_substitute(table_rows=table_rows)
-        else:
-            error_message = '<p style="color:red;">No data found for applied filters</p>'
+        print(json.dumps(results))
+        
     except pymysql.Error as e:
         error_message = f'<p style="color:red;">Error executing query: {e}</p>'
 
