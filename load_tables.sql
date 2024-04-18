@@ -197,7 +197,6 @@ tip_number = NULLIF(@tip_number,''),
 old_tag = NULLIF(@old_tag,'');
 
 
-
 -- ID Table: contains a mapping of id's across 
 -- years for joining phenotypic year tables.
 --   primary key (id)
