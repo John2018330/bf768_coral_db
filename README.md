@@ -47,5 +47,3 @@ List of Javascript/Jquery and
 AJAX to implement
 
 
-https://prod.liveshare.vsengsaas.visualstudio.com/join?4DB7C4615C62A671A3EF84049C0B37A27A83
-
