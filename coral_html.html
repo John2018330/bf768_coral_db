@@ -138,10 +138,10 @@
             <div class="collapsible">Filters</div>
             <div class="content">
                 <br>
-                Input Tag ID: <input type="text" name="tagid">
+                Input Tag ID: <input type="text" id="tagid">
                 <span class="example-text">(Example Tag IDs: )</span>
                 <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
-                Input Scaffold: <input type="text" name="scaffold">
+                Input Scaffold: <input type="text" id="scaffold">
                 <span class="example-text">(Example Scaffolds: )</span> <br><br>
 
                 <!-- Phenotypic Data Filters -->
@@ -152,10 +152,19 @@
                         should probably only include ln eco volume for convenience
                         Is the slider supposed to be greater than/less than???????????????????-->
 
-                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
-                        <input type="checkbox" name="location" value="Channel-South"> Channel-North
+                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-West
+                        <input type="checkbox" name="location" value="Channel-South"> Channel-South
                         <input type="checkbox" name="location" value="Creek-West"> Creek-West
                         <input type="checkbox" name="location" value="Creek-East"> Creek-East<br><br>
+
+                        Year: <input type="checkbox" name="year" value="2015" checked> 2015
+                        <input type="checkbox" name="year" value="2016"> 2016
+                        <input type="checkbox" name="year" value="2017"> 2017
+                        <input type="checkbox" name="year" value="2018"> 2018<br><br>
+
+                        Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
+                        <input type="checkbox" name="mortality" value="Missing"> Missing
+                        <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
 
 
                         Ecological Volume (units):<div id="eco_vol_value" class="hover-value"></div><br>
@@ -166,16 +175,17 @@
                         <div id="ln_eco_vol"></div>
                         <br><br><br>
 
-                        
-
-                        Year: <input type="checkbox" name="year" value="2015"> 2015
-                        <input type="checkbox" name="year" value="2016"> 2016
-                        <input type="checkbox" name="year" value="2017"> 2017
-                        <input type="checkbox" name="year" value="2018"> 2018<br><br>
-
-                        Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
-                        <input type="checkbox" name="mortality" value="Missing"> Missing
-                        <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
+                        Length (cm):<div id="length_value" class="hover-value"></div><br>
+                        <div id="length"></div>
+                        <br><br><br>
+						
+						Width (cm):<div id="width_value" class="hover-value"></div><br>
+                        <div id="width"></div>
+                        <br><br><br>
+						
+						Height (cm):<div id="height_value" class="hover-value"></div><br>
+                        <div id="height"></div>
+                        <br><br><br>
                     </div>
                 </div>
 
@@ -191,8 +201,8 @@
 
                 <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
                 LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
-                <button class = "submit_button" id="submit_button" type="button">Submit</button><br><br>
-                <button class= "submit_button" id="csv_button" type="button">Download csv</button><br><br>
+                <button class = "submit_button" id="get_table_button" type="button">Submit</button><br><br>
+                <button class = "submit_button" id="csv_button" type="button">Download csv</button><br><br>
             </div>
         </div>
     </div>
@@ -359,6 +369,12 @@
 		var lnVol_field = document.getElementById('ln_eco_vol_value');
         var alleleFreqSlider = document.getElementById('allele_freq');
 		var allele_field = document.getElementById('allele_freq_value');
+        var lengthSlider = document.getElementById('length');
+		var length_field = document.getElementById('length_value');
+		var widthSlider = document.getElementById('width');
+		var width_field = document.getElementById('width_value');
+		var heightSlider = document.getElementById('height');
+		var height_field = document.getElementById('height_value');
 
         noUiSlider.create(ecoVolSlider, {
             start: [0],
@@ -411,6 +427,57 @@
 			allele_field.innerHTML = values[handle];
 		});
 
+        noUiSlider.create(lengthSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': 0,
+                'max': 50
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 10, 20, 30, 40, 50],
+                density: 4
+            }
+        });
+		lengthSlider.noUiSlider.on('update', function (values, handle) {
+			length_field.innerHTML = values[handle];
+		});
+		
+		noUiSlider.create(widthSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': 0,
+                'max': 50
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 10, 20, 30, 40, 50],
+                density: 4
+            }
+        });
+		widthSlider.noUiSlider.on('update', function (values, handle) {
+			width_field.innerHTML = values[handle];
+		});
+		
+		noUiSlider.create(heightSlider, {
+            start: [0],
+			behaviour: 'hover-snap',
+            range: {
+                'min': 0,
+                'max': 25
+            },
+            pips: {
+                mode: 'values',
+                values: [0, 5, 10, 15, 20, 25],
+                density: 4
+            }
+        });
+		heightSlider.noUiSlider.on('update', function (values, handle) {
+			height_field.innerHTML = values[handle];
+		});
+
 		////////////////////
         // Document Load  //
         ////////////////////
@@ -419,11 +486,11 @@
         // We should do that in the document.ready
         $(document).ready(function() {
             // Ajax call to populate table first with 2015 data
-            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
-                {'selector':'default_query'},
-                function(data){
-                    create_table(data)},
-                "json");
+            // $.get("https://bioed.bu.edu/cgi-bin/students_24/Team_7/coral_cgi.py",
+            //     {'selector':'default_query'},
+            //     function(data){
+            //         create_table(data)},
+            //     "json");
 
             // Ajax to fill in dropdown menu
             
@@ -433,32 +500,54 @@
         ////////////////////
         // AAAAJJJAAAXXXX //
         ////////////////////
-        $("#submit_button").click(function(){
+        $("#get_table_button").click(function(){
             // Empty data table
             $("#out_table").empty();
             
-            // Retrieve filters
+            // Retrieve all filters
             let tagid = $("#tagid").val();
             let scaffoldid = $("#scaffold").val();
-            let location = $("#location").val();
-            let mortality = $("#mortality").val();
-            let year = $("#year").val();
+            
+            let year_array = [];
+            $("input:checkbox[name=year]:checked").each(function() { 
+                year_array.push($(this).val()); 
+            }); 
+
+            let location_array = [];
+            $("input:checkbox[name=location]:checked").each(function() { 
+                location_array.push($(this).val()); 
+            }); 
+            
+            let mortality_array = [];
+            $("input:checkbox[name=mortality]:checked").each(function() { 
+                mortality_array.push($(this).val()); 
+            }); 
+
+            let length_val = $("#length_value").val();
+            let width_val = $("#width_value").val();
+            let height_val = $("#height_value").val();
             let eco_vol_val = $("#eco_vol_value").val();
             let ln_eco_vol_val = $("#ln_eco_vol_value").val();
             let allele_freq = $("#allele_freq_value").val();
-
+            
+        
             // AJAX call
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'tagid':tagid,
                     'scaffoldid':scaffoldid,
-                    'location':location,
-                    'mortality':mortality,
-                    'year':year,
-                    'eco':eco_vol_val,
-                    'ln_eco_vol':ln_eco_vol_val,
-                    'allele_freq':allele_freq},
+                    'year':year_array,
+                    'location':location_array,
+                    'mortality':mortality_array,
+                    'eco_vol_val':eco_vol_val,
+                    'ln_eco_vol_val':ln_eco_vol_val,
+                    'allele_freq':allele_freq,
+                    'length_val':length_val,
+                    'width_val':width_val,
+                    'height_val':height_val
+                },
                 function(data){
-                    create_table(data)},
+                    create_table(data)
+                },
                 "json");
         })
 
@@ -471,28 +560,28 @@
 
             // ????????????????? STORE QUERY RESULTS FOR DOWNLOAD ????????????????????
             // Is this the best way to implement this? <div id="store_results">...</div>
-            $("#store_results").append(json);
+            //$("#store_results").append(json);
             
             // ???????????? NEEDS MAJOR WORK?????????????????
             // When am I supposed to include VCF column?
             for (let row= 0; row<json.length; row++) {
 
-                tagid = json[row][0];
-                location = json[row][1];
-                notes = json[row][2];
-                alive_status = json[row][3];
-                length_cm = json[row][4];
-                width_cm = json[row][5];
-                height_cm = json[row][6];
-                eco_volume = json[row][7];
-                ln_eco_volume = json[row][8];
-                volume_cylinder = json[row][9];
-                tip_number = json[row][10];
-                old_tag = json[row][11];
+                let tagid = json[row][0];
+                let loc = json[row][1];
+                let notes = json[row][2];
+                let alive_status = json[row][3];
+                let length_cm = json[row][4];
+                let width_cm = json[row][5];
+                let height_cm = json[row][6];
+                let eco_volume = json[row][7];
+                let ln_eco_volume = json[row][8];
+                let volume_cylinder = json[row][9];
+                let tip_number = json[row][10];
+                let old_tag = json[row][11];
                 
                 table_body_contents +=  `<tr>
                                             <td>${tagid}</td>
-                                            <td>${location}</td>
+                                            <td>${loc}</td>
                                             <td>${notes}</td>
                                             <td>${alive_status}</td>
                                             <td>${length_cm}</td>

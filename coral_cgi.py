@@ -1,8 +1,14 @@
+#!/usr/bin/env python3
+
 import cgi
 import pymysql
 import cgitb
 import json
 from string import Template
+
+# Print content type
+print("Content-type: text/html\n\n")
+
 
 
 cgitb.enable()
@@ -40,12 +46,16 @@ if form:
     location = form.getlist("location")
     mortality = form.getlist("mortality")
     year = form.getlist("year")
-    ecological_vol = form.getvalue("eco_vol")
-    ln_ecological_vol = form.getvalue("ln_eco_vol")
+    ecological_vol = form.getvalue("eco_vol_val")
+    ln_ecological_vol = form.getvalue("ln_eco_vol_val")
     allele_freq = form.getvalue("allele_freq")
+    length = form.getvalue("length_val")
+    width = form.getvalue("width_val")
+    height = form.getvalue("height_val")
+
  
     # Construct the SQL query based on form data
-    query = "SELECT * FROM vcf WHERE AF > " + str(allele_freq)
+    query = "SELECT * FROM y2015 LIMIT 10"
 
     yquery = ""
     yquery = "SELECT * FROM "
@@ -53,7 +63,7 @@ if form:
         yquery += i + " JOIN "
     yquery = yquery[:-5]
 
-    query += "WHERE ln_ecological_vol > " + str(ln_ecological_vol) + " "
+    
 
 
     if len(location) > 0:
@@ -67,17 +77,19 @@ if form:
         yquery += "AND "
         for i in mortality:
             print(i)
-            yquery += "mortality = " + "'" + i + "'" + " OR "
+            yquery += "alive_status = " + "'" + i + "'" + " OR "
             yquery = yquery[:-3]
 
 
 
-    if allele_freq:
-        query += f"AF <= {allele_freq}"
+    #if allele_freq:
+    #    query += f"AF <= {allele_freq}"
 
     try:
         # Execute the query
+        #print(query)
         results = execute_query(cursor, query)
+        print('')
         print(json.dumps(results))
         
     except pymysql.Error as e:
@@ -86,8 +98,7 @@ if form:
 cursor.close()
 connection.close()
 
-# Print content type
-print("Content-type: text/html\n")
+
 
 # Print HTML content including query results
 print(vcf_table)
