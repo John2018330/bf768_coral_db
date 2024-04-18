@@ -30,10 +30,10 @@ load data local infile '/Users/jz/Desktop/BU/Spring 2024 BF768 Bio Databases/pro
 ignore 1 lines
 (CORAL_ID, BAM_ID, CHROM, POS, ID, REF, ALT, QUAL, FILTER, NS, INFO_DP, AF, GT, FORMAT_DP, GL, PL, GP);
 
-
--- 2015 phenotypic data table
+-- 
+--  2015 phenotypic data table
 --     tagid primary key, character
-
+-- 
 drop table if exists y2015;
 
 create table y2015 (
@@ -44,40 +44,34 @@ create table y2015 (
 	length_cm float,
 	width_cm float,
 	height_cm float,
-	lw_div_4 float,
-	lw_div_4_sq float,
 	eco_volume float,
 	ln_eco_volume float,
 	volume_cylinder float,
 	tip_number varchar(100),
 	old_tag varchar(50),
-	branch_diameter_1 float,
-	branch_diameter_2 float,
-	branch_diameter_3 float,
-	average_bd float,
 	PRIMARY KEY (tagid)
 ) engine = INNODB;
 
-
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
+-- sometimes lines terminated by \r\n instead of \n 
 
 load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2015.tsv' INTO TABLE y2015
+lines terminated by '\r\n'
 ignore 1 lines 
-(tagid, location, @notes, alive_status, length_cm, width_cm, height_cm, lw_div_4, lw_div_4_sq, eco_volume,
-@ln_eco_volume, @volume_cylinder, tip_number, @old_tag, @branch_diameter_1, @branch_diameter_2, @branch_diameter_3, average_bd)
+(tagid, location, @notes, alive_status, length_cm, width_cm, height_cm, eco_volume,
+@ln_eco_volume, @volume_cylinder, tip_number, @old_tag)
 SET
 notes = NULLIF(@notes,''),
 ln_eco_volume = NULLIF(@ln_eco_volume,''),
 volume_cylinder = NULLIF(@volume_cylinder,''),
-old_tag = NULLIF(@old_tag,''),
-branch_diameter_1 = NULLIF(@branch_diameter_1,''),
-branch_diameter_2 = NULLIF(@branch_diameter_2,''),
-branch_diameter_3 = NULLIF(@branch_diameter_3,'');
+old_tag = NULLIF(@old_tag,'');
 
- 
+
+-- 
 -- 2016 phenotypic data table
 --     tagid primary key, character
+-- 
 
 drop table if exists y2016;
 
@@ -89,47 +83,39 @@ create table y2016 (
 	length_cm float,
 	width_cm float,
 	height_cm float,
-	lw_div_4 float,
-	lw_div_4_sq float,
 	eco_volume float,
 	ln_eco_volume float,
 	volume_cylinder float,
 	tip_number varchar(100),
 	old_tag varchar(50),
-	branch_diameter_1 float,
-	branch_diameter_2 float,
-	branch_diameter_3 float,
-	average_bd float,
 	PRIMARY KEY (tagid)
 ) engine = INNODB;
 
-
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
+-- check for windows new line 
 
 load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2016.tsv' INTO TABLE y2016
+lines terminated by '\r\n'
 ignore 1 lines 
-(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
-@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag, @branch_diameter_1, @branch_diameter_2, @branch_diameter_3, @average_bd)
+(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @eco_volume,
+@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag)
 SET
 notes = NULLIF(@notes,''),
 length_cm = NULLIF(@length_cm,''),
 width_cm = NULLIF(@width_cm,''),
 height_cm = NULLIF(@height_cm,''),
-lw_div_4 = NULLIF(@lw_div_4,''),
-lw_div_4_sq = NULLIF(@lw_div_4_sq,''),
 eco_volume = NULLIF(@eco_volume,''),
 ln_eco_volume = NULLIF(@ln_eco_volume,''),
 volume_cylinder = NULLIF(@volume_cylinder,''),
 tip_number = NULLIF(@tip_number,''),
-old_tag = NULLIF(@old_tag,''),
-branch_diameter_1 = NULLIF(@branch_diameter_1,''),
-branch_diameter_2 = NULLIF(@branch_diameter_2,''),
-branch_diameter_3 = NULLIF(@branch_diameter_3,''),
-average_bd = NULLIF(@average_bd,'');
+old_tag = NULLIF(@old_tag,'');
 
+
+-- 
 -- 2017 phenotypic data table
 --    tagid primary key
+-- 
 
 drop table if exists y2017;
 
@@ -141,8 +127,6 @@ create table y2017 (
 	length_cm float,
 	width_cm float,
 	height_cm float,
-	lw_div_4 float,
-	lw_div_4_sq float,
 	eco_volume float,
 	ln_eco_volume float,
 	volume_cylinder float,
@@ -155,16 +139,15 @@ create table y2017 (
 -- empty values, i.e. set cell to NULL if cell value = ''
 
 load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2017.tsv' into table y2017
+lines terminated by '\r\n'
 ignore 1 lines 
-(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
+(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @eco_volume,
 @ln_eco_volume, @volume_cylinder, @tip_number, @old_tag)
 SET
 notes = NULLIF(@notes,''),
 length_cm = NULLIF(@length_cm,''),
 width_cm = NULLIF(@width_cm,''),
 height_cm = NULLIF(@height_cm,''),
-lw_div_4 = NULLIF(@lw_div_4,''),
-lw_div_4_sq = NULLIF(@lw_div_4_sq,''),
 eco_volume = NULLIF(@eco_volume,''),
 ln_eco_volume = NULLIF(@ln_eco_volume,''),
 volume_cylinder = NULLIF(@volume_cylinder,''),
@@ -185,39 +168,33 @@ create table y2018 (
 	length_cm float,
 	width_cm float,
 	height_cm float,
-	lw_div_4 float,
-	lw_div_4_sq float,
 	eco_volume float,
 	ln_eco_volume float,
 	volume_cylinder float,
 	tip_number varchar(100),
 	old_tag varchar(50),
-	bd_single_branches float,
 	PRIMARY KEY (tagid)
 ) engine = INNODB;
-
 
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
 -- HAD TO TWEAK ORIGINAL FILE bc of duplicate keys in combined coral rows
 
 load data local infile '/Users/jz/Documents/git_repos/bf768_coral_db/final_data/metadata_2018.tsv' into table y2018
+lines terminated by '\r\n'
 ignore 1 lines 
-(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @lw_div_4, @lw_div_4_sq, @eco_volume,
-@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag, @bd_single_branches)
+(tagid, location, @notes, alive_status, @length_cm, @width_cm, @height_cm, @eco_volume,
+@ln_eco_volume, @volume_cylinder, @tip_number, @old_tag)
 SET
 notes = NULLIF(@notes,''),
 length_cm = NULLIF(@length_cm,''),
 width_cm = NULLIF(@width_cm,''),
 height_cm = NULLIF(@height_cm,''),
-lw_div_4 = NULLIF(@lw_div_4,''),
-lw_div_4_sq = NULLIF(@lw_div_4_sq,''),
 eco_volume = NULLIF(@eco_volume,''),
 ln_eco_volume = NULLIF(@ln_eco_volume,''),
 volume_cylinder = NULLIF(@volume_cylinder,''),
 tip_number = NULLIF(@tip_number,''),
-old_tag = NULLIF(@old_tag,''),
-bd_single_branches = NULLIF(@bd_single_branches,'');
+old_tag = NULLIF(@old_tag,'');
 
 
 
@@ -236,8 +213,6 @@ create table id_table (
 	PRIMARY KEY (id)
 ) engine = INNODB;
 
-
-
 -- When loading in data, must utilize NULLIF for columns that have 
 -- empty values, i.e. set cell to NULL if cell value = ''
 
@@ -253,7 +228,3 @@ SET
 2017_id = NULLIF(@2017_id,''),
 2016_id = NULLIF(@2016_id,''),
 2015_id = NULLIF(@2015_id,'');
-
-
-select * from id_table;
-
