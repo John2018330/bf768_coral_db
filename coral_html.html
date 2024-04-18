@@ -83,7 +83,7 @@
             overflow: hidden;
             background-color: #f1f1f1;
         }
-        button {
+        .submit_button {
             height:40px;
             width:75px;
             border-radius: 25px;
@@ -96,6 +96,7 @@
             color: black; 
             font-size: 15px;
         }
+		
     </style>
 </head>
 <body>
@@ -118,9 +119,11 @@
     -------------------- -->
     <div id="intro" class="tabcontent active-tabcontent"><br>
         <div class="user-input">
-            Corals are important
+            <p>For the past decade, the Finnerty lab has collected multiple data types surrounding coral reef populations in Turneffe Atoll Marine Reserve, Belize. For the coral species Finger Coral (Porites porites). 
+			The data is divided into two main categories: phenotypic and variant call data (vcf data). The phenotypic data is further divided into location information, ecological volume (area covered by a coral colony),
+			Tag IDs, which are the IDs by which the coral can be recognised, etc.</p> 
         </div>
-    </div>
+    </div
 
     <!-- ---------------------
         DATABASE SEARCH TAB
@@ -181,11 +184,12 @@
 
                 <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
                 LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
-                <button id="submit_button" type="button">Submit</button><br><br>
-                <button id="csv_button" type="button">Download csv</button><br><br>
+                <button class = "submit_button" id="submit_button" type="button">Submit</button><br><br>
+                <button class= "submit_button" id="csv_button" type="button">Download csv</button><br><br>
             </div>
         </div>
     </div>
+	
     <!-- Output data table -->     <!-- DOES THIS GO HERE???????????????????-->
     <div id="out_table"></div>
     <div id="store_results"></div>         <!-- Random div to store results of query (for download button?)-->
@@ -205,7 +209,7 @@
     ---------------- -->
     <div id="about" class="tabcontent"><br>
         <div class="user-input">
-            Developed by cats
+            Group Members: Johnathan Zhang, Saumya Pothukuchi, Zachary Derse, Grace Aboussleman
         </div>
     </div>
 
@@ -214,7 +218,93 @@
     ----------- -->
     <div id="help" class="tabcontent"><br>
         <div class="user-input">
-            Help me plz.
+            <p style="font-size:17px;"><strong>The steps below can be used as a guide to navigate the site:</strong></p>
+			<ol>
+				<li>Input Tag ID</li>
+			</ol>	
+			<br>
+			<p style="font-size:17px;"><strong>Further information on each tab/filter which can be found below:</strong></p>
+            <ol>
+				<br>
+                    <button class="collapsible">Input Tag ID/ Scaffold ID</button>
+					<div class="content">
+					 <ul>
+						<li>
+							<p>A straightforward way to retrieve information on a particular coral is to input a Tag ID or Scaffold ID of interest.
+							</p>
+						</li>
+						<li>
+							<p>If there are other filters which need to be applied to then they can be selected from the Phenotypic Data Filter tab or the VCF Filter tab. 
+								(See below for further details on those sections)
+							</p>
+						</li>	
+					</ul>
+					</div>
+                <br>
+                    <button class="collapsible">Phenotypic Data Filters</button>
+					<div class="content">
+					<ul>
+						<li>
+							<p>Ecological Volume:</p> 
+							<ul>
+								<li>Refers to the volume which is occupied by the coral colony. </li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+						<li>
+							<p>Natural Log of Ecological Volume:</p>
+							<ul>
+								<li>Natural log of ecological volume.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+						<li>
+							<p>Location:</p>
+							<ul>
+								<li>There are 4 locations from where coral data was collected from: Channel-North, Channel-South, Creek-West and Creek-East.</li>
+								<li>There are checkboxes present to select the locations of interest, and multiple locations can be selected if desired.</li>
+								<li>The locations selected are the <strong>ONLY</strong> ones which will be returned. It should be left blank if all values are of interest.</li>
+							</ul>
+						</li>
+						<li>
+							<p>Year:</p>
+							<ul>
+								<li>Similar to location, the year filter allows the user to filter data based on the year of interest. Data was collected over 4 years: 2015, 2016, 2017 and 2018.</li>
+								<li>Checkboxes are present to select the years of interest, and multiple years can be selected if desired.</li>
+								<li>The years selected are the ONLY ones which will be returned. </li>
+								<li><strong>Year CANNOT BE BLANK due to the nature of the dataset and the default year is 2015.</strong></li>
+							</ul>
+						</li>
+						<li>
+							<p>Mortality:</p>
+							<ul>
+								<li>Similar to other checkbox filters, the mortality filter allows the user to filter data based whether the coral of interest on Alive/Dead/Missing.</li>
+								<li>There are many corals which correspond to dead <strong>OR</strong> missing since determining the cause of disappearance is difficult. 
+								The corals with both values will be returned irrespective of whether dead is chosen or missing.It should be left blank if all values are of interest.</li>
+								<li>This filter is particularly useful in combination with the year filter to study the survivalship of the corals of interest.</li>
+							</ul>
+						</li>						
+					</ul>
+					</div>
+				<br>
+				<button class="collapsible"> VCF Filters</button>
+					<div class="content">
+					<ul>
+						<li>
+							<p>Allele Frequency:</p> 
+							<ul>
+								<li>Allele frequency refers to the relative frequency of the variant at a particular locus. 
+								This is an important metric since it can be used to study the fraction of all chromosomes in the population 
+								that carry that allele over the sample size, espeically if it can potentially make corals resilient for better survivalship.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with allele frequency <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all variants are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+					</ul>
+					</div>	
+            </ol>
         </div>
     </div>
 
