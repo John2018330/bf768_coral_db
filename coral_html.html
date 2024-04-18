@@ -144,6 +144,11 @@
                 Input Scaffold: <input type="text" id="scaffold">
                 <span class="example-text">(Example Scaffolds: )</span> <br><br>
 
+                Link phenotypic data to VCF data? (Choose <strong>Yes</strong> if VCF Filters need to be used):<br><select name="vcf">
+					<option value="Yes">Yes</option>
+					<option value="No" selected>No</option>
+					</select>
+                <br><br>
                 <!-- Phenotypic Data Filters -->
                 <div class="collapsible">Phenotypic Data Filters</div>
                 <div class="content"><br>
@@ -152,20 +157,20 @@
                         should probably only include ln eco volume for convenience
                         Is the slider supposed to be greater than/less than???????????????????-->
 
-                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-West
-                        <input type="checkbox" name="location" value="Channel-South"> Channel-South
-                        <input type="checkbox" name="location" value="Creek-West"> Creek-West
-                        <input type="checkbox" name="location" value="Creek-East"> Creek-East<br><br>
-
                         Year: <input type="checkbox" name="year" value="2015" checked> 2015
                         <input type="checkbox" name="year" value="2016"> 2016
                         <input type="checkbox" name="year" value="2017"> 2017
                         <input type="checkbox" name="year" value="2018"> 2018<br><br>
 
+                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
+                        <input type="checkbox" name="location" value="Channel-South"> Channel-South
+                        <input type="checkbox" name="location" value="Creek-West"> Creek-West
+                        <input type="checkbox"  name="location" value="Creek-East"> Creek-East<br><br>
+
                         Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
                         <input type="checkbox" name="mortality" value="Missing"> Missing
-                        <input type="checkbox" name="mortality" value="Dead"> Dead<br><br>
-
+                        <input type="checkbox" name="mortality" value="Dead"> Dead
+                        <input type="checkbox" name="mortality" value="New"> New<br><br>
 
                         Ecological Volume (units):<div id="eco_vol_value" class="hover-value"></div><br>
                         <div id="eco_vol"></div>
@@ -188,6 +193,7 @@
                         <br><br><br>
                     </div>
                 </div>
+                <br>
 
                 <!-- VCF Data Filters -->
                 <div class="collapsible">VCF Filters</div>
@@ -198,6 +204,28 @@
                     </div>
                 </div>
                 <br>
+
+                <!-- Advanced Data Filters -->
+                <div class="collapsible">Advanced Data Filters</div>
+                <div class="content"><br>
+                    <p> This section allows grouping of data based on either location or mortality which can be used to evaluate aggregate functions of interet.</p>
+                    
+                        <p><strong>Aggregate Functions:</strong></p>
+                        Count of: <input type="checkbox" name="count" value="Alive"> Alive corals
+                            <input type="checkbox" name="count" value="Dead"> Dead/Missing corals
+                            <input type="checkbox" name="count" value="New"> New corals
+                            <input type="checkbox" name="count" value="tip_number"> Tip Number<br><br>
+                        
+                        Average of: <input type="checkbox" name="average" value="Alive"> Alive corals
+                            <input type="checkbox" name="average" value="Dead"> Dead/Missing corals
+                            <input type="checkbox" name="average" value="New"> New corals
+                            <input type="checkbox" name="average" value="tip_number"> Tip Number<br><br>
+                        <hr>
+                        <strong>Group by:</strong> <input type="checkbox" name="groupby" value="location"> Locations
+                            <input type="checkbox" name="groupby" value="alive_status"> Mortality<br><br>
+                </div>
+                </div>
+                 <br>
 
                 <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
                 LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
@@ -247,27 +275,12 @@
 							</p>
 						</li>	
 					</ul>
+                    <br>
 					</div>
                 <br>
                     <button class="collapsible">Phenotypic Data Filters</button>
 					<div class="content">
 					<ul>
-						<li>
-							<p>Ecological Volume:</p> 
-							<ul>
-								<li>Refers to the volume which is occupied by the coral colony. </li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
-								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
-							</ul>
-						</li>
-						<li>
-							<p>Natural Log of Ecological Volume:</p>
-							<ul>
-								<li>Natural log of ecological volume.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
-								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
-							</ul>
-						</li>
 						<li>
 							<p>Location:</p>
 							<ul>
@@ -288,13 +301,56 @@
 						<li>
 							<p>Mortality:</p>
 							<ul>
-								<li>Similar to other checkbox filters, the mortality filter allows the user to filter data based whether the coral of interest on Alive/Dead/Missing.</li>
+								<li>Similar to other checkbox filters, the mortality filter allows the user to filter data based whether the coral of interest on Alive/Dead/Missing/New.
+                                    New refers to the corals that are alive but have started being tracked in that particular year. An older coral would be under alive in the later years.
+                                </li>
 								<li>There are many corals which correspond to dead <strong>OR</strong> missing since determining the cause of disappearance is difficult. 
 								The corals with both values will be returned irrespective of whether dead is chosen or missing.It should be left blank if all values are of interest.</li>
 								<li>This filter is particularly useful in combination with the year filter to study the survivalship of the corals of interest.</li>
 							</ul>
+						</li>
+                        <li>
+							<p>Ecological Volume:</p> 
+							<ul>
+								<li>Refers to the volume which is occupied by the coral colony. </li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+						<li>
+							<p>Natural Log of Ecological Volume:</p>
+							<ul>
+								<li>Natural log of ecological volume.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>	
+                        <li>
+							<p>Length:</p>
+							<ul>
+								<li>Length of coral polyp in centimeter.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp length <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+                        <li>
+							<p>Width:</p>
+							<ul>
+								<li>Width of coral polyp in centimeter.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp width <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+                        <li>
+							<p>Height:</p>
+							<ul>
+								<li>Height of coral polyp in centimeter.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp height <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
 						</li>						
 					</ul>
+                    <br>
 					</div>
 				<br>
 				<button class="collapsible"> VCF Filters</button>
@@ -311,6 +367,7 @@
 							</ul>
 						</li>
 					</ul>
+                    <br>
 					</div>	
             </ol>
         </div>
@@ -361,7 +418,8 @@
                 }
             });
         }
-		
+		coll[0].click();
+
 		// Sliders
         var ecoVolSlider = document.getElementById('eco_vol');
 		var ecoVol_field = document.getElementById('eco_vol_value');
@@ -375,6 +433,10 @@
 		var width_field = document.getElementById('width_value');
 		var heightSlider = document.getElementById('height');
 		var height_field = document.getElementById('height_value');
+        var count = document.getElementById('count');
+        var average = document.getElementById('average');
+        var groupby = document.getElementById('groupby');
+        var vcf = document.getElementById('vcf');
 
         noUiSlider.create(ecoVolSlider, {
             start: [0],
@@ -421,6 +483,10 @@
                 mode: 'values',
                 values: [0, 0.25, 0.5, 0.75, 1],
                 density: 4
+            },
+            format:{
+            to: (v) => v | 0,
+            from: (v) => v | 0
             }
         });
 		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
@@ -493,7 +559,6 @@
             //     "json");
 
             // Ajax to fill in dropdown menu
-            
         
         })
 
@@ -512,6 +577,9 @@
             $("input:checkbox[name=year]:checked").each(function() { 
                 year_array.push($(this).val()); 
             }); 
+            let years = year_array.join(':');
+                
+
 
             let location_array = [];
             $("input:checkbox[name=location]:checked").each(function() { 
@@ -530,12 +598,13 @@
             let ln_eco_vol_val = $("#ln_eco_vol_value").val();
             let allele_freq = $("#allele_freq_value").val();
             
-        
+
+
             // AJAX call
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'tagid':tagid,
                     'scaffoldid':scaffoldid,
-                    'year':year_array,
+                    'year_array':years,
                     'location':location_array,
                     'mortality':mortality_array,
                     'eco_vol_val':eco_vol_val,
@@ -543,7 +612,8 @@
                     'allele_freq':allele_freq,
                     'length_val':length_val,
                     'width_val':width_val,
-                    'height_val':height_val
+                    'height_val':height_val,
+                    'vcf':vcf
                 },
                 function(data){
                     create_table(data)
@@ -555,6 +625,7 @@
         // Create table from returned query //
         //////////////////////////////////////
         function create_table(json) {
+            
             // Initialize variable to store HTML table
             let table_body_contents = "";
 
@@ -578,6 +649,7 @@
                 let volume_cylinder = json[row][9];
                 let tip_number = json[row][10];
                 let old_tag = json[row][11];
+                let year = json[row][12];
                 
                 table_body_contents +=  `<tr>
                                             <td>${tagid}</td>
@@ -592,6 +664,7 @@
                                             <td>${volume_cylinder}</td>
                                             <td>${tip_number}</td>
                                             <td>${old_tag}</td>
+                                            <td>${year}</td>
                                         </tr>`;
             }
 
@@ -610,6 +683,7 @@
                                                     <th>Volume Cylinder</th>
                                                     <th>Tip Number</th>
                                                     <th>Old Tag</th>
+                                                    <th>Year</th>
                                                 </tr>
                                             </thead>
                                             <tbody>

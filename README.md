@@ -13,22 +13,30 @@ Graph:
 
 
 To do before presentation on 25th:
-- Home page: 
-*  [] Need to make it prettier 
-*  [] Add more context on data/project
-- Data page:
-*  [] Need to include group by/aggregate functions
-*  [] Screenshots of resultant tables post filtering
-*  [] Screenshots of graph (need to add charts, variable columns for plotting, etc)
-*  [] Need to add: Linked sample data or javascript filling of forms (where necessary) for trying out database features anywhere data input is required.
-- Media page:
-*  [] Need to link to external database (coral pics)
-*  [] Talk to Benson about what is expected
-- Help page:
-*  [] Need to add more context for all tabs (length/width/height)
-*  [] Search tab?
-*  [] Links from your HTML forms explaining what the page does (Ask Benson)
-*  [] Add the format of input (Ask Benson)
+
+Home page: (priority = 4)
+*  [ ] Need to make it prettier 
+*  [ ] Add more context on data/project
+
+Data page: (priority = 1)
+*  [ ] Screenshots of resultant tables post filtering
+*  [ ] Screenshots of graph (need to add charts, variable columns for plotting, etc)
+*  [ ] Add a reset button for the sliders + reset all which resets ALL filters.
+*  [ ] Shift sliders to the right if possible? 2 side by side
+*  [ ] Click on eg to fill in text box (javascript filling of forms).
+*  [ ] Relative scrolling for table output.
+*  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
+*  [x] Link to vcf checkbox (True/False?)
+
+Media page: (priority = 3)
+*  [ ] Need to link to external database (coral pics)
+*  [ ] Add links for different corals + different directories + whole website. (use href)
+
+Help page: (priority = 2)
+*  [x] Need to add more context for all tabs (length/width/height)
+*  [ ] Search button?
+*  [ ] Links from your HTML forms explaining what the page does
+*  [ ] Add the format of input (Note: exact format not needed. Add links to help page and maybe images of the slider being used)
 
 Done:
 - [x] Separate Introduction HTML page
@@ -37,7 +45,7 @@ Done:
 
 UI to implement for phenotypic data
 'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
-- [ ] Slider for important numeric column like eco volume (query = WHERE X > Y) 
+- [x] Slider for important numeric column like eco volume (query = WHERE X > Y) 
 - [ ] Group by Location
 - [x] Checkboxes for year
 - [x] Filter by alive or dead
