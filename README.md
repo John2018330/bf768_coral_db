@@ -24,6 +24,9 @@ Data page: (priority = 1)
 *  [ ] Add a reset button for the sliders + reset all which resets ALL filters.
 *  [ ] Shift sliders to the right if possible? 2 side by side
 *  [ ] Click on eg to fill in text box (javascript filling of forms).
+*  [ ] Help link doesn't work for sliders.
+*  [ ] Download table data
+*  [ ] Google charts (download image)
 *  [x] Relative scrolling for table output.
 *  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
 *  [x] Link to vcf checkbox (True/False?)
@@ -35,29 +38,8 @@ Media page: (priority = 3)
 Help page: (priority = 2)
 *  [x] Need to add more context for all tabs (length/width/height)
 *  [ ] Search button?
-*  [ ] Links from your HTML forms explaining what the page does
-*  [ ] Add the format of input (Note: exact format not needed. Add links to help page and maybe images of the slider being used)
-
-Done:
-- [x] Separate Introduction HTML page
-- [ ] Data Download (maybe ajax?)
-
-
-UI to implement for phenotypic data
-'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
-- [x] Slider for important numeric column like eco volume (query = WHERE X > Y) 
-- [ ] Group by Location
-- [x] Checkboxes for year
-- [x] Filter by alive or dead
-- [ ] Auxillary If group by, offer additional filters (having x > y)
-- [ ] Auxillary Provide option for performing aggregate functions
-
-UI to implement for VCF
-- [x] Slider for allele frequency
-- [x] Slider for quality filtering maybe (Not Needed)
-- [x] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
-- [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
-
+*  [x] Links from your HTML forms explaining what the page does
+*  [x] Add the format of input (Note: exact format not needed. Add links to help page and maybe images of the slider being used)
 
 List of CGI forms (queries)
 - [x] Filter the VCF by quality (Not needed)
@@ -68,6 +50,24 @@ List of CGI forms (queries)
 - [ ] GRAPH QUERY: Group by location Volume over 4 years
 - [ ] Get counts of alive and dead by location
 - [ ] 
+
+Done:
+- [x] Separate Introduction HTML page
+UI to implement for phenotypic data
+'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
+- [x] Slider for important numeric column like eco volume (query = WHERE X > Y) 
+- [x] Group by Location
+- [x] Checkboxes for year
+- [x] Filter by alive or dead
+- [x] Auxillary If group by, offer additional filters (having x > y)
+- [x] Auxillary Provide option for performing aggregate functions
+
+UI to implement for VCF
+- [x] Slider for allele frequency
+- [x] Slider for quality filtering maybe (Not Needed)
+- [x] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
+- [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
+
 
 John To Do
 - [ ] Dropdown Menu for scaffold
