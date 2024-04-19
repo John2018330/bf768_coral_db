@@ -186,27 +186,27 @@
 						
 						<div class="slidecontainer">
                         Ecological Volume (units):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help">Ecological Volume Help</a>
-						<div id="eco_vol_value" class="hover-value"></div><br>
+						<div id="eco_vol_value" class="hover-value"></div><br><br><br><br>
                         <div id="eco_vol"></div>
                         <br><br><br>
 
                         Natural Log of Ecological Volume (units):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help">LN Ecological Volume Help</a>
-						<div id="ln_eco_vol_value" class="hover-value"></div><br>
+						<div id="ln_eco_vol_value" class="hover-value"></div><br><br><br><br>
                         <div id="ln_eco_vol"></div>
                         <br><br><br>
 
                         Length (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_length')" id="length_help">Length Help</a>
-						<div id="length_value" class="hover-value"></div><br>
+						<div id="length_value" class="hover-value"></div><br><br><br><br>
                         <div id="length"></div>
                         <br><br><br>
 						
 						Width (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_width')" id="width_help">Width Help</a>
-						<div id="width_value" class="hover-value"></div><br>
+						<div id="width_value" class="hover-value"></div><br><br><br><br>
                         <div id="width"></div>
                         <br><br><br>
 						
 						Height (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_height')" id="height_help">Height Help</a>
-						<div id="height_value" class="hover-value"></div><br>
+						<div id="height_value" class="hover-value"></div><br><br><br><br>
                         <div id="height"></div>
                         <br><br><br>
                     </div>
@@ -218,7 +218,7 @@
                 <div class="content"><br>
                     <div class="slidecontainer">
                         Allele Frequency:&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_allele_freq')" id="allele_freq_help">Allele Frequency Help</a>
-						<div id="allele_freq_value" class="hover-value"></div><br>
+						<div id="allele_freq_value" class="hover-value"></div><br><br><br><br>
                         <div id="allele_freq"></div><br><br><br>
                     </div>
                 </div>
@@ -505,10 +505,6 @@
 		var width_field = document.getElementById('width_value');
 		var heightSlider = document.getElementById('height');
 		var height_field = document.getElementById('height_value');
-        var count = document.getElementById('count');
-        var average = document.getElementById('average');
-        var groupby = document.getElementById('groupby');
-        var vcf = document.getElementById('vcf');
 
         noUiSlider.create(ecoVolSlider, {
             start: [0],
@@ -527,6 +523,7 @@
         });
 		ecoVolSlider.noUiSlider.on('update', function (values, handle) {
 			ecoVol_field.innerHTML = values[handle];
+			ecoVol_field.style.display = 'none';
 		});
 		
         noUiSlider.create(lnEcoVolSlider, {
@@ -546,6 +543,7 @@
         });
 		lnEcoVolSlider.noUiSlider.on('update', function (values, handle) {
 			lnVol_field.innerHTML = values[handle];
+			lnVol_field.style.display = 'none';
 		});
 
         noUiSlider.create(alleleFreqSlider, {
@@ -566,6 +564,7 @@
         });
 		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
 			allele_field.innerHTML = values[handle];
+			allele_field.style.display = 'none';
 		});
 
         noUiSlider.create(lengthSlider, {
@@ -585,6 +584,7 @@
         });
 		lengthSlider.noUiSlider.on('update', function (values, handle) {
 			length_field.innerHTML = values[handle];
+			length_field.style.display = 'none';
 		});
 		
 		noUiSlider.create(widthSlider, {
@@ -604,6 +604,7 @@
         });
 		widthSlider.noUiSlider.on('update', function (values, handle) {
 			width_field.innerHTML = values[handle];
+			width_field.style.display = 'none';
 		});
 		
 		noUiSlider.create(heightSlider, {
@@ -623,6 +624,7 @@
         });
 		heightSlider.noUiSlider.on('update', function (values, handle) {
 			height_field.innerHTML = values[handle];
+			height_field.style.display = 'none';
 		});
 
 		////////////////////
