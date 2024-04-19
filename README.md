@@ -24,7 +24,7 @@ Data page: (priority = 1)
 *  [ ] Add a reset button for the sliders + reset all which resets ALL filters.
 *  [ ] Shift sliders to the right if possible? 2 side by side
 *  [ ] Click on eg to fill in text box (javascript filling of forms).
-*  [ ] Relative scrolling for table output.
+*  [x] Relative scrolling for table output.
 *  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
 *  [x] Link to vcf checkbox (True/False?)
 
