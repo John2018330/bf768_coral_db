@@ -668,7 +668,8 @@
                                         </tr>`;
             }
 
-                var table_template = `  <table>
+                var table_template = ` <div style="height: 400px; overflow-y: auto;"> 
+					<table>
                                             <thead>
                                                 <tr>
                                                     <th>Tag ID</th>
@@ -689,7 +690,8 @@
                                             <tbody>
                                                 ${table_body_contents}
                                             </tbody>
-                                        </table>`;
+                                        </table>
+					</div>`;
 
                 $("#out_table").append(table_template);
         }
