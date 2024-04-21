@@ -23,7 +23,6 @@ Data page: (priority = 1)
 *  [ ] Screenshots of graph (need to add charts, variable columns for plotting, etc)
 *  [ ] Download table data
 *  [ ] Google charts (download image)
-*  [ ] Click on eg to fill in text box (javascript filling of forms).
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
 
 Media page: (priority = 3)
@@ -49,6 +48,7 @@ General:
 *  [x] Separate Introduction HTML page
 
 Data Page:
+*  [x] Click on eg to fill in text box (javascript filling of forms).
 *  [x] Add a reset button for the sliders + reset all which resets ALL filters.
 *  [x] Shift sliders to the right if possible? 2 side by side (Not possible)
 *  [x] Help link doesn't work for sliders.
