@@ -93,6 +93,7 @@
             height:40px;
             width:75px;
             border-radius: 25px;
+			cursor: pointer;
         }
         .hover-value {
             font-size: 15px;
@@ -109,6 +110,30 @@
 		.noUi-connect, .progress-bar {
 			background-color: #C68939;
 		}
+		.reset-button{
+			height:25px;
+            width:100px;
+			float: right;
+			margin-left: 10px;
+			background-color: #F9F9F9;
+			border: 1px solid black;
+			cursor: pointer;
+		}
+		.reset-all-button{
+			height:40px;
+            width:150px;
+			margin-right: 10px;
+			margin-top: 10px;
+			float: right;
+			background-color: #F9F9F9;
+			border: 1px solid black;
+			cursor: pointer;
+		}
+		input[type="checkbox"] {
+        width: 17px;
+        height: 17px;
+		vertical-align: middle;
+    }
 		
     </style>
 </head>
@@ -143,69 +168,79 @@
     <!-- ---------------------
         DATABASE SEARCH TAB
     ----------------------- -->
-    <div id="data" class="tabcontent">
-        <p style="font-size:18px;">This tab allows the user to explore the coral phenotypic and vcf data. The data can also be filtered by the options present in the filters section.</p>
+    <div id="data" class="tabcontent"><br>
         <div class="user-input">
+		<p>This tab allows the user to explore the coral phenotypic and VCF data. The data can also be filtered by the options present in the filters section.</p>
+		<p><strong>Note: The help page is linked for each header for additional information and they redirect to the corresponding help page section.</strong></p>
             <!-- All Filters -->
             <div class="collapsible">Filters</div>
             <div class="content">
-                <br>
-                Input Tag ID: <input type="text" id="tagid">
-                <span class="example-text">(Example Tag IDs: )</span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_tagid')" id="tagid_help">TagID Help</a>
+				<button id="reset_all_filters" class="reset-all-button">Reset ALL Filters</button>
+				<br>
+                <a href="#" onclick="openTab(event, 'help', 'help_tagid')" id="tagid_help">Input Tag ID:</a>&nbsp;&nbsp;  <input type="text" id="tagid">
+                <span class="example-text">(Example Tag IDs: )</span>
+				
                 <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
-                Input Scaffold: <input type="text" id="scaffold">
-                <span class="example-text">(Example Scaffolds: )</span>&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_scaffoldid')" id="scaffold_help">Scaffold Help</a> <br><br>
+				
+                <a href="#" onclick="openTab(event, 'help', 'help_scaffoldid')" id="scaffold_help">Input Scaffold ID:</a>&nbsp;&nbsp;  <input type="text" id="scaffold">
+                <span class="example-text">(Example Scaffolds IDs: )</span>
+				<br><br>
 
-                Link phenotypic data to VCF data? (Choose <strong>Yes</strong> if VCF Filters need to be used):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_linkingvcf')" id="vcflinking_help">Linking VCF Help</a><br>
-				<select name="vcf">
-					<option value="Yes">Yes</option>
-					<option value="No" selected>No</option>
+                <a href="#" onclick="openTab(event, 'help', 'help_linkingvcf')" id="vcflinking_help">Link phenotypic data with VCF data?</a> (Choose <strong>YES</strong> if VCF Filters need to be used):&nbsp;&nbsp;
+				<select style="height: 25px; width: 80px; text-align: center;" name="vcf">
+					<option value="Yes">YES</option>
+					<option value="No" selected>NO</option>
 				</select>
-                <br><br>
+				<br><br>
                 <!-- Phenotypic Data Filters -->
                 <div class="collapsible">Phenotypic Data Filters</div>
                 <div class="content"><br>
                     
-                        Year: <input type="checkbox" name="year" value="2015" checked> 2015
+                        <a href="#" onclick="openTab(event, 'help', 'help_year')" id="year_help"> Year: </a>&nbsp;&nbsp;<input type="checkbox" name="year" value="2015" checked> 2015
                         <input type="checkbox" name="year" value="2016"> 2016
                         <input type="checkbox" name="year" value="2017"> 2017
                         <input type="checkbox" name="year" value="2018"> 2018
-						<a href="#" onclick="openTab(event, 'help', 'help_year')" id="year_help">Year Help</a><br><br>
+						<br><br>
 
-                        Location: <input type="checkbox" name="location" value="Channel-North"> Channel-North
+                        <a href="#" onclick="openTab(event, 'help', 'help_location')" id="location_help">Location: </a>&nbsp;&nbsp;<input type="checkbox" name="location" value="Channel-North"> Channel-North
                         <input type="checkbox" name="location" value="Channel-South"> Channel-South
                         <input type="checkbox" name="location" value="Creek-West"> Creek-West
                         <input type="checkbox"  name="location" value="Creek-East"> Creek-East
-						<a href="#" onclick="openTab(event, 'help', 'help_location')" id="location_help">Location Help</a><br><br>
+						<br><br>
 
-                        Mortality: <input type="checkbox" name="mortality" value="Alive"> Alive
+                        <a href="#" onclick="openTab(event, 'help', 'help_mortality')" id="mortality_help">Mortality: </a>&nbsp;&nbsp;<input type="checkbox" name="mortality" value="Alive"> Alive
                         <input type="checkbox" name="mortality" value="Missing"> Missing
                         <input type="checkbox" name="mortality" value="Dead"> Dead
                         <input type="checkbox" name="mortality" value="New"> New
-						<a href="#" onclick="openTab(event, 'help', 'help_mortality')" id="mortality_help">Mortality Help</a><br><br>
+						<br><br>
 						
 						<div class="slidecontainer">
-                        Ecological Volume (units):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help">Ecological Volume Help</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help">Ecological Volume (units):</a>
+						<button id="eco_vol_reset" class="reset-button">Reset slider</button>
 						<div id="eco_vol_value" class="hover-value"></div><br><br><br><br>
                         <div id="eco_vol"></div>
-                        <br><br><br>
+                        <br><br><br><br><br>
 
-                        Natural Log of Ecological Volume (units):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help">LN Ecological Volume Help</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help">Natural Log of Ecological Volume (units):</a>
+						<button id="ln_eco_vol_reset" class="reset-button">Reset slider</button>
 						<div id="ln_eco_vol_value" class="hover-value"></div><br><br><br><br>
                         <div id="ln_eco_vol"></div>
-                        <br><br><br>
+                        <br><br><br><br><br>
 
-                        Length (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_length')" id="length_help">Length Help</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_length')" id="length_help">Length (cm):</a>
+						<button id="length_reset" class="reset-button">Reset slider</button>
 						<div id="length_value" class="hover-value"></div><br><br><br><br>
                         <div id="length"></div>
-                        <br><br><br>
+                        <br><br><br><br><br>
 						
-						Width (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_width')" id="width_help">Width Help</a>
+						<a href="#" onclick="openTab(event, 'help', 'help_width')" id="width_help">Width (cm):</a>
+						<button id="width_reset" class="reset-button">Reset slider</button>
 						<div id="width_value" class="hover-value"></div><br><br><br><br>
                         <div id="width"></div>
-                        <br><br><br>
+                        <br><br><br><br><br>
 						
-						Height (cm):&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_height')" id="height_help">Height Help</a>
+						<a href="#" onclick="openTab(event, 'help', 'help_height')" id="height_help">Height (cm):</a>
+						<button id="height_reset" class="reset-button">Reset slider</button>
 						<div id="height_value" class="hover-value"></div><br><br><br><br>
                         <div id="height"></div>
                         <br><br><br>
@@ -217,7 +252,8 @@
                 <div class="collapsible">VCF Filters</div>
                 <div class="content"><br>
                     <div class="slidecontainer">
-                        Allele Frequency:&nbsp;&nbsp;&nbsp;<a href="#" onclick="openTab(event, 'help', 'help_allele_freq')" id="allele_freq_help">Allele Frequency Help</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_allele_freq')" id="allele_freq_help">Allele Frequency:</a>
+						<button id="allele_freq_reset" class="reset-button">Reset slider</button>
 						<div id="allele_freq_value" class="hover-value"></div><br><br><br><br>
                         <div id="allele_freq"></div><br><br><br>
                     </div>
@@ -230,21 +266,21 @@
                     <p> This section allows grouping of data based on either location or mortality which can be used to evaluate aggregate functions of interet.</p>
                     
                         <p><strong>Aggregate Functions:</strong></p>
-                        Count of: <input type="checkbox" name="count" value="Alive"> Alive corals
+                        <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help">Count of:</a> &nbsp;&nbsp; <input type="checkbox" name="count" value="Alive"> Alive corals
                             <input type="checkbox" name="count" value="Dead"> Dead/Missing corals
                             <input type="checkbox" name="count" value="New"> New corals
                             <input type="checkbox" name="count" value="tip_number"> Tip Number
-							<a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help">Count Help</a><br><br>
+							<br><br>
                         
-                        Average of: <input type="checkbox" name="average" value="Alive"> Alive corals
+                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help">Average of:</a> &nbsp;&nbsp; <input type="checkbox" name="average" value="Alive"> Alive corals
                             <input type="checkbox" name="average" value="Dead"> Dead/Missing corals
                             <input type="checkbox" name="average" value="New"> New corals
                             <input type="checkbox" name="average" value="tip_number"> Tip Number
-							<a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help">Average function Help</a><br><br>
+							<br><br>
                         <hr>
-                        <strong>Group by:</strong> <input type="checkbox" name="groupby" value="location"> Locations
+                        <a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help"><strong>Group by:</strong></a> &nbsp;&nbsp; <input type="checkbox" name="groupby" value="location"> Locations
                             <input type="checkbox" name="groupby" value="alive_status"> Mortality
-							<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help">Groupby Help</a><br><br>
+						<br><br>
                 </div>
                 </div>
                  <br>
@@ -276,15 +312,15 @@
     ----------- -->
     <div id="help" class="tabcontent"><br>
         <div class="user-input">
-            <p style="font-size:17px;"><strong>The steps below can be used as a guide to navigate the site:</strong></p>
+            <p><strong>The steps below can be used as a guide to navigate the site:</strong></p>
 			<ol>
 				<li>Input Tag ID</li>
 			</ol>	
 			<br>
-			<p style="font-size:17px;"><strong>Further information on each tab/filter which can be found below:</strong></p>
+			<p><strong>Further information on each tab/filter which can be found below:</strong></p>
             <ol>
 				<br>
-                    <button class="collapsible">Input Tag ID/ Scaffold ID</button>
+                    <div class="collapsible">Input Tag ID/ Scaffold ID</div>
 					<div class="content">
 					 <ul>
 						<p>A straightforward way to retrieve information on a particular coral is to input a Tag ID or Scaffold ID of interest. Note that it is possible for multiple SNPs to exist per scaffold.
@@ -303,6 +339,15 @@
 								<li> These are not unique values, and multiple corals can have the same variants/corresponding Scaffold IDs. </li>
 							</ul>
 						</li>	
+						<li>
+							<p><a id="help_linkingvcf">Link phenotypic data with VCF data?</a></p>
+							<ul>
+								<li> Phenotypic data can be linked to the VCF information if needed. This can help study variants for corals and reveal patterns that might be present in a few individuals.</li>
+								<li> Linking VCF information will return a table with all columns from the phenotypic data AND the VCF table. </li>
+								<li> Variants for individuals will not change based on year since they are not dependant on time, but all the VCF information was processed and compiled in 2018. </li>
+								<li> <strong>Select YES if VCF information is required or if VCF Filters need to be used, since otherwise the information will not be retrieved.</strong></li>
+							</ul>
+						</li>
 						<p>If there are other filters which need to be applied to then they can be selected from the Phenotypic Data Filter tab or the VCF Filter tab. 
 							(See below for further details on those sections)
 						</p>
@@ -310,7 +355,7 @@
                     <br>
 					</div>
                 <br>
-                    <button class="collapsible">Phenotypic Data Filters</button>
+                    <div class="collapsible">Phenotypic Data Filters</div>
 					<div class="content">
 					<ul>
 					
@@ -386,7 +431,7 @@
                     <br>
 					</div>
 				<br>
-				<button class="collapsible"> VCF Filters</button>
+				<div class="collapsible"> VCF Filters</div>
 					<div class="content">
 					<ul>
 						<li>
@@ -397,6 +442,36 @@
 								that carry that allele over the sample size, espeically if it can potentially make corals resilient for better survivalship.</li>
 								<li>Slider can be used to pick a cutoff value (i.e, all corals with allele frequency <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all variants are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
+							</ul>
+						</li>
+					</ul>
+                    <br>
+					</div>	
+				<br>
+				<div class="collapsible"> Advanced Data Filters</div>
+					<div class="content">
+					<ul>
+						<p>Aggregate functions are useful to get a basic statistic once the information is grouped by a value of interest, like counting the number of alive corals 
+						in all the locations of interest. This can help unearth patterns of survival/harsher environments. For more information on aggregate functions and group by please read below:</p>
+						<li>
+							<p><a id="help_count">Count:</a></p> 
+							<ul>
+								<li>Count helps to count the number of variable of interest, e.g, alive corals, dead corals or tip numbers.</li>
+								<li>This can be useful in gaining insight on the data on a larger scale.</li>
+							</ul>
+						</li>
+						<li>
+							<p><a id="help_average">Average:</a></p> 
+							<ul>
+								<li>Average computes the average of variable of interest, e.g, alive corals, dead corals or tip numbers.</li>
+								<li>This can be useful for comparative studies.</li>
+							</ul>
+						</li>
+						<li>
+							<p><a id="help_groupby">Group By:</a></p> 
+							<ul>
+								<li>When a group by is performed all the variables from that category are divided into bins and generally an aggregate function of interest is returned for those bins.</li>
+								<li>For example, if a group by location is done, the data is divided into bins based on the 4 locations and an aggregate function like count can be applied to these bins.</li>
 							</ul>
 						</li>
 					</ul>
@@ -432,9 +507,11 @@
 			for (i = 0; i < tablinks.length; i++) {
 				tablinks[i].classList.remove("active");
 			}
+			
 			document.getElementById(tabName).style.display = "block";
+			
 			evt.currentTarget.classList.add("active");
-
+	
 			// Check if the current tab is the help tab
 			if (tabName !== 'help') {
 				// Close all collapsible sections within the help tab
@@ -465,14 +542,18 @@
 					// Add highlight class temporarily
 					helpSection.classList.add('highlight');
 					setTimeout(function() {
+						// Scroll to the help section
+						helpSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+					}, 100);
+					setTimeout(function() {
 						// Remove highlight class after 2 seconds
 						helpSection.classList.remove('highlight');
 					}, 2000);
-					// Scroll to the help section
-					helpSection.scrollIntoView({ behavior: 'smooth' });
 				}
 			}
 		}
+
+
 
         // Collapsible section functionality
         var coll = document.getElementsByClassName("collapsible");
@@ -505,7 +586,7 @@
 		var width_field = document.getElementById('width_value');
 		var heightSlider = document.getElementById('height');
 		var height_field = document.getElementById('height_value');
-	        var count = document.getElementById('count');
+	    var count = document.getElementById('count');
         var average = document.getElementById('average');
         var groupby = document.getElementById('groupby');
         var vcf = document.getElementById('vcf');
@@ -630,6 +711,107 @@
 			height_field.innerHTML = values[handle];
 			height_field.style.display = 'none';
 		});
+		
+		// Reset buttons for all sliders
+		var ecoVolResetButton = document.getElementById('eco_vol_reset');
+		var lnEcoVolResetButton = document.getElementById('ln_eco_vol_reset');
+		var lengthResetButton = document.getElementById('length_reset');
+		var widthResetButton = document.getElementById('width_reset');
+		var heightResetButton = document.getElementById('height_reset');
+		var alleleResetButton = document.getElementById('allele_freq_reset');
+		
+		// Event listener for Ecological Volume reset button
+		ecoVolResetButton.addEventListener('click', function() {
+			ecoVolSlider.noUiSlider.set(0);
+		});
+
+		// Event listener for LN Ecological Volume reset button
+		lnEcoVolResetButton.addEventListener('click', function() {
+			lnEcoVolSlider.noUiSlider.set(0);
+		});
+
+		// Event listener for Length reset button
+		lengthResetButton.addEventListener('click', function() {
+			lengthSlider.noUiSlider.set(0);
+		});
+
+		// Event listener for Width reset button
+		widthResetButton.addEventListener('click', function() {
+			widthSlider.noUiSlider.set(0);
+		});
+
+		// Event listener for Height reset button
+		heightResetButton.addEventListener('click', function() {
+			heightSlider.noUiSlider.set(0);
+		});
+		
+		// Event listener for Allele Frequency reset button
+		alleleResetButton.addEventListener('click', function() {
+			alleleFreqSlider.noUiSlider.set(0);
+		});
+		
+		//Reset ALL filters button
+		document.getElementById('reset_all_filters').addEventListener('click', function() {
+			// Reset Tag ID input
+			document.getElementById('tagid').value = '';
+
+			// Reset Scaffold ID input
+			document.getElementById('scaffold').value = '';
+
+			// Reset VCF linking dropdown
+			document.querySelector('select[name="vcf"]').value = 'No';
+
+			// Reset Year checkboxes
+			document.querySelectorAll('input[name="year"]').forEach(function(checkbox) {
+				if (checkbox.value !== "2015") {
+					checkbox.checked = false;
+				}
+			});
+
+			// Reset Location checkboxes
+			document.querySelectorAll('input[name="location"]').forEach(function(checkbox) {
+				checkbox.checked = false; 
+			});
+
+			// Reset Mortality checkboxes
+			document.querySelectorAll('input[name="mortality"]').forEach(function(checkbox) {
+				checkbox.checked = false; 
+			});
+
+			// Reset Ecological Volume slider
+			document.getElementById('eco_vol').noUiSlider.reset();
+
+			// Reset Natural Log of Ecological Volume slider
+			document.getElementById('ln_eco_vol').noUiSlider.reset();
+
+			// Reset Length slider
+			document.getElementById('length').noUiSlider.reset();
+
+			// Reset Width slider
+			document.getElementById('width').noUiSlider.reset();
+
+			// Reset Height slider
+			document.getElementById('height').noUiSlider.reset();
+
+			// Reset Allele Frequency slider
+			document.getElementById('allele_freq').noUiSlider.reset();
+
+			// Reset Count checkboxes
+			document.querySelectorAll('input[name="count"]').forEach(function(checkbox) {
+				checkbox.checked = false; 
+			});
+
+			// Reset Average checkboxes
+			document.querySelectorAll('input[name="average"]').forEach(function(checkbox) {
+				checkbox.checked = false; 
+			});
+
+			// Reset Group by checkboxes
+			document.querySelectorAll('input[name="groupby"]').forEach(function(checkbox) {
+				checkbox.checked = false; 
+			});
+		});
+
 
 		////////////////////
         // Document Load  //
