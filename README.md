@@ -21,12 +21,12 @@ Home page: (priority = 4)
 Data page: (priority = 1)
 *  [ ] Screenshots of resultant tables post filtering
 *  [ ] Screenshots of graph (need to add charts, variable columns for plotting, etc)
-*  [ ] Add a reset button for the sliders + reset all which resets ALL filters.
-*  [ ] Shift sliders to the right if possible? 2 side by side
-*  [ ] Click on eg to fill in text box (javascript filling of forms).
-*  [ ] Help link doesn't work for sliders.
 *  [ ] Download table data
 *  [ ] Google charts (download image)
+*  [ ] Click on eg to fill in text box (javascript filling of forms).
+*  [x] Add a reset button for the sliders + reset all which resets ALL filters.
+*  [x] Shift sliders to the right if possible? 2 side by side (Not possible)
+*  [x] Help link doesn't work for sliders.
 *  [x] Relative scrolling for table output.
 *  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
 *  [x] Link to vcf checkbox (True/False?)
