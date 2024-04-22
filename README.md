@@ -40,6 +40,7 @@ List of CGI forms (queries)
 *  [ ] GRAPH QUERY: Group by location Volume over 4 years
 *  [ ] Get counts of alive and dead by location
 
+UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
 
 ## Done:
 
@@ -79,7 +80,7 @@ UI to implement for VCF:
 - [x] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
 
 
-UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
+
 ## John To Do
 - [ ] Dropdown Menu for scaffold
 
