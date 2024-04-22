@@ -10,8 +10,6 @@ Graph:
         
         counts of variant by location
 
-
-
 ## To do before presentation on 25th:
 
 Home page: (priority = 4)
@@ -30,6 +28,7 @@ Media page: (priority = 3)
 *  [ ] Add links for different corals + different directories + whole website. (use href)
 
 Help page: (priority = 2)
+*  [ ] Need to add guide on how to use site + explanation on reset buttons.
 *  [ ] Search button?
 
 List of CGI forms (queries)
