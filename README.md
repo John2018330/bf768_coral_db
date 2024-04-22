@@ -81,4 +81,6 @@ UI to implement for VCF:
 ## John To Do
 - [ ] Dropdown Menu for scaffold
 
+UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
+
 
