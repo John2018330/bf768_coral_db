@@ -78,9 +78,11 @@ UI to implement for VCF:
 - [x] Slider for quality filtering maybe (Not Needed)
 - [x] Textbox for scaffold and maybe position (it's possible multiple SNP's exist per scaffold)
 
+
+UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
 ## John To Do
 - [ ] Dropdown Menu for scaffold
 
-UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
+
 
 
