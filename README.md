@@ -24,8 +24,8 @@ Data page: (priority = 1)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
 
 Media page: (priority = 3)
-*  [ ] Need to link to external database (coral pics)
 *  [ ] Add links for different corals + different directories + whole website. (use href)
+*  [ ] Fix tooltip position issue due to scrolling
 
 Help page: (priority = 2)
 *  [ ] Need to add guide on how to use site + explanation on reset buttons.
@@ -54,6 +54,9 @@ Data Page:
 *  [x] Relative scrolling for table output.
 *  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
 *  [x] Link to vcf checkbox (True/False?)
+
+Media Page:
+*  [x] Need to link to external database (coral pics)
 
 Help Page:
 *  [x] Need to add more context for all tabs (length/width/height)
