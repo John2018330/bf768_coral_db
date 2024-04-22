@@ -3,6 +3,7 @@
 <head>
     <title>Coral Database</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/14.6.3/nouislider.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css">
     <style>
         h1 {
             text-align: center;
@@ -140,6 +141,42 @@
 		.noUi-pips {
 		  pointer-events: none;
 		}
+		.image-preview img {
+			max-width: 200px;
+			max-height: auto;
+		}
+		.tooltip {
+			position: absolute;
+			display: none;
+			background-color: rgba(0, 0, 0, 0.9);
+			color: white;
+			padding: 5px;
+			border-radius: 3px;
+			pointer-events: none;
+			z-index: 1000;
+		}
+		.lb-caption {
+			font-size: 20px; 
+			background-color: rgba(0, 0, 0, 0.5); 
+			color: white; 
+			padding: 10px; 
+		}
+		.image-container {
+			white-space: nowrap; 
+		}
+
+		.image-container img {
+			display: inline-block;
+			width: auto; 
+			max-width: 350px; 
+			margin: 0 20px; 
+			vertical-align: top; 
+		}
+		html {
+			scroll-behavior: smooth;
+		}
+
+
 		
     </style>
 </head>
@@ -321,7 +358,31 @@
     ------------- -->
     <div id="media" class="tabcontent"><br>
         <div class="user-input">
-            Link to coral pics
+		<p>This tab hosts images from the BU Marine website which are taken and maintained by Dr. John Finnerty and his lab. The main website can be found here: <a href="https://bumarine.smugmug.com">BU Marine Programme Media Library</a></p>
+		<p>A list of relevant species/organisms of corals listed below which can be used to jump section</p>
+		<ol>
+			<li><a href="#porites_divaricata">Porites divaricata / Thin Finger Coral</a></li>
+			<li>
+		</ol>
+			<div class="image-container">
+				<p style = "text-decoration: underline;" id = "porites_divaricata"><a href="https://photos.smugmug.com/ORGANISMS/METAZOA-animals/CNIDARIA/CORALS/Porites/i-gRqvGnG/0/ed60201a/XL/i-gRqvGnG-XL.jpg">1. Porites divaricata / Thin Finger Coral:</a></p>
+				
+					<a href="https://photos.smugmug.com/ORGANISMS/METAZOA-animals/CNIDARIA/CORALS/Porites/i-gRqvGnG/0/ed60201a/XL/i-gRqvGnG-XL.jpg" data-lightbox="porites_divaricata1" class="image-preview" data-title="Close up of Porites divaricata / Thin Finger Coral">
+						<img src="https://photos.smugmug.com/ORGANISMS/METAZOA-animals/CNIDARIA/CORALS/Porites/i-gRqvGnG/0/ed60201a/XL/i-gRqvGnG-XL.jpg" alt="Close up of Porites divaricata/thin finger coral" class="image-tooltip" data-description="Close up of Porites divaricata / Thin Finger Coral">
+					</a>
+
+					<a href="https://photos.smugmug.com/COURSES/Tropical-Marine-Invertebrates-/2022/December-17-Crooked-Creek/i-723dWn9/0/DDmBzZ6M9dKrsHDW2RWqcMdW8NnQjHfzWVBGvmXLM/XL/2022_1217_AM_CrookedCreek_0975-XL.jpg" data-lightbox="porites_divaricata2" class="image-preview" data-title="Sideview up of Porites divaricata / Thin Finger Coral">
+						<img src="https://photos.smugmug.com/COURSES/Tropical-Marine-Invertebrates-/2022/December-17-Crooked-Creek/i-723dWn9/0/DDmBzZ6M9dKrsHDW2RWqcMdW8NnQjHfzWVBGvmXLM/XL/2022_1217_AM_CrookedCreek_0975-XL.jpg" alt="Sideview of Porites divaricata/thin finger coral" class="image-tooltip" data-description="Sideview of Porites divaricata / Thin Finger Coral">
+					</a>
+					
+					<a href="https://photos.smugmug.com/COURSES/Tropical-Marine-Invertebrates-/2022/December-17-Crooked-Creek/i-Q8XMTwg/0/DKqXLFF84cbM5pT59GhTXGHbq9V93M9dXQr7cWTpq/XL/2022_1217_AM_CrookedCreek_1028-XL.jpg" data-lightbox="porites_divaricata3" class="image-preview" data-title="Coral and his buddy">
+						<img src="https://photos.smugmug.com/COURSES/Tropical-Marine-Invertebrates-/2022/December-17-Crooked-Creek/i-Q8XMTwg/0/DKqXLFF84cbM5pT59GhTXGHbq9V93M9dXQr7cWTpq/XL/2022_1217_AM_CrookedCreek_1028-XL.jpg" alt="Coral and his buddy" class="image-tooltip" data-description="Coral and his buddy">
+					</a>
+					
+					
+					
+				
+			</div>
         </div>
     </div>
 
@@ -507,12 +568,13 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
 
     <!-- Main -->
     <script>
-        //////////////////////////
-        //  JAVASCRIPT FOR UI   //
-        //////////////////////////
+        //////////////////
+        //  Filter Tab  //
+        //////////////////
 
 		function openTab(evt, tabName, scrollToTab) {
 			// Open the specified tab
@@ -858,7 +920,64 @@
 			// Reset Allele Frequency slider
 			document.getElementById('allele_freq').noUiSlider.reset();
 		});
+		
+		
+		///////////////////
+		/// Media Tab /////
+		///////////////////
+		
+		document.addEventListener('DOMContentLoaded', function () {
+			// Get all elements with class "image-tooltip"
+			const imageTooltips = document.querySelectorAll('.image-tooltip');
 
+			// Iterate over each image tooltip
+			imageTooltips.forEach(imageTooltip => {
+				// Add event listener for mouseover
+				imageTooltip.addEventListener('mouseover', (event) => {
+					const description = imageTooltip.getAttribute('data-description');
+					const tooltip = createTooltip(description);
+					positionTooltip(tooltip, event.clientX, event.clientY);
+				});
+
+				// Add event listener for mouseout
+				imageTooltip.addEventListener('mouseout', () => {
+					const tooltip = document.querySelector('.tooltip');
+					if (tooltip) {
+						tooltip.style.display = 'none';
+					}
+				});
+
+				// Add event listener for mousemove
+				document.addEventListener('mousemove', (event) => {
+					const tooltip = document.querySelector('.tooltip');
+					if (tooltip && tooltip.style.display !== 'none') {
+						positionTooltip(tooltip, event.clientX, event.clientY);
+					}
+				});
+
+				// Create and append tooltip element
+				function createTooltip(description) {
+					let tooltip = document.querySelector('.tooltip');
+					if (!tooltip) {
+						tooltip = document.createElement('div');
+						tooltip.classList.add('tooltip');
+						document.body.appendChild(tooltip);
+					}
+					tooltip.textContent = description;
+					tooltip.style.display = 'block';
+					return tooltip;
+				}
+
+				// Position tooltip element
+				function positionTooltip(tooltip, x, y) {
+					tooltip.style.left = x + 'px';
+					tooltip.style.top = y + 10 + 'px';
+				}
+			});
+		});
+
+
+		
 
 		////////////////////
         // Document Load  //
