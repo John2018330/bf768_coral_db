@@ -18,10 +18,10 @@
             background-color: #C68939;
         }
 		.scroll {
-		height: 400px; 
-		overflow-y: auto;
-		border: 1px solid ;
-		padding: 10px;
+			height: 400px; 
+			overflow-y: auto;
+			border: 1px solid ;
+			padding: 10px;
 		}
         .user-input {
             border: 1px solid ;
@@ -57,26 +57,28 @@
             margin-left: 10px;
         }
 		.example-values{
-		text-decoration: underline;
-		cursor: pointer;
+			text-decoration: underline;
+			cursor: pointer;
 		}
         .tabbar {
             display: flex;
             width: auto;
             justify-content: space-between;
             background-color: #f1f1f1;
-            padding: 10px;
-			border: 1px solid ;
             box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
         }
         .tab {
             flex-grow: 1;
             text-align: center;
             cursor: pointer;
+			padding: 10px;
+			border: 1px solid;
+			font-size: 18px;
         }
         .tab.active {
             background-color: #ccc;
             box-shadow: none;
+			 padding: 10px;
         }
         .tabcontent {
             display: none;
@@ -84,6 +86,10 @@
         .active-tabcontent {
             display: block;
         }
+		.tab:hover {
+			background-color: #b6b6b6 ;
+			 padding: 10px;
+		}
         .collapsible {
             background-color: #777;
             color: white;
@@ -163,10 +169,6 @@
 		.noUi-pips {
 		  pointer-events: none;
 		}
-		.image-preview img {
-			max-width: 200px;
-			max-height: auto;
-		}
 		.tooltip {
 			position: absolute;
 			display: none;
@@ -194,6 +196,10 @@
 			max-width: 350px; 
 			margin: 0 20px; 
 			vertical-align: top; 
+		}
+		.image-preview img {
+			max-width: 350px;
+			max-height: auto;
 		}
 		html {
 			scroll-behavior: smooth;
