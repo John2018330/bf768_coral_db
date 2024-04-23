@@ -18,8 +18,6 @@ Data page: (priority = 1)
 *  [ ] Download table data
 *  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
-*  [ ] Add that phenotypic data repeats (in a div tag)
-*  [ ] Make count and average of advanced filters a drop down menu
 
 List of CGI forms (queries):
 
@@ -41,7 +39,7 @@ Home page: (priority = 4)
 Help page: (priority = 2)
 *  [ ] Need to add guide on how to use site + explanation on reset buttons.
 *  [ ] Search button?
-
+*  [ ] Add that phenotypic data repeats (in a div tag)
 
 ## Done:
 
@@ -59,6 +57,7 @@ Data Page:
 *  [x] Relative scrolling for table output.
 *  [x] Add advanced filter column which allows GROUP BY (for aggregate functions).
 *  [x] Link to vcf checkbox (True/False?)
+*  [x] Make count and average of advanced filters a drop down menu
 
 Media Page:
 *  [x] Need to link to external database (coral pics)

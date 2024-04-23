@@ -16,7 +16,7 @@
 			background-color: white;
         }
         th {
-            background-color: #C68939;
+            background-color: #b1c5bc;
         }
 		.download_table{
 			height:40px;
@@ -26,6 +26,7 @@
 			background-color: #F9F9F9;
 			border: 1px solid black;
 			cursor: pointer;
+			margin-bottom: 20px;
 		
 		}
 		.scroll {
@@ -157,7 +158,7 @@
 			transition: background-color 1s ease-in-out;
 		}
 		.noUi-connect, .progress-bar {
-			background-color: #C68939;
+			background-color: #c5b1ba;
 		}
 		.reset-button{
 			height:25px;
@@ -178,7 +179,7 @@
 			cursor: pointer;
 		}
 		input[type="checkbox"] {
-			width: 17px;
+			width: 25px;
 			height: 17px;
 			vertical-align: middle;
 		}
@@ -226,9 +227,6 @@
 		.no-visited-style  {
 			color: black;
 		}
-
-
-		
     </style>
 </head>
 <body>
@@ -298,7 +296,7 @@
 					<option value="No" selected>NO</option>
 				</select>
 				<br><br>
-                <!-- Phenotypic Data Filters -->
+                <!-- Phenotypic Data Filters  -->
                 <div class="collapsible">Phenotypic Data Filters</div>
                 <div class="content">
                     <button id="reset_all_sliders" class="reset-all-button">Reset ALL Sliders</button>
@@ -374,21 +372,25 @@
 
 					<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <select style="height: 25px; width: 80px; text-align: center;" name="alive_status">
 						<option value="Location">Location</option>
-						<option value="alive_status" >Mortality</option>
+						<option value="alive_status">Mortality</option>
 					</select><br><br>
                     
 					<hr>
                         <p><strong>Aggregate Functions:</strong></p>
-                        <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help" class="no-visited-style">Count of:</a> &nbsp;&nbsp; <input type="checkbox" name="count" value="Alive"> Alive corals
-                            <input type="checkbox" name="count" value="Dead"> Dead/Missing corals
-                            <input type="checkbox" name="count" value="New"> New corals
-							<br><br>
-                        
-                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <input type="checkbox" name="average" value="Alive"> Alive corals
-                            <input type="checkbox" name="average" value="Dead"> Dead/Missing corals
-                            <input type="checkbox" name="average" value="New"> New corals
-							
+                        <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help" class="no-visited-style">Get number of indviduals based on group by:</a> &nbsp;&nbsp; 
+						<input type="radio" name="count" value="Yes">
+						<label for="count1">Yes</label>
+						<input type="radio" name="count" value="No">
+						<label for="count2">No</label>
 						<br><br>
+                        
+                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <select style="height: 25px; width: 150px; text-align: center;" name="average">
+						<option value="Length(cm)">Length of polyp</option>
+						<option value="Width(cm)">Width of polyp</option>
+						<option value="Height(cm)">Height of polyp</option>
+						</select>	
+						<br><br>
+
                     </div><br>
                 </div>
                 <br>
@@ -548,14 +550,26 @@
 	<div id="graph" class="tabcontent"><br>
         <div class="user-input">
 			<p>Graphs</p>
-			<p> <input type="text" id="scaffold_graph" placeholder="Sc0000458..."> </p>
+			<p> Input Scaffold ID:</p>
+			<input type="text" id="scaffold_graph" placeholder="Sc0000458...">
+			<span class="example-text">(Example Scaffold IDs: 
+				<span class="example-values" onclick="fillInput('scaffold_graph', 'Sc0000458')">Sc0000458</span>, 
+				<span class="example-values" onclick="fillInput('scaffold_graph', 'Sc0000211')">Sc0000211</span>
+			)</span>
+			
+
 			<p>Major or minor allele:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<select style="height: 25px; width: 80px; text-align: center;" id="major_graph">
-					<option value="A" selected>Major</option>
-					<option value="T" >Minor</option>
+				<select style="height: 25px; width: 150px; text-align: center;" id="geno_graph">
+					<option value="Homozygous Ref" selected>Homozygous Ref</option>
+					<option value="Homozygous Alt">Homozygous Alt</option>
+                    <option value="Heterozygous">Heterozygous</option>
 				</select>
 			</p>	
+			<p>
+				<button class="submit_button" id="get_graph_button" type="button">Get Graph</button><br><br>
+			</p>
 		</div>
+        <div id='graph1'></div>
 	</div>
 
     <!-- ---------
@@ -565,13 +579,65 @@
         <div class="input-background">
             <p><strong>The steps below can be used as a guide to navigate the site:</strong></p>
 			<ol>
-				<li>Input Tag ID</li>
-			</ol>	
+				<li> Data tab allows the user to explore the dataset. Different filters can be applied based on the use case and a table with the results is returned.</li>
+				<li> Additionally this table can be exported in the desired format for further processing.</li>
+				<li> The Graph tab allows the user to plot different columns to visually explore the data. Similarly these graphs can also be exported if desired.</li>
+				<li> The Media tab hosts images from the BU Marine Program Webpage and  has pictures from different species of corals, including Porites Stony Coral.</li>
+				<li> Lastly the Help tab has detailed information on each header/section which can be used as a reference whenever required.</li><br>
+			</ol>
+			<p><strong>Note: in case of any confusion, each header/section is linked to the relevant Help tab section for clarifications.</strong></p>	
 			<br>
 			<p><strong>Further information on each tab/filter which can be found below:</strong></p>
             <ol>
 				<br>
-                    <div class="collapsible">Input Tag ID/ Scaffold ID</div>
+				<div class="collapsible">Explanation on tabs</div>
+					<div class="content">
+						<ul>
+							<li>
+								<p><a id="help_home">Home tab:</a></p>
+								<ul>
+									<li> Introduction page with information on student developers, lab that the website was developed under and the general abstract of the project.</li>
+								</ul>
+							</li>
+
+							<li>
+								<p><a id="help_dat">Data tab:</a></p>
+								<ul>
+									<li> This tab is the main tab which can be used to explore the dataset.</li>
+									<li> There are multiple filter tabs which can be used if desired (except of year which is a required field and the default is 2015).</li>
+									<li> The table displayed can further be exported in the desired format for further processing if required.</li>
+								</ul>
+							</li>
+
+							<li>
+								<p><a id="help_graph">Graph tab:</a></p>
+								<ul>
+									<li> This tab allows the user to explore the data in an interactive visual manner.</li>
+									<li> The options to plot the data are available through dropdowns </li>
+								</ul>
+							</li>
+
+							<li>
+								<p><a id="help_media">Media tab:</a></p>
+								<ul>
+									<li> This tab hosts images from the BU Marine Program Webpage and are specific to different species of corals.</li>
+									<li> The options to plot the data are available through dropdowns and further information is present by selecting the header in question.</li>
+								</ul>
+							</li>
+
+							<li>
+								<p><a id="help_media">Help tab:</a></p>
+								<ul>
+									<li> This tab hosts detailed information and tips on how to navigate the site.</li>
+									<li> Each header is linked to the relevant help tab but additionally the user can navigate the help tab itself.</li>
+								</ul>
+							</li>
+						</ul>	
+				<br>		
+				</div>		
+				
+				<br>
+                    <div class="collapsible">General Filters</div>
 					<div class="content">
 					 <ul>
 						<p>A straightforward way to retrieve information on a particular coral is to input a Tag ID or Scaffold ID of interest. Note that it is possible for multiple SNPs to exist per scaffold.
@@ -744,6 +810,9 @@
 
     <!-- Main -->
     <script>
+        // Load in google charts
+        google.charts.load("current", {packages:["corechart"]});
+
         //////////////////
         //  Filter Tab  //
         //////////////////
@@ -1202,6 +1271,7 @@
         ////////////////////
         // AAAAJJJAAAXXXX //
         ////////////////////
+        // For main table in data tab
         $("#get_table_button").click(function(){
             // Empty data table
             $("#out_table").empty();
@@ -1239,9 +1309,6 @@
             
             let vcf = $("#vcf").val();
 
-
-
-
             // AJAX call
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'tagid':tagid,
@@ -1267,7 +1334,7 @@
         })
     
 
-        //////////////////////////////////////
+        ///////////////n///////////////////////
         // Create table from returned query //
         //////////////////////////////////////
         function create_table(json) {
@@ -1465,13 +1532,52 @@
             // This else doesn't really do anything
             } else {
                 console.log('Error in Join VCF')
-            }
-
-
-
-            
+            }   
         }
 
+
+
+        // AJAX call for graph query 
+        // scaffoldid, major/minor allele
+        $("#get_graph_button").click(function(){
+            // Empty graph div ?????????????//fILL IN RIGHT DIV!!!!!!!!!!!!!!!!!!!!!!!!
+            $("#graph1").empty();
+            
+            let scaffold_graph = $("#scaffold_graph").val();
+            let geno_graph = $("#geno_graph").val();
+            console.log(geno_graph);
+
+            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
+                {'scaffold_graph':scaffold_graph,
+                    'geno_graph':geno_graph
+                },
+                function(data){
+                    create_vcf_barchart(data)
+                },
+                "json");
+        })
+        
+        // Function to create barchart
+        function create_vcf_barchart(json) {
+            
+            // Convert JSON to google charts data
+            var dataTable = google.visualization.arrayToDataTable(json);
+            
+            // Plot Options
+            var options = {
+                        title: `Placeholder Title`,
+                        legend: { position: 'none' }
+                        //width
+                        //height
+                    };
+            
+            // Get div by id to put graph in 
+            var chart = new google.visualization.BarChart(document.getElementById("graph1"));
+            chart.draw(dataTable, options);
+        }
+
+        // AJAX call for growth graph
+        
 
     </script>
 <br><br><br>
