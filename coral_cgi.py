@@ -79,7 +79,6 @@ if form:
 
     # Construct the SQL query based on form data
     query = "SELECT * FROM y2015 LIMIT 10"
-    # tagid, location, notes, alive_status, length_cm, width_cm, height_cm, eco_volume, ln_eco_volume, volume_cylinder, tip_number, old_tag
 
     ####Shortcomings of the query - the groupby doesnt specify the alive and dead within the groupby mortality
     zquery = ""
@@ -152,46 +151,40 @@ connection.close()
 print(vcf_table)
 
 
-#########old zquery that worked (less values)######
-# for i in year: 
+###avg volume by year and location could select the specific location instead of having it all in once
+#line graph?
+"""SELECT avg(eco_volume), year, location
+FROM(
+SELECT *, 2015 as year
+From y2015 
+UNION
+SELECT *, 2016 as year
+From y2016 
+UNION
+SELECT *, 2017 as year
+From y2017
+UNION
+SELECT *, 2018 as year
+From y2018
+) as y
+group by location,year
+"""
 
-#         zquery += "SELECT *, '" + i + "' as year FROM y" + i 
-#         #if vcf = "Yes":
-#             #zquery += " JOIN vcf"
-        
-#         if len(location) > 0 or len(mortality) > 0:
-#             zquery += " WHERE "
-        
-#         # if tagid != "":
-#         #     zquery += "tagid = '" + tagid + "'"
-#         #     if len(location) > 0 or len(mortality):
-#         #         zquery += " AND "
-               
-        
-#         # if scaffold > 0:
-#         #     zquery += "CHROM = " + scaffold
-#         #     if len(location) > 0 or len(mortality):
-#         #         zquery += " AND "
+#sample queries that show counts of variants by location
+#bar chart
+# user would select scaffold and Ref or alt 
+"""
 
-#         if len(location) > 0:
-#             zquery += "location in ("
-            
-#             for j in location:
-#                 zquery +="'" + j + "', "
+SELECT count(GT), location 
+FROM vcf join y2018 on vcf.CORAL_id = y2018.tagid
+WHERE CHROM = "Sc0000211" AND GT = "1/1"
+GROUP BY location
 
-#             zquery = zquery[:-2]
-#             zquery += ")"
-#             if len(mortality) > 0:
-#                 zquery += " AND "
 
-#         if len(mortality) > 0:
-#             zquery += "alive_status in ("
-#             for k in mortality:
-#                 zquery +="'" + k + "', "
-#             zquery = zquery[:-2]
-#             zquery += ")"
+SELECT count(GT), location 
+FROM vcf join y2018 on vcf.CORAL_id = y2018.tagid
+WHERE CHROM = "Sc0000211" or GT in ("1/0", "0/0", "0/1")
+GROUP BY location
 
-        
-#         zquery += " UNION "
-#     zquery = zquery[:-6]
-    
+
+"""

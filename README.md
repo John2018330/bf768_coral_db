@@ -19,6 +19,7 @@ Data page: (priority = 1)
 *  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
 *  [ ] Add that phenotypic data repeats (in a div tag)
+*  [ ] Make count and average of advanced filters a drop down menu
 
 List of CGI forms (queries):
 

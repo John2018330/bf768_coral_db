@@ -21,7 +21,7 @@
 		.download_table{
 			height:40px;
             width:100px;
-			float: right;
+			float: left;
 			margin-left: 10px;
 			background-color: #F9F9F9;
 			border: 1px solid black;
@@ -34,6 +34,10 @@
 			border: 1px solid ;
 			padding: 10px;
 			background-color: white;
+		}
+		.scroll thead th { 
+		  position: sticky;
+		  top: 0; 
 		}
         .user-input {
             border: 1px solid ;
@@ -236,6 +240,7 @@
     <div class="tabbar">
         <div class="tab" onclick="openTab(event, 'intro')">Home</div>
         <div class="tab" onclick="openTab(event, 'data')">Data</div>
+		<div class="tab" onclick="openTab(event, 'graph')">Graph</div>
         <div class="tab" onclick="openTab(event, 'media')">Media</div>
         <div class="tab" onclick="openTab(event, 'help')">Help</div>
     </div>
@@ -364,7 +369,7 @@
 
                 <!-- Advanced Data Filters -->
                 <div class="collapsible">Advanced Data Filters</div>
-                <div class="content"><br>
+                    <div class="content"><br>
                     <p> This section allows grouping of data based on either location or mortality which can be used to evaluate aggregate functions of interet.</p>
 
 					<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <select style="height: 25px; width: 80px; text-align: center;" name="alive_status">
@@ -384,10 +389,9 @@
                             <input type="checkbox" name="average" value="New"> New corals
 							
 						<br><br>
+                    </div><br>
                 </div>
-				<br>
-                </div>
-                 <br>
+                <br>
 
                 <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
                 LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
@@ -407,14 +411,14 @@
     ------------- -->
     <div id="media" class="tabcontent"><br>
         <div class="user-input">
-		<p>This tab hosts images from the BU Marine website which are taken and maintained by Dr. John Finnerty and his lab. The main website can be found here: <a href="https://bumarine.smugmug.com" target="_blank">BU Marine Programme Media Library</a></p>
+		<p>This tab hosts images from the BU Marine website which are taken and maintained by Dr. John Finnerty and his lab. The main website can be found here: <a href="https://bumarine.smugmug.com" target="_blank">BU Marine Program Media Library</a></p>
 		<p>A list of different species/organisms of corals listed below for reference and can be used to jump sections:</p>
 		<ol>
-			<li class="no-visited-style"><a href="#acropora_palmata" onclick="smoothScroll(event)">Acropora Palmata / Elkhorn Coral</a></li>	
-			<li class="no-visited-style"><a href="#diploria" onclick="smoothScroll(event)"> Diploria / Brain Corals</a></li>	
-			<li class="no-visited-style"><a href="#orbicella" onclick="smoothScroll(event)">Orbicella / Stony Coral</a></li>			
-			<li class="no-visited-style"><a href="#porites_divaricata" onclick="smoothScroll(event)">Porites Divaricata / Thin Finger Coral</a></li>
-			<li class="no-visited-style"><a href="#siderastrea" onclick="smoothScroll(event)">Siderastrea / Massive Starlet Coral</a></li>
+			<li  class="no-visited-style"><a href="#acropora_palmata" onclick="smoothScroll(event)" style= "color:black;">Acropora Palmata / Elkhorn Coral</a></li>	
+			<li  class="no-visited-style"><a href="#diploria" onclick="smoothScroll(event)" style= "color:black;"> Diploria / Brain Corals</a></li>	
+			<li class="no-visited-style"><a href="#orbicella" onclick="smoothScroll(event)" style= "color:black;">Orbicella / Stony Coral</a></li>			
+			<li class="no-visited-style"><a href="#porites_divaricata" onclick="smoothScroll(event)" style= "color:black;">Porites Divaricata / Thin Finger Coral</a></li>
+			<li  class="no-visited-style"><a href="#siderastrea" onclick="smoothScroll(event)" style= "color:black;">Siderastrea / Massive Starlet Coral</a></li>
 		<br>
 			<hr>
 		<br>
@@ -532,18 +536,27 @@
 							<img src="https://photos.smugmug.com/COURSES/Tropical-Marine-Invertebrates-/2017/December-10-Calabash-Seagrass-Patch-Reef/i-T93Brvz/0/CNGFGzkbLSk8CWHfPx3SbdqXNbFcxzV86MXM6g7Cb/X2/2017_1210_BI569_CheckoutSnorkel_Vixia_0129-X2.jpg" alt="Siderastrea is generally found in shallow parts of the western Atlantic Ocean." class="image-tooltip" data-description="Siderastrea is generally found in shallow parts of the western Atlantic Ocean.">
 						</a>
 						
-					<br><br>
-					
-					
-					
-				
-					
-					
-					
-				
+					<br><br>			
 			</div>
         </div>
     </div>
+
+	<!----
+		Graph Tab
+		--->
+
+	<div id="graph" class="tabcontent"><br>
+        <div class="user-input">
+			<p>Graphs</p>
+			<p> <input type="text" id="scaffold_graph" placeholder="Sc0000458..."> </p>
+			<p>Major or minor allele:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<select style="height: 25px; width: 80px; text-align: center;" id="major_graph">
+					<option value="A" selected>Major</option>
+					<option value="T" >Minor</option>
+				</select>
+			</p>	
+		</div>
+	</div>
 
     <!-- ---------
         HELP TAB
@@ -1261,10 +1274,6 @@
             
             // Initialize variable to store HTML table
             let table_body_contents = "";
-
-            // ????????????????? STORE QUERY RESULTS FOR DOWNLOAD ????????????????????
-            // Is this the best way to implement this? <div id="store_results">...</div>
-            //$("#store_results").append(json);
             
             // Check if VCF table get joined (table columns will depend on that)
             let join_vcf = $("#vcf").val();
@@ -1420,6 +1429,13 @@
                     }
 
                     var table_template = ` <div class="scroll"> 
+												<div class="dropdown">
+													<button class="dropbtn">Export Table</button>
+													<div class="dropdown-content">
+														<a href="#" onclick="exportTable('phenotypic_table', 'csv')">CSV</a>
+														<a href="#" onclick="exportTable('phenotypic_table', 'xlsx')">Excel</a>
+													</div>
+												</div>
                                             <table id="phenotypic_table">
                                                 <thead>
                                                     <tr>
