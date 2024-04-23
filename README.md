@@ -12,9 +12,7 @@ Graph:
 
 ## To do before presentation on 25th:
 
-Home page: (priority = 4)
-*  [ ] Need to make it prettier 
-*  [ ] Add more context on data/project
+### !!IMPORTANT!!
 
 Data page: (priority = 1)
 *  [ ] Screenshots of resultant tables post filtering
@@ -23,15 +21,7 @@ Data page: (priority = 1)
 *  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
 
-Media page: (priority = 3)
-*  [ ] Add links for different corals + different directories + whole website. (use href)
-*  [ ] Fix tooltip position issue due to scrolling
-
-Help page: (priority = 2)
-*  [ ] Need to add guide on how to use site + explanation on reset buttons.
-*  [ ] Search button?
-
-List of CGI forms (queries)
+List of CGI forms (queries):
 
 *  [ ] Get VCF individuals (from 2018) that are alive
 *  [ ] Select average length by location in 2015
@@ -39,13 +29,27 @@ List of CGI forms (queries)
 *  [ ] GRAPH QUERY: Group by location and find ecological volume
 *  [ ] GRAPH QUERY: Group by location Volume over 4 years
 *  [ ] Get counts of alive and dead by location
+*  [ ] UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
 
-UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
+### Not As Important:
+Media page:
+*  [ ] Fix href header being blue/purple
+
+Home page: (priority = 4)
+*  [ ] Add more context on data/project
+
+Help page: (priority = 2)
+*  [ ] Need to add guide on how to use site + explanation on reset buttons.
+*  [ ] Search button?
+
 
 ## Done:
 
 General:
 *  [x] Separate Introduction HTML page
+
+Home Page:
+*  [x] Need to make it prettier 
 
 Data Page:
 *  [x] Click on eg to fill in text box (javascript filling of forms).
@@ -58,6 +62,8 @@ Data Page:
 
 Media Page:
 *  [x] Need to link to external database (coral pics)
+*  [x] Add links for different corals + different directories + whole website. (use href)
+*  [x] Fix tooltip position issue due to scrolling
 
 Help Page:
 *  [x] Need to add more context for all tabs (length/width/height)
