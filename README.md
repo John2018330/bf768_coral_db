@@ -15,8 +15,6 @@ Graph:
 ### !! IMPORTANT !!
 
 Data page: (priority = 1)
-*  [ ] Screenshots of resultant tables post filtering
-*  [ ] Screenshots of graph (need to add charts, variable columns for plotting, etc)
 *  [ ] Download table data
 *  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
