@@ -4,7 +4,7 @@ import cgi
 import pymysql
 import cgitb
 import json
-import ast
+from decimal import Decimal
 from string import Template
 
 # Print content type
@@ -36,6 +36,13 @@ def execute_query(cursor, query):
         results = None
     return results
 
+def decimal_serializer(obj):
+    if isinstance(obj, Decimal):
+        return str(obj)
+    raise TypeError("Type not serializable")
+
+
+
 connection, cursor = connect_database("Team_7", "saumyapo", "saumyapo")
 
 vcf_table = ""
@@ -49,7 +56,7 @@ if form:
     year = form.getlist("year_array")
     ecological_vol = form.getvalue("eco_vol_val")
     ln_ecological_vol = form.getvalue("ln_eco_vol_val")
-    allele_freq = form.getvalue("allele_freq")
+    allele_freq = form.getvalue("allele_freq_val")
     length = form.getvalue("length_val")
     width = form.getvalue("width_val")
     height = form.getvalue("height_val")
@@ -62,83 +69,76 @@ if form:
     # Year, Location, ... (checkbox filters) come in as a string 
     # separated by colons, turn this into a python list to iterate over
     year = year[0].split(':')
+    
+    if location:
+        location = location[0].split(':')
+    
+    if mortality:
+        mortality = mortality[0].split(':')
 
 
     # Construct the SQL query based on form data
     query = "SELECT * FROM y2015 LIMIT 10"
     # tagid, location, notes, alive_status, length_cm, width_cm, height_cm, eco_volume, ln_eco_volume, volume_cylinder, tip_number, old_tag
 
-    yquery = ""
-    yquery = "SELECT tagid, location, notes, alive_status, length_cm, width_cm, height_cm, eco_volume, ln_eco_volume, volume_cylinder, tip_number, old_tag FROM id_table "
-
-    for i in year:
-        yquery += "LEFT JOIN y" + i + " on y" + i + ".tagid = id_table." + i + "_id "
-    #yquery = yquery[:-5]
-    # if len(location) > 0:
-    #     yquery += "AND "
-    #     for i in location:
-    #         yquery += "location = " + "'" + i + "'" + " OR "
-    #     yquery = yquery[:-3]
-
-
-    # if len(mortality) > 0:
-    #     yquery += "AND "
-    #     for i in mortality:
-    #         print(i)
-    #         yquery += "alive_status = " + "'" + i + "'" + " OR "
-    #         yquery = yquery[:-3]
-
-    #fakeyear = ["2016","2017"]
+    ####Shortcomings of the query - the groupby doesnt specify the alive and dead within the groupby mortality
     zquery = ""
     for i in year: 
-
+    #select statement
         zquery += "SELECT *, '" + i + "' as year FROM y" + i 
-        #if vcf = "Yes":
-            #zquery += " JOIN vcf"
+        #conditional for joining vcf
+        if vcf == "Yes":
+            zquery += " JOIN vcf on vcf.CORAL_ID = y" + i + ".tagid"
+        #sliders are always added to query
+        zquery += " WHERE eco_volume < " + str(ecological_vol) + " AND length_cm < " + str(length) +  " AND width_cm < " + str(width) + " AND height_cm < " + str(height)
+        #only uses vcf slider if vcf is yes to not create error
+        if vcf == "Yes":
+            zquery += " AND AF < " + allele_freq
         
-        if len(location) > 0 or len(mortality) > 0:
-            zquery += " WHERE "
-        
-        # if tagid != "":
-        #     zquery += "tagid = '" + tagid + "'"
-        #     if len(location) > 0 or len(mortality):
-        #         zquery += " AND "
-               
-        
-        # if scaffold > 0:
-        #     zquery += "CHROM = " + scaffold
-        #     if len(location) > 0 or len(mortality):
-        #         zquery += " AND "
+        #filters
+        #if tagid != "":
+        if tagid:
+            zquery += " AND tagid = '" + tagid + "'"
+
+        #if scaffoldid != "":
+        if scaffoldid:
+            zquery += " AND CHROM = " + scaffoldid
 
         if len(location) > 0:
-            zquery += "location in ("
-            
+            zquery += " AND location in ("
             for j in location:
                 zquery +="'" + j + "', "
-
             zquery = zquery[:-2]
             zquery += ")"
-            if len(mortality) > 0:
-                zquery += " AND "
 
         if len(mortality) > 0:
-            zquery += "alive_status in ("
+            zquery += " AND alive_status in ("
             for k in mortality:
                 zquery +="'" + k + "', "
             zquery = zquery[:-2]
             zquery += ")"
 
+        #groupby filters
         
+        # if len(groupbys) > 0:
+        #     zquery += " GROUP BY " 
+        #     for i in groupbys:
+        #         zquery += i + ", "
+        #     zquery = zquery[:-2]
+            #for i in counts:
+            #    zquery = zquery[:10] + "count(" + i + '), ' + zquery[10:]
+            #for i in averages:
+            #    zquery = zquery[:10] + "avg(" + i + '), ' + zquery[10:]
+    
         zquery += " UNION "
     zquery = zquery[:-6]
-    
 
 
     try:
         # Execute the query
         results = execute_query(cursor, zquery)
         print('')
-        print(json.dumps(results))
+        print(json.dumps(results, default=decimal_serializer))
         
     except pymysql.Error as e:
         error_message = f'<p style="color:red;">Error executing query: {e}</p>'
@@ -150,3 +150,48 @@ connection.close()
 
 # Print HTML content including query results
 print(vcf_table)
+
+
+#########old zquery that worked (less values)######
+# for i in year: 
+
+#         zquery += "SELECT *, '" + i + "' as year FROM y" + i 
+#         #if vcf = "Yes":
+#             #zquery += " JOIN vcf"
+        
+#         if len(location) > 0 or len(mortality) > 0:
+#             zquery += " WHERE "
+        
+#         # if tagid != "":
+#         #     zquery += "tagid = '" + tagid + "'"
+#         #     if len(location) > 0 or len(mortality):
+#         #         zquery += " AND "
+               
+        
+#         # if scaffold > 0:
+#         #     zquery += "CHROM = " + scaffold
+#         #     if len(location) > 0 or len(mortality):
+#         #         zquery += " AND "
+
+#         if len(location) > 0:
+#             zquery += "location in ("
+            
+#             for j in location:
+#                 zquery +="'" + j + "', "
+
+#             zquery = zquery[:-2]
+#             zquery += ")"
+#             if len(mortality) > 0:
+#                 zquery += " AND "
+
+#         if len(mortality) > 0:
+#             zquery += "alive_status in ("
+#             for k in mortality:
+#                 zquery +="'" + k + "', "
+#             zquery = zquery[:-2]
+#             zquery += ")"
+
+        
+#         zquery += " UNION "
+#     zquery = zquery[:-6]
+    

@@ -13,15 +13,27 @@
             border: 1px solid black;
             padding: 8px;
             text-align: left;
+			background-color: white;
         }
         th {
             background-color: #C68939;
         }
+		.download_table{
+			height:40px;
+            width:100px;
+			float: right;
+			margin-left: 10px;
+			background-color: #F9F9F9;
+			border: 1px solid black;
+			cursor: pointer;
+		
+		}
 		.scroll {
 			height: 400px; 
 			overflow-y: auto;
 			border: 1px solid ;
 			padding: 10px;
+			background-color: white;
 		}
         .user-input {
             border: 1px solid ;
@@ -274,8 +286,9 @@
 				
 				<br><br>
 
+                <!-- Include VCF Selection-->
                 <a href="#" onclick="openTab(event, 'help', 'help_linkingvcf')" id="vcflinking_help" class="no-visited-style">Link phenotypic data with VCF data?</a> (Choose <strong>YES</strong> if VCF Filters need to be used):&nbsp;&nbsp;
-				<select style="height: 25px; width: 80px; text-align: center;" name="vcf">
+				<select style="height: 25px; width: 80px; text-align: center;" id="vcf">
 					<option value="Yes">YES</option>
 					<option value="No" selected>NO</option>
 				</select>
@@ -306,31 +319,31 @@
 						<div class="slidecontainer">
                         <a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help" class="no-visited-style">Ecological Volume (units):</a>
 						<button id="eco_vol_reset" class="reset-button">Reset slider</button>
-						<div id="eco_vol_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="eco_vol"></div>
                         <br><br><br>
 
                         <a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help" class="no-visited-style">Natural Log of Ecological Volume (units):</a>
 						<button id="ln_eco_vol_reset" class="reset-button">Reset slider</button>
-						<div id="ln_eco_vol_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="ln_eco_vol"></div>
                         <br><br><br>
 
                         <a href="#" onclick="openTab(event, 'help', 'help_length')" id="length_help" class="no-visited-style">Length (cm):</a>
 						<button id="length_reset" class="reset-button">Reset slider</button>
-						<div id="length_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="length"></div>
                         <br><br><br>
 						
 						<a href="#" onclick="openTab(event, 'help', 'help_width')" id="width_help" class="no-visited-style">Width (cm):</a>
 						<button id="width_reset" class="reset-button">Reset slider</button>
-						<div id="width_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="width"></div>
                         <br><br><br>
 						
 						<a href="#" onclick="openTab(event, 'help', 'help_height')" id="height_help" class="no-visited-style">Height (cm):</a>
 						<button id="height_reset" class="reset-button">Reset slider</button>
-						<div id="height_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="height"></div>
                         <br><br><br>
                     </div>
@@ -343,7 +356,7 @@
                     <div class="slidecontainer">
                         <a href="#" onclick="openTab(event, 'help', 'help_allele_freq')" id="allele_freq_help" class="no-visited-style">Allele Frequency:</a>
 						<button id="allele_freq_reset" class="reset-button">Reset slider</button>
-						<div id="allele_freq_value" class="hover-value"></div><br><br><br><br>
+						<br><br><br><br>
                         <div id="allele_freq"></div><br><br><br>
                     </div>
                 </div>
@@ -353,22 +366,23 @@
                 <div class="collapsible">Advanced Data Filters</div>
                 <div class="content"><br>
                     <p> This section allows grouping of data based on either location or mortality which can be used to evaluate aggregate functions of interet.</p>
+
+					<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <select style="height: 25px; width: 80px; text-align: center;" name="alive_status">
+						<option value="Location">Location</option>
+						<option value="alive_status" >Mortality</option>
+					</select><br><br>
                     
+					<hr>
                         <p><strong>Aggregate Functions:</strong></p>
                         <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help" class="no-visited-style">Count of:</a> &nbsp;&nbsp; <input type="checkbox" name="count" value="Alive"> Alive corals
                             <input type="checkbox" name="count" value="Dead"> Dead/Missing corals
                             <input type="checkbox" name="count" value="New"> New corals
-                            <input type="checkbox" name="count" value="tip_number"> Tip Number
 							<br><br>
                         
                         <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <input type="checkbox" name="average" value="Alive"> Alive corals
                             <input type="checkbox" name="average" value="Dead"> Dead/Missing corals
                             <input type="checkbox" name="average" value="New"> New corals
-                            <input type="checkbox" name="average" value="tip_number"> Tip Number
-							<br><br>
-                        <hr>
-                        <a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <input type="checkbox" name="groupby" value="location"> Locations
-                            <input type="checkbox" name="groupby" value="alive_status"> Mortality
+							
 						<br><br>
                 </div>
 				<br>
@@ -379,12 +393,13 @@
                 LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
                 <button class = "submit_button" id="get_table_button" type="button">Submit</button><br><br>
             </div>
+			<!-- Output data table -->     <!-- DOES THIS GO HERE???????????????????-->
+		<div id="out_table"></div>
+		<div id="store_results"></div>         <!-- Random div to store results of query (for download button?)-->
         </div>
     </div>
 	
-    <!-- Output data table -->     <!-- DOES THIS GO HERE???????????????????-->
-    <div id="out_table"></div>
-    <div id="store_results"></div>         <!-- Random div to store results of query (for download button?)-->
+    
     
 
     <!-- ----------- 
@@ -806,24 +821,24 @@
 
 		// Sliders
         var ecoVolSlider = document.getElementById('eco_vol');
-		var ecoVol_field = document.getElementById('eco_vol_value');
         var lnEcoVolSlider = document.getElementById('ln_eco_vol');
-		var lnVol_field = document.getElementById('ln_eco_vol_value');
         var alleleFreqSlider = document.getElementById('allele_freq');
-		var allele_field = document.getElementById('allele_freq_value');
         var lengthSlider = document.getElementById('length');
-		var length_field = document.getElementById('length_value');
 		var widthSlider = document.getElementById('width');
-		var width_field = document.getElementById('width_value');
 		var heightSlider = document.getElementById('height');
-		var height_field = document.getElementById('height_value');
 	    var count = document.getElementById('count');
         var average = document.getElementById('average');
         var groupby = document.getElementById('groupby');
         var vcf = document.getElementById('vcf');
+		var ecoVol_field = 0;
+		var lnVol_field = 0;
+		var allele_field = 0;
+		var length_field = 0;
+		var width_field = 0;
+		var height_field = 0;
 
         noUiSlider.create(ecoVolSlider, {
-            start: [0],
+            start: [35000],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -838,12 +853,13 @@
             }
         });
 		ecoVolSlider.noUiSlider.on('update', function (values, handle) {
-			ecoVol_field.innerHTML = values[handle];
-			ecoVol_field.style.display = 'none';
+			 ecoVol_field = values[handle]; 
 		});
+
+		ecoVol_field = ecoVolSlider.noUiSlider.get();
 		
         noUiSlider.create(lnEcoVolSlider, {
-            start: [0],
+            start: [12],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -858,12 +874,13 @@
             }
         });
 		lnEcoVolSlider.noUiSlider.on('update', function (values, handle) {
-			lnVol_field.innerHTML = values[handle];
-			lnVol_field.style.display = 'none';
+			lnVol_field = values[handle];
 		});
 
+		lnVol_field = ecoVolSlider.noUiSlider.get();
+
         noUiSlider.create(alleleFreqSlider, {
-            start: [0],
+            start: [1],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -879,12 +896,13 @@
 			format: wNumb( { decimals: 2 })
         });
 		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
-			allele_field.innerHTML = values[handle];
-			allele_field.style.display = 'none';
+			allele_field = values[handle];
 		});
 
+		allele_field = ecoVolSlider.noUiSlider.get();
+
         noUiSlider.create(lengthSlider, {
-            start: [0],
+            start: [50],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -899,12 +917,13 @@
             }
         });
 		lengthSlider.noUiSlider.on('update', function (values, handle) {
-			length_field.innerHTML = values[handle];
-			length_field.style.display = 'none';
+			length_field = values[handle];
 		});
+
+		length_field = ecoVolSlider.noUiSlider.get();
 		
 		noUiSlider.create(widthSlider, {
-            start: [0],
+            start: [50],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -919,12 +938,13 @@
             }
         });
 		widthSlider.noUiSlider.on('update', function (values, handle) {
-			width_field.innerHTML = values[handle];
-			width_field.style.display = 'none';
+			width_field= values[handle];
 		});
+
+		width_field = ecoVolSlider.noUiSlider.get();
 		
 		noUiSlider.create(heightSlider, {
-            start: [0],
+            start: [25],
 			tooltips: true,
 			connect: 'lower',
 			behaviour: 'hover-snap',
@@ -939,9 +959,10 @@
             }
         });
 		heightSlider.noUiSlider.on('update', function (values, handle) {
-			height_field.innerHTML = values[handle];
-			height_field.style.display = 'none';
+			height_field = values[handle];
 		});
+
+		height_field = ecoVolSlider.noUiSlider.get();
 		
 		//Reset ALL filters button
 		document.getElementById('reset_all_filters').addEventListener('click', function() {
@@ -1176,31 +1197,36 @@
             let tagid = $("#tagid").val();
             let scaffoldid = $("#scaffold").val();
             
+            // arrays
             let year_array = [];
             $("input:checkbox[name=year]:checked").each(function() { 
                 year_array.push($(this).val()); 
             }); 
             let years = year_array.join(':');
                 
-
-
             let location_array = [];
             $("input:checkbox[name=location]:checked").each(function() { 
                 location_array.push($(this).val()); 
-            }); 
+            });
+            let locations = location_array.join(':');
             
             let mortality_array = [];
             $("input:checkbox[name=mortality]:checked").each(function() { 
                 mortality_array.push($(this).val()); 
-            }); 
+            });
+            let mortalities = mortality_array.join(':');
 
-            let length_val = $("#length_value").val();
-            let width_val = $("#width_value").val();
-            let height_val = $("#height_value").val();
-            let eco_vol_val = $("#eco_vol_value").val();
-            let ln_eco_vol_val = $("#ln_eco_vol_value").val();
-            let allele_freq = $("#allele_freq_value").val();
+            // sliders
+            let length_val = length_field;
+            let width_val = width_field;
+            let height_val = height_field;
+            let eco_vol_val = ecoVol_field;
+            let ln_eco_vol_val = lnVol_field;
+            let allele_freq_val = allele_field;
             
+            let vcf = $("#vcf").val();
+
+
 
 
             // AJAX call
@@ -1208,21 +1234,25 @@
                 {'tagid':tagid,
                     'scaffoldid':scaffoldid,
                     'year_array':years,
-                    'location':location_array,
-                    'mortality':mortality_array,
+                    'location':locations,
+                    'mortality':mortalities,
                     'eco_vol_val':eco_vol_val,
                     'ln_eco_vol_val':ln_eco_vol_val,
-                    'allele_freq':allele_freq,
+                    'allele_freq_val':allele_freq_val,
                     'length_val':length_val,
                     'width_val':width_val,
                     'height_val':height_val,
-                    'vcf':vcf
+                    'count':'',
+                    'average':'',
+                    'groupby':'',
+                    'vcf':vcf,
                 },
                 function(data){
                     create_table(data)
                 },
                 "json");
         })
+    
 
         //////////////////////////////////////
         // Create table from returned query //
@@ -1236,67 +1266,194 @@
             // Is this the best way to implement this? <div id="store_results">...</div>
             //$("#store_results").append(json);
             
-            // ???????????? NEEDS MAJOR WORK?????????????????
-            // When am I supposed to include VCF column?
-            for (let row= 0; row<json.length; row++) {
+            // Check if VCF table get joined (table columns will depend on that)
+            let join_vcf = $("#vcf").val();
 
-                let tagid = json[row][0];
-                let loc = json[row][1];
-                let notes = json[row][2];
-                let alive_status = json[row][3];
-                let length_cm = json[row][4];
-                let width_cm = json[row][5];
-                let height_cm = json[row][6];
-                let eco_volume = json[row][7];
-                let ln_eco_volume = json[row][8];
-                let volume_cylinder = json[row][9];
-                let tip_number = json[row][10];
-                let old_tag = json[row][11];
-                let year = json[row][12];
-                
-                table_body_contents +=  `<tr>
-                                            <td>${tagid}</td>
-                                            <td>${loc}</td>
-                                            <td>${notes}</td>
-                                            <td>${alive_status}</td>
-                                            <td>${length_cm}</td>
-                                            <td>${width_cm}</td>
-                                            <td>${height_cm}</td>
-                                            <td>${eco_volume}</td>
-                                            <td>${ln_eco_volume}</td>
-                                            <td>${volume_cylinder}</td>
-                                            <td>${tip_number}</td>
-                                            <td>${old_tag}</td>
-                                            <td>${year}</td>
-                                        </tr>`;
-            }
+            // Join VCF
+            if (join_vcf == "Yes") {
 
-                var table_template = ` <div class="scroll"> 
-										<table>
-                                            <thead>
-                                                <tr>
-                                                    <th>Tag ID</th>
-                                                    <th>Location</th>
-                                                    <th>Notes</th>
-                                                    <th>Alive Status</th>
-                                                    <th>Length (cm)</th>
-                                                    <th>Width (cm)</th>
-                                                    <th>Height (cm)</th>
-                                                    <th>Ecological Volume</th>
-                                                    <th>ln(Ecological Volume)</th>
-                                                    <th>Volume Cylinder</th>
-                                                    <th>Tip Number</th>
-                                                    <th>Old Tag</th>
-                                                    <th>Year</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                ${table_body_contents}
-                                            </tbody>
-                                        </table>
-										</div>`;
+                for (let row = 0; row<json.length; row++) {
+                    
+                    let tagid = json[row][0];
+                    let loc = json[row][1];
+                    let notes = json[row][2];
+                    let alive_status = json[row][3];
+                    let length_cm = json[row][4];
+                    let width_cm = json[row][5];
+                    let height_cm = json[row][6];
+                    let eco_volume = json[row][7];
+                    let ln_eco_volume = json[row][8];
+                    let volume_cylinder = json[row][9];
+                    let tip_number = json[row][10];
+                    let old_tag = json[row][11];
+                    let CORAL_ID = json[row][12];
+                    let BAM_ID = json[row][13];
+                    let CHROM = json[row][14];
+                    let POS = json[row][15];
+                    let ID = json[row][16];
+                    let REF = json[row][17];
+                    let ALT = json[row][18];
+                    let QUAL = json[row][19];
+                    let FILTER = json[row][20];
+                    let NS = json[row][21];
+                    let INFO_DP = json[row][22];
+                    let AF = json[row][23];
+                    let GT = json[row][24];
+                    let FORMAT_DP = json[row][25];
+                    let GL = json[row][26];
+                    let PL = json[row][27];
+                    let GP = json[row][28];
+                    let year = json[row][29];
+
+                    table_body_contents +=  `<tr>
+                                                <td>${year}</td>
+                                                <td>${tagid}</td>
+                                                <td>${old_tag}</td>
+                                                <td>${loc}</td>
+                                                <td>${notes}</td>
+                                                <td>${alive_status}</td>
+                                                <td>${length_cm}</td>
+                                                <td>${width_cm}</td>
+                                                <td>${height_cm}</td>
+                                                <td>${eco_volume}</td>
+                                                <td>${ln_eco_volume}</td>
+                                                <td>${volume_cylinder}</td>
+                                                <td>${tip_number}</td>
+                                                <td>${BAM_ID}</td>
+                                                <td>${CHROM}</td>
+                                                <td>${POS}</td>
+                                                <td>${REF}</td>
+                                                <td>${ALT}</td>
+                                                <td>${QUAL}</td>
+                                                <td>${FILTER}</td>
+                                                <td>${NS}</td>
+                                                <td>${INFO_DP}</td>
+                                                <td>${AF}</td>
+                                                <td>${GT}</td>
+                                                <td>${FORMAT_DP}</td>
+                                                <td>${GL}</td>
+                                                <td>${PL}</td>
+                                                <td>${GP}</td>
+                                            </tr>`;
+                } 
+
+                var table_template = ` <div class="scroll"><button class="download_table"> Download Table </button> 
+                                            <table id="vcf_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Year</th>
+                                                        <th>Tag ID</th>
+                                                        <th>Old Tag</th>
+                                                        <th>Location</th>
+                                                        <th>Notes</th>
+                                                        <th>Alive Status</th>
+                                                        <th>Length (cm)</th>
+                                                        <th>Width (cm)</th>
+                                                        <th>Height (cm)</th>
+                                                        <th>Eco Volume</th>
+                                                        <th>ln (eco_volume)</th>
+                                                        <th>Volume Cylinder</th>
+                                                        <th>Tip_number</th>
+                                                        <th>Bam ID</th>
+                                                        <th>Scaffold</th>
+                                                        <th>Position</th>
+                                                        <th>Reference</th>
+                                                        <th>Alternate</th>
+                                                        <th>Quality</th>
+                                                        <th>Filter</th>
+                                                        <th>NS</th>
+                                                        <th>INFO DP</th>
+                                                        <th>AF</th>
+                                                        <th>GT</th>
+                                                        <th>FORMAT_DP</th>
+                                                        <th>GL</th>
+                                                        <th>PL</th>
+                                                        <th>GP</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${table_body_contents}
+                                                </tbody>
+                                            </table>
+                                            </div>`;
+
 
                 $("#out_table").append(table_template);
+                
+            
+
+
+            // No VCF join
+            } else if (join_vcf == "No") {
+
+                for (let row= 0; row<json.length; row++) {
+
+                    let tagid = json[row][0];
+                    let loc = json[row][1];
+                    let notes = json[row][2];
+                    let alive_status = json[row][3];
+                    let length_cm = json[row][4];
+                    let width_cm = json[row][5];
+                    let height_cm = json[row][6];
+                    let eco_volume = json[row][7];
+                    let ln_eco_volume = json[row][8];
+                    let volume_cylinder = json[row][9];
+                    let tip_number = json[row][10];
+                    let old_tag = json[row][11];
+                    let year = json[row][12];
+
+                    table_body_contents +=  `<tr>
+                                                <td>${year}</td>
+                                                <td>${tagid}</td>
+                                                <td>${old_tag}</td>
+                                                <td>${loc}</td>
+                                                <td>${notes}</td>
+                                                <td>${alive_status}</td>
+                                                <td>${length_cm}</td>
+                                                <td>${width_cm}</td>
+                                                <td>${height_cm}</td>
+                                                <td>${eco_volume}</td>
+                                                <td>${ln_eco_volume}</td>
+                                                <td>${volume_cylinder}</td>
+                                                <td>${tip_number}</td>
+                                            </tr>`;
+                    }
+
+                    var table_template = ` <div class="scroll"> 
+                                            <table id="phenotypic_table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Year</th>
+                                                        <th>Tag ID</th>
+                                                        <th>Old Tag</th>
+                                                        <th>Location</th>
+                                                        <th>Notes</th>
+                                                        <th>Alive Status</th>
+                                                        <th>Length (cm)</th>
+                                                        <th>Width (cm)</th>
+                                                        <th>Height (cm)</th>
+                                                        <th>Ecological Volume</th>
+                                                        <th>ln(Ecological Volume)</th>
+                                                        <th>Volume Cylinder</th>
+                                                        <th>Tip Number</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    ${table_body_contents}
+                                                </tbody>
+                                            </table>
+                                            </div>`;
+
+                    $("#out_table").append(table_template);
+
+            // This else doesn't really do anything
+            } else {
+                console.log('Error in Join VCF')
+            }
+
+
+
+            
         }
 
 

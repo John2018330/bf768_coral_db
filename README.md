@@ -18,6 +18,7 @@ Data page: (priority = 1)
 *  [ ] Download table data
 *  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
+*  [ ] Add that phenotypic data repeats (in a div tag)
 
 List of CGI forms (queries):
 
