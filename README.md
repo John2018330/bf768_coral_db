@@ -15,11 +15,9 @@ Graph:
 ### !! IMPORTANT !!
 
 Data page: (priority = 1)
-*  [ ] Download table data (Saumya)
-*  [ ] Google charts (download image) (Saumya)
+*  [ ] Download table data
+*  [ ] Google charts (download image)
 *  [ ] Ajax for textbox? (Suggestions based on ID/Scaffold entered?)
-*  [ ] Add more charts (Zach)
-*  [ ] Get group by working (John)
 
 List of CGI forms (queries):
 
@@ -28,13 +26,19 @@ List of CGI forms (queries):
 *  [ ] GRAPH QUERY: get SNP's counts by location 
 *  [ ] GRAPH QUERY: Group by location and find ecological volume
 *  [ ] GRAPH QUERY: Group by location Volume over 4 years
-*  [ ] Get counts of alive and dead by location
+*  [ ] Get counts of alive and dead by  location
 *  [ ] UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
 
 ### Not As Important:
+Media page:
+*  [ ] Fix href header being blue/purple
+
+Home page: (priority = 4)
+*  [ ] Add more context on data/project
 
 Help page: (priority = 2)
 *  [ ] Need to add guide on how to use site + explanation on reset buttons.
+*  [ ] Search button?
 *  [ ] Add that phenotypic data repeats (in a div tag)
 
 ## Done:
@@ -43,8 +47,7 @@ General:
 *  [x] Separate Introduction HTML page
 
 Home Page:
-*  [x] Need to make it prettier
-*  [x] Add more context on data/project
+*  [x] Need to make it prettier 
 
 Data Page:
 *  [x] Click on eg to fill in text box (javascript filling of forms).
@@ -60,13 +63,11 @@ Media Page:
 *  [x] Need to link to external database (coral pics)
 *  [x] Add links for different corals + different directories + whole website. (use href)
 *  [x] Fix tooltip position issue due to scrolling
-*  [x] Fix href header being blue/purple
 
 Help Page:
 *  [x] Need to add more context for all tabs (length/width/height)
 *  [x] Links from your HTML forms explaining what the page does
 *  [x] Add the format of input (Note: exact format not needed. Add links to help page and maybe images of the slider being used).
-*  [x] Search button?
 
 UI to implement for phenotypic data:
 'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
@@ -87,7 +88,3 @@ UI to implement for VCF:
 
 ## John To Do
 - [ ] Dropdown Menu for scaffold
-
-
-
-
