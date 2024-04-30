@@ -113,7 +113,7 @@ if form:
             error_message = f'<p style="color:red;">Error executing query: {e}</p>'
 
 
-
+    
     else:
         ####Shortcomings of the query - the groupby doesnt specify the alive and dead within the groupby mortality
         zquery = ""
@@ -190,7 +190,7 @@ connection.close()
 # print(vcf_table)
 
 
-###avg volume by year and location could select the specific location instead of having it all in once
+###avg volume by year and (location) could select the specific location instead of having it all in once
 #line graph?
 """
 SELECT avg(eco_volume), year, location
@@ -210,53 +210,26 @@ From y2018
 group by year,location
 """
 
-#sample queries that show counts of variants by location
-#bar chart
-# user would select scaffold and Ref or alt 
 """
-
-SELECT count(GT), location 
-FROM vcf join y2018 on vcf.CORAL_id = y2018.tagid
-WHERE CHROM = "Sc0000211" AND GT = "1/1"
-GROUP BY location
+# If form is for graph
+    line_query = ""
+    line_query += "SELECT avg(" + size_select + "), year, location FROM(SELECT *, 2015 as year From y2015 UNION SELECT *, 2016 as year From y2016 UNION SELECT *, 2017 as year From y2017 UNION SELECT *, 2018 as year From y2018) as y group by year,location"
 
 
-SELECT count(GT), location 
-FROM vcf join y2018 on vcf.CORAL_id = y2018.tagid
-WHERE CHROM = "Sc0000211" or GT in ("1/0", "0/0", "0/1")
-GROUP BY location
 
+        try:
+            # Execute the query
+            results = execute_query(cursor, line_query)
+            print('')
 
+            
+            plot_data = [list(item) for item in results]
+            y_axis = 'Number of ' + str(geno_graph) + ' Individuals'
+            plot_data.insert(0,['Location',y_axis])
+            plot_data_tuple = tuple(plot_data)
+
+            print(json.dumps(plot_data_tuple))
+            
+        except pymysql.Error as e:
+            error_message = f'<p style="color:red;">Error executing query: {e}</p>'
 """
-#scaffold_graph = "SC0000123"
-#genotype = "Major"
-
-# bar_query = ""
-# if scaffold_graph:
-#     bar_query += "SELECT location, count(GT) FROM vcf join y2018 on vcf.CORAL_id = y2018.tagid WHERE CHROM = '" + scaffold_graph + "' AND GT "
-#     if geno_graph == "Homozygous Alt":
-#         bar_query += "= '1/1' "
-#     if geno_graph == "Homozygous Ref":
-#         bar_query += "= '1/1' "
-#     if geno_graph == "Heterozygous":
-#         bar_query += "= '0/1' "
-    
-#     bar_query += " GROUP BY location"
-
-
-#     try:
-#         # Execute the query
-#         results = execute_query(cursor, bar_query)
-#         print('')
-
-        
-#         plot_data = [list(item) for item in results]
-#         y_axis = 'Number of ' + geno_graph + ' Individuals'
-#         plot_data.insert(0,['Location',y_axis])
-#         plot_data_tuple = tuple(plot_data)
-
-#         print(json.dumps(plot_data_tuple))
-        
-#     except pymysql.Error as e:
-#         error_message = f'<p style="color:red;">Error executing query: {e}</p>'
-
