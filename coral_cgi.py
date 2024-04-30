@@ -65,9 +65,12 @@ if form:
     groupbys = form.getvalue("groupby")
     vcf = form.getvalue("vcf")
     
-    # For graphs
+    # For genotype distribution graphs
     scaffold_graph = form.getvalue("scaffold_graph")
     geno_graph = form.getvalue("geno_graph")
+
+    # For line graph
+    line_tagid = form.getvalue("line_tagid")
 
     # Data Modifications
     # Year, Location, ... (checkbox filters) come in as a string 
@@ -105,6 +108,26 @@ if form:
             plot_data = [list(item) for item in results]
             y_axis = 'Number of ' + str(geno_graph) + ' Individuals'
             plot_data.insert(0,['Location',y_axis])
+            plot_data_tuple = tuple(plot_data)
+
+            print(json.dumps(plot_data_tuple))
+            
+        except pymysql.Error as e:
+            error_message = f'<p style="color:red;">Error executing query: {e}</p>'
+
+    ##line graph 
+    elif line_tagid:
+        line_query = ""
+        line_query = 'SELECT year, eco_volume FROM (SELECT *, 2015 as year From y2015 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2016 as year From y2016 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2017 as year From y2017 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2018 as year From y2018 WHERE tagid = "' + str(line_tagid) + '") as y group by year'
+
+        try:
+            # Execute the query
+            results = execute_query(cursor, line_query)
+            print('')
+
+            
+            plot_data = [list(item) for item in results]
+            plot_data.insert(0,['Volume of coral','Year'])
             plot_data_tuple = tuple(plot_data)
 
             print(json.dumps(plot_data_tuple))
@@ -192,29 +215,34 @@ connection.close()
 
 ###avg volume by year and (location) could select the specific location instead of having it all in once
 #line graph?
+
+
 """
-SELECT avg(eco_volume), year, location
+SELECT avg(eco_volume), year
 FROM(
 SELECT *, 2015 as year
 From y2015 
+WHERE tagid = line_tagid
 UNION
 SELECT *, 2016 as year
 From y2016 
+WHERE tagid = line_tagid
 UNION
 SELECT *, 2017 as year
 From y2017
+WHERE tagid = line_tagid
 UNION
 SELECT *, 2018 as year
 From y2018
+WHERE tagid = line_tagid
 ) as y
-group by year,location
+group by year
 """
 
 """
 # If form is for graph
     line_query = ""
-    line_query += "SELECT avg(" + size_select + "), year, location FROM(SELECT *, 2015 as year From y2015 UNION SELECT *, 2016 as year From y2016 UNION SELECT *, 2017 as year From y2017 UNION SELECT *, 2018 as year From y2018) as y group by year,location"
-
+    line_query = 'SELECT eco_volume, year FROM (SELECT *, 2015 as year From y2015 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2016 as year From y2016 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2017 as year From y2017 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2018 as year From y2018 WHERE tagid = "' + str(line_tagid) + '") as y group by year'
 
 
         try:
@@ -224,12 +252,12 @@ group by year,location
 
             
             plot_data = [list(item) for item in results]
-            y_axis = 'Number of ' + str(geno_graph) + ' Individuals'
-            plot_data.insert(0,['Location',y_axis])
+            plot_data.insert(0,['Volume of coral','Year'])
             plot_data_tuple = tuple(plot_data)
 
             print(json.dumps(plot_data_tuple))
             
         except pymysql.Error as e:
             error_message = f'<p style="color:red;">Error executing query: {e}</p>'
+
 """

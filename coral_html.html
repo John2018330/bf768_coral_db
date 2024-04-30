@@ -18,7 +18,7 @@
         th {
             background-color: #b1c5bc;
         }
-		.download_table{
+		.download_table{ 
 			height:40px;
             width:100px;
 			float: left;
@@ -238,7 +238,7 @@
     <div class="tabbar">
         <div class="tab" onclick="openTab(event, 'intro')">Home</div>
         <div class="tab" onclick="openTab(event, 'data')">Data</div>
-		<div class="tab" onclick="openTab(event, 'graph')">Graph</div>
+		<div class="tab" onclick="openTab(event, 'graph')">Graphs</div>
         <div class="tab" onclick="openTab(event, 'media')">Media</div>
         <div class="tab" onclick="openTab(event, 'help')">Help</div>
     </div>
@@ -380,7 +380,7 @@
                         <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help" class="no-visited-style">Get number of indviduals based on group by:</a> &nbsp;&nbsp; 
 						<input type="radio" name="count" value="Yes">
 						<label for="count1">Yes</label>
-						<input type="radio" name="count" value="No">
+						<input type="radio" name="count" value="No" checked>
 						<label for="count2">No</label>
 						<br><br>
                         
@@ -543,13 +543,17 @@
         </div>
     </div>
 
-	<!----
+	<!-- ------------
 		Graph Tab
-		--->
+	------------- -->
 
 	<div id="graph" class="tabcontent"><br>
+        <!-- Genotype Distribution Graph-->
         <div class="user-input"><br>
-		
+			<div class="collapsible">Bar Grap</div>
+            <div class="content"><br>
+            <!-- TODO: Add header for "get genotype distribution" plot-->
+            <!-- TODO: Add description -->
 			<a href="#" onclick="openTab(event, 'help', 'help_scaffoldid')" id="scaffold_help" class="no-visited-style">Input Scaffold ID:</a>&nbsp;&nbsp;&nbsp;
 			<input type="text" id="scaffold_graph" placeholder="Sc0000458...">
 			<span class="example-text">(Example Scaffold IDs: 
@@ -564,13 +568,38 @@
 					<option value="Homozygous Alt">Homozygous Alt</option>
                     <option value="Heterozygous">Heterozygous</option>
 				</select>
-			</p>	
-			<p>
-				<button style=" height:40px; width:100px; border-radius: 25px; cursor: pointer; background-color: white;" id="get_graph_button" type="button">Get Graph</button><br><br>
 			</p>
+			<p>
+				<button style=" height:40px; width:75px; border-radius: 25px; cursor: pointer; background-color: white;" id="get_geno_graph_button" type="button">Plot</button><br><br>
+			</p>
+            <div id='geno_dist_plot'></div>
+			<br>
 		</div>
-        <div id='graph1'></div>
-	</div>
+		<br>
+	
+        <!-- Line Graph -->
+        <!-- 
+            Input: TagID
+            Query output: eco volume
+            Graph: line graph of eco volume across 4 years
+        -->
+			<div class="collapsible">Line Graph</div>
+            <div class="content"> <br>
+            <!-- TODO: Add header description -->
+			<a href="#" onclick="openTab(event, 'help', 'help_tagid')" id="tagid_help" class="no-visited-style">Input Tag ID:</a>&nbsp;&nbsp;&nbsp;
+            <input type="text" id="line_graph_tagID_input" placeholder="121...">
+            <span class="example-text">(Example Tag IDs: 
+				<span class="example-values" onclick="fillInput('line_graph_tagID_input', '121')">121</span>, 
+				<span class="example-values" onclick="fillInput('line_graph_tagID_input', '170')">170</span>)
+            </span>
+            <p>
+				<button style=" height:40px; width:75px; border-radius: 25px; cursor: pointer; background-color: white;" id="get_line_graph_button" type="button">Plot</button><br><br>
+			</p>
+            <div id="line_graph"></div>
+			<br>
+        </div>
+	</div> 
+</div>
 
     <!-- ---------
         HELP TAB
@@ -973,9 +1002,9 @@
             pips: {
                 mode: 'values',
                 values: [0, 0.25, 0.5, 0.75, 1],
-                density: 4
+                density: 4,
+				format: wNumb({ decimals: 2 })
             },
-			format: wNumb( { decimals: 2 })
         });
 		alleleFreqSlider.noUiSlider.on('update', function (values, handle) {
 			allele_field = values[handle];
@@ -1092,20 +1121,14 @@
 			// Reset Allele Frequency slider
 			document.getElementById('allele_freq').noUiSlider.reset();
 
-			// Reset Count checkboxes
-			document.querySelectorAll('input[name="count"]').forEach(function(checkbox) {
-				checkbox.checked = false; 
-			});
+			// Reset Count radio button
+			document.querySelector('select[name="count"]').value = 'No';
 
-			// Reset Average checkboxes
-			document.querySelectorAll('input[name="average"]').forEach(function(checkbox) {
-				checkbox.checked = false; 
-			});
+			// Reset Average dropdown
+			document.querySelector('select[name="average"]').value = 'Length of polyp';
 
-			// Reset Group by checkboxes
-			document.querySelectorAll('input[name="groupby"]').forEach(function(checkbox) {
-				checkbox.checked = false; 
-			});
+			// Reset Group by dropdown
+			document.querySelector('select[name="groupby"]').value = 'Location';
 		});
 		
 		// Reset buttons for all sliders
@@ -1530,15 +1553,15 @@
 
 
 
-        // AJAX call for graph query 
+        // AJAX call for genotype graph query 
         // scaffoldid, major/minor allele
-        $("#get_graph_button").click(function(){
+        $("#get_geno_graph_button").click(function(){
             // Empty graph div ?????????????//fILL IN RIGHT DIV!!!!!!!!!!!!!!!!!!!!!!!!
-            $("#graph1").empty();
+            $("#geno_dist_plot").empty();
             
             let scaffold_graph = $("#scaffold_graph").val();
             let geno_graph = $("#geno_graph").val();
-            console.log(geno_graph);
+            //console.log(geno_graph);
 
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'scaffold_graph':scaffold_graph,
@@ -1554,10 +1577,10 @@
         function create_vcf_barchart(json) {
             
             // Convert JSON to google charts data
-            var dataTable = google.visualization.arrayToDataTable(json);
+            let dataTable = google.visualization.arrayToDataTable(json);
             
             // Plot Options
-            var options = {
+            let options = {
                         title: `Count of Allele by location`,
                         legend: { position: 'none' }
                         //width
@@ -1565,21 +1588,39 @@
                     };
             
             // Get div by id to put graph in 
-            var chart = new google.visualization.BarChart(document.getElementById("graph1"));
+            let chart = new google.visualization.BarChart(document.getElementById("geno_dist_plot"));
             chart.draw(dataTable, options);
         }
 
-        
-        // AJAX call for growth graph
-        function create_linechart(json) {
-			var dataTable = google.visualization.arrayToDataTable(json);
-			var options = {
-				title: ` Average Coral Size by Location`,
-				legend: { position: 'bottom' }
-			};
-			var chart = new google.visualization.BarChart(document.getElementById("graph2"));
-            chart.draw(dataTable, options);
+        // AJAX call for line graph query 
+        // input: tagID
+        $("#get_line_graph_button").click(function(){
+            
+            $("#line_graph").empty();
+            
+            let tagid = $("#line_graph_tagID_input").val();
 
+            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
+                {'line_tagid':tagid},
+                function(data){
+                    create_linechart(data)
+                },
+                "json");
+        })
+
+        // Function for creating line graph
+        function create_linechart(json) {
+			let dataTable = google.visualization.arrayToDataTable(json);
+            
+            let tagid = $("#line_graph_tagID_input").val();
+            
+			let options = {
+				title: ` Ecological Volume of ${tagid} over recorded years`,
+				legend: { position: 'bottom' },
+                hAxis: {format: '0'}
+			};
+			let chart = new google.visualization.LineChart(document.getElementById("line_graph"));
+            chart.draw(dataTable, options);
 		}
 
     </script>
