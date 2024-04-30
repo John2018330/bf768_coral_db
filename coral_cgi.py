@@ -102,7 +102,7 @@ if form:
         try:
             # Execute the query
             results = execute_query(cursor, bar_query)
-            print('')
+            #print('')
 
             
             plot_data = [list(item) for item in results]
@@ -118,12 +118,15 @@ if form:
     ##line graph 
     elif line_tagid:
         line_query = ""
-        line_query = 'SELECT year, eco_volume FROM (SELECT *, 2015 as year From y2015 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2016 as year From y2016 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2017 as year From y2017 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2018 as year From y2018 WHERE tagid = "' + str(line_tagid) + '") as y group by year'
+        line_query = 'SELECT year, eco_volume FROM (SELECT *, 2015 as year From y2015 WHERE tagid = %s UNION SELECT *, 2016 as year From y2016 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2017 as year From y2017 WHERE tagid = "' + str(line_tagid) + '" UNION SELECT *, 2018 as year From y2018 WHERE tagid = "' + str(line_tagid) + '") as y group by year'
 
         try:
             # Execute the query
-            results = execute_query(cursor, line_query)
-            print('')
+            cursor.execute(line_query,[line_tagid])
+                    
+                    
+            results = cursor.fetchall()
+            #print('')
 
             
             plot_data = [list(item) for item in results]
@@ -142,28 +145,33 @@ if form:
         zquery = ""
         for i in year: 
         #select statement
-            zquery += "SELECT *, '" + i + "' as year FROM y" + i 
-            
+            zquery += "SELECT *, " 
+            if groupbys != "None":
+                if counts == "Yes":
+                    zquery += " count(" + groupbys + '), '
+                if averages != "None":
+                    zquery += "avg(" + averages + '), ' 
+            zquery += "'" + i + "' as year FROM y" + i 
             #conditional for joining vcf
             if vcf == "Yes":
                 zquery += " JOIN vcf on vcf.CORAL_ID = y" + i + ".tagid"
-            
+
             #sliders are always added to query
-            zquery += " WHERE eco_volume < " + str(ecological_vol) + " AND length_cm < " + str(length) +  " AND width_cm < " + str(width) + " AND height_cm < " + str(height)
+            zquery += " WHERE (eco_volume < " + str(ecological_vol) + " OR eco_volume is NULL) AND (length_cm < " + str(length) +  " OR length_cm is NULL) AND (width_cm < " + str(width) + " OR width_cm is NULL) AND (height_cm < " + str(height) + " OR height_cm is NULL)"
 
 
             #only uses vcf slider if vcf is yes to not create error
             if vcf == "Yes":
                 zquery += " AND AF < " + allele_freq
-            
+
             #filters
             #if tagid != "":
             if tagid:
-                zquery += " AND tagid = '" + tagid + "'"
+                zquery += " AND tagid = %s"
 
             #if scaffoldid != "":
             if scaffoldid:
-                zquery += " AND CHROM = " + scaffoldid
+                zquery += " AND CHROM = %s"
 
             if len(location) > 0:
                 zquery += " AND location in ("
@@ -180,24 +188,38 @@ if form:
                 zquery += ")"
 
             #groupby filters
-            
-            # if len(groupbys) > 0:
-            #     zquery += " GROUP BY " 
-            #     for i in groupbys:
-            #         zquery += i + ", "
-            #     zquery = zquery[:-2]
-                #for i in counts:
-                #    zquery = zquery[:10] + "count(" + i + '), ' + zquery[10:]
-                #for i in averages:
-                #    zquery = zquery[:10] + "avg(" + i + '), ' + zquery[10:]
-        
+
+            if groupbys != "None":
+                zquery += " GROUP BY " + groupbys
+
+
             zquery += " UNION "
         zquery = zquery[:-6]
 
 
+
+
+
         try:
             # Execute the query
-            results = execute_query(cursor, zquery)
+            #results = execute_query(cursor, zquery)
+            
+            if tagid and scaffoldid:
+                tslist = []
+                for i in range(len(year)):
+                    tslist.append(tagid)
+                    tslist.append(scaffoldid)
+                cursor.execute(zquery,tslist)
+            else:
+                if tagid:
+                    cursor.execute(zquery,[tagid for i in range(len(year))])
+                elif scaffoldid:
+                    cursor.execute(zquery,[scaffoldid for i in range(len(year))])
+                else:
+                    cursor.execute(zquery)
+                    
+                    
+            results = cursor.fetchall()
             print('')
             print(json.dumps(results, default=decimal_serializer))
             

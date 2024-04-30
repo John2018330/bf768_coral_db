@@ -16,9 +16,8 @@ Graph:
 
 Data page:
 *  [ ] Download table data (Saumya)
-*  [ ] Google charts (Add line chart) (Zach)
 *  [ ] Group by working (John)
-*  [ ] Throw an error if no year is selected (Zach)
+*  [ ] Throw an error if no year is selected + if both tagid and scaffold ids have values (Zach)
 
 List of CGI forms (queries):
 
@@ -54,6 +53,7 @@ Data Page:
 *  [x] Link to vcf checkbox (True/False?)
 *  [x] Make count and average of advanced filters a drop down menu
 *  [x] Fix allele frequency slider (Saumya)
+*  [x] Google charts (Add line chart)
 
 Media Page:
 *  [x] Need to link to external database (coral pics)

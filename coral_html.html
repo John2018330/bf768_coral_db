@@ -276,10 +276,7 @@
 						<span class="example-values" onclick="fillInput('tagid', '103')">103</span>, 
 						<span class="example-values" onclick="fillInput('tagid', '106')">106</span>
 					)</span>
-
-				
-                <p style="font-size:17px;text-align: left;"><strong>OR</strong></p>
-				
+				<br><br>
                 <a href="#" onclick="openTab(event, 'help', 'help_scaffoldid')" id="scaffold_help" class="no-visited-style">Input Scaffold ID:</a>&nbsp;&nbsp;
 				<input type="text" id="scaffold" placeholder="Sc0000458...">
 				<span class="example-text">(Example Scaffold IDs: 
@@ -295,7 +292,19 @@
 					<option value="Yes">YES</option>
 					<option value="No" selected>NO</option>
 				</select>
+				
 				<br><br>
+
+				<span> Sort the resultant table by: &nbsp;&nbsp;
+											<select style="height: 25px; width: 80px; text-align: center;" id="sort_by">
+												<option value="Year" selected>Year</option>
+												<option value="Location">Location</option>
+												<option value="tagid">Tag ID</option>
+											</select>
+				</span>	
+
+				<br><br>
+				
                 <!-- Phenotypic Data Filters  -->
                 <div class="collapsible">Phenotypic Data Filters</div>
                 <div class="content">
@@ -367,10 +376,11 @@
 
                 <!-- Advanced Data Filters -->
                 <div class="collapsible">Advanced Data Filters</div>
-                    <div class="content"><br>
+					<div class="content"><br>
                     <p> This section allows grouping of data based on either location or mortality which can be used to evaluate aggregate functions of interet.</p>
 
-					<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <select style="height: 25px; width: 80px; text-align: center;" name="alive_status">
+					<a href="#" onclick="openTab(event, 'help', 'help_groupby')" id="groupby_help" class="no-visited-style"><strong>Group by:</strong></a> &nbsp;&nbsp; <select style="height: 25px; width: 80px; text-align: center;" id="groupby">
+						<option value="None" selected>None </option>
 						<option value="Location">Location</option>
 						<option value="alive_status">Mortality</option>
 					</select><br><br>
@@ -378,16 +388,18 @@
 					<hr>
                         <p><strong>Aggregate Functions:</strong></p>
                         <a href="#" onclick="openTab(event, 'help', 'help_count')" id="count_help" class="no-visited-style">Get number of indviduals based on group by:</a> &nbsp;&nbsp; 
-						<input type="radio" name="count" value="Yes">
+						<input type="radio" id = "count1" name="count" value="Yes">
 						<label for="count1">Yes</label>
-						<input type="radio" name="count" value="No" checked>
+						<input type="radio" id = "count2" name="count" value="No" checked>
 						<label for="count2">No</label>
 						<br><br>
                         
-                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <select style="height: 25px; width: 150px; text-align: center;" name="average">
-						<option value="Length(cm)">Length of polyp</option>
-						<option value="Width(cm)">Width of polyp</option>
-						<option value="Height(cm)">Height of polyp</option>
+                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <select style="height: 25px; width: 150px; text-align: center;" id="average">
+                            <option value="None" selected>None </option>
+                            <option value="length_cm">Length of polyp</option>
+						    <option value="width_cm">Width of polyp</option>
+						    <option value="height_cm">Height of polyp</option>
+                            <option value="eco_volume">Ecological Volume of polyp</option>
 						</select>	
 						<br><br>
 
@@ -836,6 +848,9 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/wnumb/1.2.0/wNumb.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/shim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery-tableexport@1.0.1/dist/tableExport.min.js"></script>
 
     <!-- Main -->
     <script>
@@ -1084,7 +1099,10 @@
 			document.getElementById('scaffold').value = '';
 
 			// Reset VCF linking dropdown
-			document.querySelector('select[name="vcf"]').value = 'No';
+			document.getElementById("vcf").value = 'No';
+
+			// Reset for sort by dropdown
+			document.getElementById("sort_by").value = 'Year';
 
 			// Reset Year checkboxes
 			document.querySelectorAll('input[name="year"]').forEach(function(checkbox) {
@@ -1122,13 +1140,19 @@
 			document.getElementById('allele_freq').noUiSlider.reset();
 
 			// Reset Count radio button
-			document.querySelector('select[name="count"]').value = 'No';
+			["count1"].forEach(function(id) {
+				document.getElementById(id).checked = false;
+			  });
+			["count2"].forEach(function(id) {
+				document.getElementById(id).checked = true;
+			  }); 
 
 			// Reset Average dropdown
-			document.querySelector('select[name="average"]').value = 'Length of polyp';
+			document.getElementById("average").value = 'None';
 
 			// Reset Group by dropdown
-			document.querySelector('select[name="groupby"]').value = 'Location';
+			document.getElementById("groupby").value = 'None';
+			
 		});
 		
 		// Reset buttons for all sliders
@@ -1190,6 +1214,32 @@
 			// Reset Allele Frequency slider
 			document.getElementById('allele_freq').noUiSlider.reset();
 		});
+
+		function exportTable(table) {
+			let csv_data = [];
+ 
+			// Get each row data
+			let rows = table('tr');
+			for (let i = 0; i < rows.length; i++) {
+		
+				// Get each column data
+				let cols = rows[i].querySelectorAll('td,th');
+		
+				// Stores each csv row data
+				let csvrow = [];
+				for (let j = 0; j < cols.length; j++) {
+		
+					// Get the text data of each cell of
+					// a row and push it to csvrow
+					csvrow.push(cols[j].innerHTML);
+				}
+		
+				// Combine each column value with comma
+				csv_data.push(csvrow.join(","));
+			}
+			// Combine each row data with new line character
+			csv_data = csv_data.join('\n');
+		}
 		
 		
 		///////////////////
@@ -1332,28 +1382,39 @@
             
             let vcf = $("#vcf").val();
 
-            // AJAX call
-            $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
-                {'tagid':tagid,
-                    'scaffoldid':scaffoldid,
-                    'year_array':years,
-                    'location':locations,
-                    'mortality':mortalities,
-                    'eco_vol_val':eco_vol_val,
-                    'ln_eco_vol_val':ln_eco_vol_val,
-                    'allele_freq_val':allele_freq_val,
-                    'length_val':length_val,
-                    'width_val':width_val,
-                    'height_val':height_val,
-                    'count':'',
-                    'average':'',
-                    'groupby':'',
-                    'vcf':vcf,
-                },
-                function(data){
-                    create_table(data)
-                },
-                "json");
+            // advanced data filters
+            let groupby = $("#groupby").val();
+            let count = $("input[name='count']:checked").val();
+            let average = $("#average").val();
+
+            // Make sure a year is selected
+            if (year_array.length == 0) {
+                $("#out_table").html(`<p>Please select at least one year!</p>`)
+                
+            } else {
+                // AJAX call
+                $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
+                    {'tagid':tagid,
+                        'scaffoldid':scaffoldid,
+                        'year_array':years,
+                        'location':locations,
+                        'mortality':mortalities,
+                        'eco_vol_val':eco_vol_val,
+                        'ln_eco_vol_val':ln_eco_vol_val,
+                        'allele_freq_val':allele_freq_val,
+                        'length_val':length_val,
+                        'width_val':width_val,
+                        'height_val':height_val,
+                        'count':count,
+                        'average':average,
+                        'groupby':groupby,
+                        'vcf':vcf,
+                    },
+                    function(data){
+                        create_table(data)
+                    },
+                    "json");
+            }
         })
     
 
@@ -1365,11 +1426,106 @@
             // Initialize variable to store HTML table
             let table_body_contents = "";
             
-            // Check if VCF table get joined (table columns will depend on that)
+            // Retrieve variables to decide what table to produce
             let join_vcf = $("#vcf").val();
+            let groupby = $("#groupby").val();
+            let count = $("input[name='count']:checked").val();
+            let average = $("#average").val();
+            
 
-            // Join VCF
-            if (join_vcf == "Yes") {
+            ////// Begin checks for table output
+
+            // If group by not selected but aggregate function is selected throw error
+            if (groupby == "None" && (average != "None" || count == "Yes")) {
+                $("#out_table").html(`<p>Please select a group by variable if you'd like to perform an aggregate function!</p>`)
+
+            // If group by selected and VCF selected throw error
+            } else if (groupby != "None" && join_vcf == "Yes") {
+                $("#out_table").html(`<p>Group by not implemented with VCF table!</p`)
+
+            // If group by selected and both count and average selected throw error
+            } else if (groupby != "None" && (average != "None" && count == "Yes")) {
+                $("#out_table").html(`<p>Please select either count or average, not both!</p>`)
+            
+            // If group by selected but count and average are not selected
+            } else if (groupby != "None" && (average == "None" && count == "No")) {    
+                $("#out_table").html(`<p>If using group by, please select either count or average!</p>`)
+
+            // GROUP BY __ COUNT * TABLE
+            } else if (groupby != "None" && (average == "None" && count == "Yes")) {
+                // Select which columns to extract based on group by variable
+                if (groupby == "Location") {
+                    var col_idx = 1;
+                    var agg_col = 'Location';
+                } else if (groupby == "alive_status") {
+                    var col_idx = 3;
+                    var agg_col = 'Mortality'
+                }
+                // Populate table
+                for (let row = 0; row<json.length; row++) {
+                    let groupby_col = json[row][col_idx];
+                    let count = json[row][12];
+                    let year = json[row][13];
+
+                    table_body_contents +=  `<tr>
+                                                <td>${year}</td>
+                                                <td>${groupby_col}</td>
+                                                <td>${count}</td>
+                                            </tr>`;
+                    }
+
+                    var table_template = `<table id="location_count_table">
+                                                <thead><tr>
+                                                        <th>Year</th>
+                                                        <th>${agg_col}</th>
+                                                        <th>Count</th>
+                                                    </tr></thead>
+                                                <tbody>${table_body_contents}</tbody>
+                                            </table>`;
+
+                $("#out_table").append(table_template);
+                
+            // GROUP BY __ AVG(__)
+            } else if (groupby != "None" && (average != "None" && count == "No")) {
+                // Select which columns to extract based on group by variable
+                if (groupby == "Location") {
+                    var col_idx = 1;
+                    var agg_col = 'Location';
+                } else if (groupby == "alive_status") {
+                    var col_idx = 3;
+                    var agg_col = 'Mortality'
+                }
+
+                // Populate table
+                for (let row = 0; row<json.length; row++) {
+                    let groupby_col = json[row][col_idx];
+                    let agg_func = json[row][12];
+                    let year = json[row][13];
+
+                    table_body_contents +=  `<tr>
+                                                <td>${year}</td>
+                                                <td>${groupby_col}</td>
+                                                <td>${agg_func}</td>
+                                            </tr>`;
+                    }
+
+                var table_template = `<table id="location_count_table">
+                                            <thead><tr>
+                                                <th>Year</th>
+                                                <th>${agg_col}</th>
+                                                <th>avg(${average})</th>
+                                                </tr></thead>
+                                            <tbody>${table_body_contents}</tbody>
+                                        </table>`;
+
+                $("#out_table").append(table_template);
+
+            // Table for group by + average(function)
+            } else if (groupby != "None" && (average != "None" && count == "No")) {
+                console.log('average table')
+
+            // Join VCF (no aggregate functions)
+            } else if (join_vcf == "Yes") {
 
                 for (let row = 0; row<json.length; row++) {
                     
@@ -1436,7 +1592,7 @@
                                             </tr>`;
                 } 
 
-                var table_template = ` <div class="scroll"><button class="download_table"> Download Table </button> 
+                var table_template = ` <div class="scroll"><button class="download_table" onclick="exportTable(vcf_table)> Download Table </button> 
                                             <table id="vcf_table">
                                                 <thead>
                                                     <tr>
@@ -1518,7 +1674,7 @@
                                             </tr>`;
                     }
 
-                    var table_template = ` <div class="scroll"><button class="download_table"> Download Table </button>
+                    var table_template = ` <div class="scroll"><button class="download_table" onclick="exportTable(phenotypic_table)"> Download Table </button><br><br><br><br>
                                             <table id="phenotypic_table">
                                                 <thead>
                                                     <tr>
@@ -1545,6 +1701,8 @@
 
                     $("#out_table").append(table_template);
 
+            } else if (join_vcf == "No") {
+            
             // This else doesn't really do anything
             } else {
                 console.log('Error in Join VCF')
