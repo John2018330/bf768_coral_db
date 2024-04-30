@@ -30,7 +30,7 @@
 		
 		}
 		.scroll {
-			height: 400px; 
+			height: 500px; 
 			overflow-y: auto;
 			border: 1px solid ;
 			padding: 10px;
@@ -548,9 +548,9 @@
 		--->
 
 	<div id="graph" class="tabcontent"><br>
-        <div class="user-input">
-			<p>Graphs</p>
-			<p> Input Scaffold ID:</p>
+        <div class="user-input"><br>
+		
+			<a href="#" onclick="openTab(event, 'help', 'help_scaffoldid')" id="scaffold_help" class="no-visited-style">Input Scaffold ID:</a>&nbsp;&nbsp;&nbsp;
 			<input type="text" id="scaffold_graph" placeholder="Sc0000458...">
 			<span class="example-text">(Example Scaffold IDs: 
 				<span class="example-values" onclick="fillInput('scaffold_graph', 'Sc0000458')">Sc0000458</span>, 
@@ -558,7 +558,7 @@
 			)</span>
 			
 
-			<p>Major or minor allele:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<p>Major or minor allele:&nbsp;&nbsp;&nbsp;
 				<select style="height: 25px; width: 150px; text-align: center;" id="geno_graph">
 					<option value="Homozygous Ref" selected>Homozygous Ref</option>
 					<option value="Homozygous Alt">Homozygous Alt</option>
@@ -566,7 +566,7 @@
 				</select>
 			</p>	
 			<p>
-				<button class="submit_button" id="get_graph_button" type="button">Get Graph</button><br><br>
+				<button style=" height:40px; width:100px; border-radius: 25px; cursor: pointer; background-color: white;" id="get_graph_button" type="button">Get Graph</button><br><br>
 			</p>
 		</div>
         <div id='graph1'></div>
@@ -1495,14 +1495,7 @@
                                             </tr>`;
                     }
 
-                    var table_template = ` <div class="scroll"> 
-												<div class="dropdown">
-													<button class="dropbtn">Export Table</button>
-													<div class="dropdown-content">
-														<a href="#" onclick="exportTable('phenotypic_table', 'csv')">CSV</a>
-														<a href="#" onclick="exportTable('phenotypic_table', 'xlsx')">Excel</a>
-													</div>
-												</div>
+                    var table_template = ` <div class="scroll"><button class="download_table"> Download Table </button>
                                             <table id="phenotypic_table">
                                                 <thead>
                                                     <tr>
@@ -1565,7 +1558,7 @@
             
             // Plot Options
             var options = {
-                        title: `Placeholder Title`,
+                        title: `Count of Allele by location`,
                         legend: { position: 'none' }
                         //width
                         //height
@@ -1576,8 +1569,18 @@
             chart.draw(dataTable, options);
         }
 
-        // AJAX call for growth graph
         
+        // AJAX call for growth graph
+        function create_linechart(json) {
+			var dataTable = google.visualization.arrayToDataTable(json);
+			var options = {
+				title: ` Average Coral Size by Location`,
+				legend: { position: 'bottom' }
+			};
+			var chart = new google.visualization.BarChart(document.getElementById("graph2"));
+            chart.draw(dataTable, options);
+
+		}
 
     </script>
 <br><br><br>
