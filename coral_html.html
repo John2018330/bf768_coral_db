@@ -271,9 +271,9 @@
 				<button style="margin-right: 17px;" id="reset_all_filters" class="reset-all-button">Reset ALL Filters</button>
 				<br>
                 <a href="#" onclick="openTab(event, 'help', 'help_tagid')" id="tagid_help" class="no-visited-style" >Input Tag ID:</a>&nbsp;&nbsp;
-					<input type="text" id="tagid" placeholder="103...">
+					<input type="text" id="tagid" placeholder="121...">
 					<span class="example-text">(Example Tag IDs: 
-						<span class="example-values" onclick="fillInput('tagid', '103')">103</span>, 
+						<span class="example-values" onclick="fillInput('tagid', '121')">121</span>, 
 						<span class="example-values" onclick="fillInput('tagid', '106')">106</span>
 					)</span>
 				<br><br>
@@ -296,10 +296,11 @@
 				<br><br>
 
 				<span> Sort the resultant table by: &nbsp;&nbsp;
-											<select style="height: 25px; width: 80px; text-align: center;" id="sort_by">
-												<option value="Year" selected>Year</option>
-												<option value="Location">Location</option>
-												<option value="tagid">Tag ID</option>
+											<select style="height: 25px; width: 150px; text-align: center;" id="sort_by">
+												<option value="year" selected>Year</option>
+												<option value="location">Location</option>
+												<option value="tagid"> Tag ID</option>
+												<option value="eco_volume">Ecological Volume</option>
 											</select>
 				</span>	
 
@@ -329,13 +330,13 @@
 						<br><br>
 						
 						<div class="slidecontainer">
-                        <a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help" class="no-visited-style">Ecological Volume (units):</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_eco_vol')" id="eco_vol_help" class="no-visited-style">Ecological Volume (cm<sup>3</sup>):</a>
 						<button id="eco_vol_reset" class="reset-button">Reset slider</button>
 						<br><br><br><br>
                         <div id="eco_vol"></div>
                         <br><br><br>
 
-                        <a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help" class="no-visited-style">Natural Log of Ecological Volume (units):</a>
+                        <a href="#" onclick="openTab(event, 'help', 'help_ln_eco_vol')" id="ln_eco_vol_help" class="no-visited-style">Natural Log of Ecological Volume (cm<sup>3</sup>):</a>
 						<button id="ln_eco_vol_reset" class="reset-button">Reset slider</button>
 						<br><br><br><br>
                         <div id="ln_eco_vol"></div>
@@ -394,7 +395,7 @@
 						<label for="count2">No</label>
 						<br><br>
                         
-                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <select style="height: 25px; width: 150px; text-align: center;" id="average">
+                        <a href="#" onclick="openTab(event, 'help', 'help_average')" id="average_help" class="no-visited-style">Average of:</a> &nbsp;&nbsp; <select style="height: 25px; width: 200px; text-align: center;" id="average">
                             <option value="None" selected>None </option>
                             <option value="length_cm">Length of polyp</option>
 						    <option value="width_cm">Width of polyp</option>
@@ -407,13 +408,10 @@
                 </div>
                 <br>
 
-                <!-- ?????????????? WE SHOULD ADD ANOTHER DROPDOWN FOR ADVANCED FILTERS
-                LIKE GROUP BY, COUNT, AGGREGATE FUNCTIONS...-->
+
                 <button class = "submit_button" id="get_table_button" type="button">Submit</button><br><br>
             </div>
-			<!-- Output data table -->     <!-- DOES THIS GO HERE???????????????????-->
 		<div id="out_table"></div>
-		<div id="store_results"></div>         <!-- Random div to store results of query (for download button?)-->
         </div>
     </div>
 	
@@ -562,7 +560,7 @@
 	<div id="graph" class="tabcontent"><br>
         <!-- Genotype Distribution Graph-->
         <div class="user-input"><br>
-			<div class="collapsible">Bar Grap</div>
+			<div class="collapsible">Bar Graph</div>
             <div class="content"><br>
             <!-- TODO: Add header for "get genotype distribution" plot-->
             <!-- TODO: Add description -->
@@ -572,9 +570,11 @@
 				<span class="example-values" onclick="fillInput('scaffold_graph', 'Sc0000458')">Sc0000458</span>, 
 				<span class="example-values" onclick="fillInput('scaffold_graph', 'Sc0000211')">Sc0000211</span>
 			)</span>
+
+			<br><br>
 			
 
-			<p>Major or minor allele:&nbsp;&nbsp;&nbsp;
+			<a href="#" onclick="openTab(event, 'help', 'help_majorminor')" id="majorminor_help" class="no-visited-style">Major or Minor Allele?</a>&nbsp;&nbsp;&nbsp;
 				<select style="height: 25px; width: 150px; text-align: center;" id="geno_graph">
 					<option value="Homozygous Ref" selected>Homozygous Ref</option>
 					<option value="Homozygous Alt">Homozygous Alt</option>
@@ -585,6 +585,7 @@
 				<button style=" height:40px; width:75px; border-radius: 25px; cursor: pointer; background-color: white;" id="get_geno_graph_button" type="button">Plot</button><br><br>
 			</p>
             <div id='geno_dist_plot'></div>
+			<div id='download_link'><button style="display:none;" class="download_table" onclick="exportImage();showDiv();"> Download Image </button> </div>
 			<br>
 		</div>
 		<br>
@@ -622,7 +623,7 @@
 			<ol>
 				<li> Data tab allows the user to explore the dataset. Different filters can be applied based on the use case and a table with the results is returned.</li>
 				<li> Additionally this table can be exported in the desired format for further processing.</li>
-				<li> The Graph tab allows the user to plot different columns to visually explore the data. Similarly these graphs can also be exported if desired.</li>
+				<li> The Graph tab allows the user to plot different columns to visually explore the data.</li>
 				<li> The Media tab hosts images from the BU Marine Program Webpage and  has pictures from different species of corals, including Porites Stony Coral.</li>
 				<li> Lastly the Help tab has detailed information on each header/section which can be used as a reference whenever required.</li><br>
 			</ol>
@@ -654,7 +655,9 @@
 								<p><a id="help_graph">Graph tab:</a></p>
 								<ul>
 									<li> This tab allows the user to explore the data in an interactive visual manner.</li>
-									<li> The options to plot the data are available through dropdowns </li>
+									<li> The options to plot the data are available through dropdowns. The graph can be downloaded if required. </li>
+									<li> The bar graph represents the count of a specific genotype for a specific SNP by location.</li>
+									<li> The line graph represents different variables like length/width/height per coral across the years.</li>
 								</ul>
 							</li>
 
@@ -662,7 +665,7 @@
 								<p><a id="help_media">Media tab:</a></p>
 								<ul>
 									<li> This tab hosts images from the BU Marine Program Webpage and are specific to different species of corals.</li>
-									<li> The options to plot the data are available through dropdowns and further information is present by selecting the header in question.</li>
+									<li> The list can be used to navigate the page and the headers link out to BU Marine page where the main folders divided species wide.</li>
 								</ul>
 							</li>
 
@@ -706,7 +709,16 @@
 								<li> <strong>Select YES if VCF information is required or if VCF Filters need to be used, since otherwise the information will not be retrieved.</strong></li>
 							</ul>
 						</li>
-						<p>If there are other filters which need to be applied to then they can be selected from the Phenotypic Data Filter tab or the VCF Filter tab. 
+						<li>
+							<p><a id="help_majorminor">Major or Minor Allele?</a></p>
+							<ul>
+								<li> At a given SNP, the most common allele is referred to as the major allele and the minor allele is the less common allele for a SNP (This measure can be used to get a rough idea of the variation of genotypes for a given SNP in a given population, to study how common the SNP is.)</li>
+								<li> Homozygous refers to having inherited the same alleles of a genomic marker from each biological parent.</li>
+								<li> Homozygous alt refers to the alternate allele being present at that location for both alleles.</li>
+								<li> Heterozygous refers to having different alleles for a particular trait.</li>
+							</ul>
+						</li>
+						<p>If there are other filters which need to be applied to then they can be selected from the Phenotypic Data Filter tab, VCF Filter tab or the Advanced Data Filter tab.
 							(See below for further details on those sections)
 						</p>
 					</ul>
@@ -716,15 +728,6 @@
                     <div class="collapsible">Phenotypic Data Filters</div>
 					<div class="content">
 					<ul>
-					
-						<li>
-							<p><a id="help_location">Location:</a></p>
-							<ul>
-								<li>There are 4 locations from where coral data was collected from: Channel-North, Channel-South, Creek-West and Creek-East.</li>
-								<li>There are checkboxes present to select the locations of interest, and multiple locations can be selected if desired.</li>
-								<li>The locations selected are the <strong>ONLY</strong> ones which will be returned. It should be left blank if all values are of interest.</li>
-							</ul>	
-						</li>						
 						<li>
 							<p><a id="help_year">Year:</a></p>
 							<ul>
@@ -735,29 +738,37 @@
 							</ul>
 						</li>
 						<li>
+							<p><a id="help_location">Location:</a></p>
+							<ul>
+								<li>There are 4 locations from where coral data was collected from: Channel-North, Channel-South, Creek-West and Creek-East.</li>
+								<li>There are checkboxes present to select the locations of interest, and multiple locations can be selected if desired.</li>
+								<li>The locations selected are the <strong>ONLY</strong> ones which will be returned. It should be left blank if all values are of interest.</li>
+							</ul>	
+						</li>
+						<li>
 							<p><a id="help_mortality">Mortality:</a></p>
 							<ul>
 								<li>Similar to other checkbox filters, the mortality filter allows the user to filter data based whether the coral of interest on Alive/Dead/Missing/New.
                                     New refers to the corals that are alive but have started being tracked in that particular year. An older coral would be under alive in the later years.
                                 </li>
 								<li>There are many corals which correspond to dead <strong>OR</strong> missing since determining the cause of disappearance is difficult. 
-								The corals with both values will be returned irrespective of whether dead is chosen or missing.It should be left blank if all values are of interest.</li>
+								The corals with both values will be returned irrespective of whether dead is chosen or missing. It should be left blank if all values are of interest.</li>
 								<li>This filter is particularly useful in combination with the year filter to study the survivalship of the corals of interest.</li>
 							</ul>
 						</li>
                         <li>
 							<p><a id="help_eco_vol">Ecological Volume:</a></p> 
 							<ul>
-								<li>Refers to the volume which is occupied by the coral colony. </li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>Refers to the volume (in cm<sup>3</sup>) which is occupied by the coral colony. </li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>
 						<li>
 							<p><a id="help_ln_eco_vol">Natural Log of Ecological Volume:</a></p>
 							<ul>
-								<li>Natural log of ecological volume.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>Natural log of ecological volume in cm<sup>3</sup>.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with volume <strong>LESS THAN</strong> the selected value will be returned). It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>	
@@ -765,7 +776,7 @@
 							<p><a id="help_length">Length:</a></p>
 							<ul>
 								<li>Length of coral polyp in centimeter.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp length <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp length <strong>LESS THAN</strong> the selected value will be returned). It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>
@@ -773,7 +784,7 @@
 							<p><a id="help_width">Width:</a></p>
 							<ul>
 								<li>Width of coral polyp in centimeter.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp width <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp width <strong>LESS THAN</strong> the selected value will be returned). It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>
@@ -781,7 +792,7 @@
 							<p><a id="help_height">Height:</a></p>
 							<ul>
 								<li>Height of coral polyp in centimeter.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp height <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all values are of interest.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with polyp height <strong>LESS THAN</strong> the selected value will be returned).It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>						
@@ -797,8 +808,8 @@
 							<ul>
 								<li>Allele frequency refers to the relative frequency of the variant at a particular locus. 
 								This is an important metric since it can be used to study the fraction of all chromosomes in the population 
-								that carry that allele over the sample size, espeically if it can potentially make corals resilient for better survivalship.</li>
-								<li>Slider can be used to pick a cutoff value (i.e, all corals with allele frequency <strong>LESS THAN</strong> the selected value will be returned). It should be left at default 0 if all variants are of interest.</li>
+								that carry that allele over the sample size, especially if it can potentially make corals resilient for better survivalship.</li>
+								<li>Slider can be used to pick a cutoff value (i.e, all corals with allele frequency <strong>LESS THAN</strong> the selected value will be returned). It should be left at default which is the max, if all values are of interest.</li>
 								<li>The sliders number is updated dynamically above the slider and can be used to pick cutoff values with increased sensitivity.</li>
 							</ul>
 						</li>
@@ -809,27 +820,28 @@
 				<div class="collapsible"> Advanced Data Filters</div>
 					<div class="content">
 					<ul>
+						<li>
+							<p><a id="help_groupby">Group By:</a></p> 
+							<ul>
+								<li>When a group by is performed all the variables from that category are divided into bins and an aggregate function/count of interest is returned for those bins.</li>
+								<li>For example, if a group by location is done, the data is divided into bins based on the 4 locations and an aggregate function or count would be returned for each location.</li>
+								<li>The default is <strong>None.</strong></li>
+							</ul>
+						</li>
 						<p>Aggregate functions are useful to get a basic statistic once the information is grouped by a value of interest, like counting the number of alive corals 
 						in all the locations of interest. This can help unearth patterns of survival/harsher environments. For more information on aggregate functions and group by please read below:</p>
 						<li>
-							<p><a id="help_count">Count:</a></p> 
+							<p><a id="help_count">Number of individuals / Count:</a></p> 
 							<ul>
-								<li>Count helps to count the number of variable of interest, e.g, alive corals, dead corals or tip numbers.</li>
+								<li>Count helps to count the number individuals based on based on the selected group by function. The default is <strong>NO</strong>.</li>
 								<li>This can be useful in gaining insight on the data on a larger scale.</li>
 							</ul>
 						</li>
 						<li>
 							<p><a id="help_average">Average:</a></p> 
 							<ul>
-								<li>Average computes the average of variable of interest, e.g, alive corals, dead corals or tip numbers.</li>
+								<li>Average computes the average of variable of interest, e.g, length/width/height/ecological volume of polyps. The default is <strong>None.</strong></li>
 								<li>This can be useful for comparative studies.</li>
-							</ul>
-						</li>
-						<li>
-							<p><a id="help_groupby">Group By:</a></p> 
-							<ul>
-								<li>When a group by is performed all the variables from that category are divided into bins and generally an aggregate function of interest is returned for those bins.</li>
-								<li>For example, if a group by location is done, the data is divided into bins based on the 4 locations and an aggregate function like count can be applied to these bins.</li>
 							</ul>
 						</li>
 					</ul>
@@ -1102,12 +1114,14 @@
 			document.getElementById("vcf").value = 'No';
 
 			// Reset for sort by dropdown
-			document.getElementById("sort_by").value = 'Year';
+			document.getElementById("sort_by").value = 'year';
 
 			// Reset Year checkboxes
 			document.querySelectorAll('input[name="year"]').forEach(function(checkbox) {
 				if (checkbox.value !== "2015") {
 					checkbox.checked = false;
+				} else {
+					checkbox.checked = true;
 				}
 			});
 
@@ -1165,32 +1179,32 @@
 		
 		// Event listener for Ecological Volume reset button
 		ecoVolResetButton.addEventListener('click', function() {
-			ecoVolSlider.noUiSlider.set(0);
+			ecoVolSlider.noUiSlider.set(35000);
 		});
 
 		// Event listener for LN Ecological Volume reset button
 		lnEcoVolResetButton.addEventListener('click', function() {
-			lnEcoVolSlider.noUiSlider.set(0);
+			lnEcoVolSlider.noUiSlider.set(12);
 		});
 
 		// Event listener for Length reset button
 		lengthResetButton.addEventListener('click', function() {
-			lengthSlider.noUiSlider.set(0);
+			lengthSlider.noUiSlider.set(50);
 		});
 
 		// Event listener for Width reset button
 		widthResetButton.addEventListener('click', function() {
-			widthSlider.noUiSlider.set(0);
+			widthSlider.noUiSlider.set(50);
 		});
 
 		// Event listener for Height reset button
 		heightResetButton.addEventListener('click', function() {
-			heightSlider.noUiSlider.set(0);
+			heightSlider.noUiSlider.set(25);
 		});
 		
 		// Event listener for Allele Frequency reset button
 		alleleResetButton.addEventListener('click', function() {
-			alleleFreqSlider.noUiSlider.set(0);
+			alleleFreqSlider.noUiSlider.set(1);
 		});
 		
 		// Reset ALL Slider button
@@ -1215,30 +1229,59 @@
 			document.getElementById('allele_freq').noUiSlider.reset();
 		});
 
-		function exportTable(table) {
-			let csv_data = [];
+		function exportTable() {
  
-			// Get each row data
-			let rows = table('tr');
-			for (let i = 0; i < rows.length; i++) {
-		
-				// Get each column data
-				let cols = rows[i].querySelectorAll('td,th');
-		
-				// Stores each csv row data
-				let csvrow = [];
-				for (let j = 0; j < cols.length; j++) {
-		
-					// Get the text data of each cell of
-					// a row and push it to csvrow
-					csvrow.push(cols[j].innerHTML);
-				}
-		
-				// Combine each column value with comma
-				csv_data.push(csvrow.join(","));
-			}
-			// Combine each row data with new line character
-			csv_data = csv_data.join('\n');
+            // Variable to store the final csv data
+            let csv_data = [];
+ 
+            // Get each row data
+            let rows = document.getElementsByTagName('tr');
+            for (let i = 0; i < rows.length; i++) {
+ 
+                // Get each column data
+                let cols = rows[i].querySelectorAll('td,th');
+ 
+                // Stores each csv row data
+                let csvrow = [];
+                for (let j = 0; j < cols.length; j++) {
+ 
+                    // Get the text data of each cell
+                    // of a row and push it to csvrow
+                    csvrow.push(cols[j].innerHTML);
+                }
+ 
+                // Combine each column value with comma
+                csv_data.push(csvrow.join(","));
+            }
+ 
+            // Combine each row data with new line character
+            csv_data = csv_data.join('\n');
+ 
+            // Call this function to download csv file  
+            downloadCSVFile(csv_data);
+ 
+        }
+
+		function downloadCSVFile(csv_data) {
+ 
+			// Create CSV file object and feed our
+			// csv_data into it
+			CSVFile = new Blob([csv_data], { type: "text/csv" });
+		 
+			// Create to temporary link to initiate
+			// download process
+			let temp_link = document.createElement('a');
+		 
+			// Download csv file
+			temp_link.download = "coral_data.csv";
+			let url = window.URL.createObjectURL(CSVFile);
+			temp_link.href = url;
+	
+			temp_link.style.display = "none";
+			document.body.appendChild(temp_link);
+
+			temp_link.click();
+			document.body.removeChild(temp_link);
 		}
 		
 		
@@ -1321,25 +1364,9 @@
 			}
 		}
 
-
-
 		////////////////////
-        // Document Load  //
-        ////////////////////
-        
-        // ???????????????? We want a table to be loaded when the webpage is loaded right ?????????????????????
-        // We should do that in the document.ready
-        $(document).ready(function() {
-            // Ajax call to populate table first with 2015 data
-            // $.get("https://bioed.bu.edu/cgi-bin/students_24/Team_7/coral_cgi.py",
-            //     {'selector':'default_query'},
-            //     function(data){
-            //         create_table(data)},
-            //     "json");
-
-            // Ajax to fill in dropdown menu
-        
-        })
+		///// Graph Tab/////
+		////////////////////
 
         ////////////////////
         // AAAAJJJAAAXXXX //
@@ -1352,7 +1379,9 @@
             // Retrieve all filters
             let tagid = $("#tagid").val();
             let scaffoldid = $("#scaffold").val();
-            
+            let order_by = $("#sort_by").val();
+
+
             // arrays
             let year_array = [];
             $("input:checkbox[name=year]:checked").each(function() { 
@@ -1387,10 +1416,13 @@
             let count = $("input[name='count']:checked").val();
             let average = $("#average").val();
 
-            // Make sure a year is selected
+            // Run checks on phenotypic data filter
             if (year_array.length == 0) {
-                $("#out_table").html(`<p>Please select at least one year!</p>`)
-                
+                alert("Please select at least one year!")
+            
+            } else if (vcf == "No" && scaffoldid != "") {
+                alert("Please select Yes for VCF join if searching for a scaffold ID")
+
             } else {
                 // AJAX call
                 $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
@@ -1409,6 +1441,7 @@
                         'average':average,
                         'groupby':groupby,
                         'vcf':vcf,
+                        'order_by':order_by
                     },
                     function(data){
                         create_table(data)
@@ -1422,7 +1455,13 @@
         // Create table from returned query //
         //////////////////////////////////////
         function create_table(json) {
-            
+            // Check if table is empty
+            if ( Object.values(json).length === 0 ) {
+                alert(`Returned table was empty! Please check parameters`);
+                $("#out_table").empty();
+                return 1;
+            } 
+
             // Initialize variable to store HTML table
             let table_body_contents = "";
             
@@ -1433,23 +1472,24 @@
             let average = $("#average").val();
             
 
-            ////// Begin checks for table output
+            ////// Begin checks for table input
+
 
             // If group by not selected but aggregate function is selected throw error
             if (groupby == "None" && (average != "None" || count == "Yes")) {
-                $("#out_table").html(`<p>Please select a group by variable if you'd like to perform an aggregate function!</p>`)
+                alert("Please select a group by variable if you'd like to perform an aggregate function!")
 
             // If group by selected and VCF selected throw error
             } else if (groupby != "None" && join_vcf == "Yes") {
-                $("#out_table").html(`<p>Group by not implemented with VCF table!</p`)
+                alert("Group by not implemented with VCF table!")
 
             // If group by selected and both count and average selected throw error
             } else if (groupby != "None" && (average != "None" && count == "Yes")) {
-                $("#out_table").html(`<p>Please select either count or average, not both!</p>`)
+                alert("Please select either count or average, not both!")
             
             // If group by selected but count and average are not selected
             } else if (groupby != "None" && (average == "None" && count == "No")) {    
-                $("#out_table").html(`<p>If using group by, please select either count or average!</p>`)
+                alert("If using group by, please select either count or average!")
 
             // GROUP BY __ COUNT * TABLE
             } else if (groupby != "None" && (average == "None" && count == "Yes")) {
@@ -1521,8 +1561,8 @@
                 $("#out_table").append(table_template);
 
             // Table for group by + average(function)
-            } else if (groupby != "None" && (average != "None" && count == "No")) {
-                console.log('average table')
+            //} else if (groupby != "None" && (average != "None" && count == "No")) {
+            //    console.log('average table')
 
             // Join VCF (no aggregate functions)
             } else if (join_vcf == "Yes") {
@@ -1590,12 +1630,11 @@
                                                 <td>${PL}</td>
                                                 <td>${GP}</td>
                                             </tr>`;
-                } 
+                }
 
-                var table_template = ` <div class="scroll"><button class="download_table" onclick="exportTable(vcf_table)> Download Table </button> 
+                var table_template = ` <div class="scroll"><button class="download_table" onclick="exportTable()"> Download Table </button> 
                                             <table id="vcf_table">
-                                                <thead>
-                                                    <tr>
+                                                <thead><tr>
                                                         <th>Year</th>
                                                         <th>Tag ID</th>
                                                         <th>Old Tag</th>
@@ -1624,19 +1663,12 @@
                                                         <th>GL</th>
                                                         <th>PL</th>
                                                         <th>GP</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${table_body_contents}
-                                                </tbody>
-                                            </table>
-                                            </div>`;
-
-
+                                                    </tr></thead>
+                                                <tbody>${table_body_contents}</tbody>
+                                            </table></div>`;
+                                            
                 $("#out_table").append(table_template);
                 
-            
-
 
             // No VCF join
             } else if (join_vcf == "No") {
@@ -1676,8 +1708,7 @@
 
                     var table_template = ` <div class="scroll"><button class="download_table" onclick="exportTable(phenotypic_table)"> Download Table </button><br><br><br><br>
                                             <table id="phenotypic_table">
-                                                <thead>
-                                                    <tr>
+                                                <thead><tr>
                                                         <th>Year</th>
                                                         <th>Tag ID</th>
                                                         <th>Old Tag</th>
@@ -1691,17 +1722,13 @@
                                                         <th>ln(Ecological Volume)</th>
                                                         <th>Volume Cylinder</th>
                                                         <th>Tip Number</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    ${table_body_contents}
-                                                </tbody>
-                                            </table>
-                                            </div>`;
+                                                    </tr></thead>
+                                                <tbody>${table_body_contents}</tbody>
+                                            </table></div>`;
 
                     $("#out_table").append(table_template);
 
-            } else if (join_vcf == "No") {
+            // } else if (join_vcf == "No") {
             
             // This else doesn't really do anything
             } else {
@@ -1719,7 +1746,12 @@
             
             let scaffold_graph = $("#scaffold_graph").val();
             let geno_graph = $("#geno_graph").val();
-            //console.log(geno_graph);
+            
+            
+            //Check if scaffold has been input
+            if (scaffold_graph == "") {
+                alert("Please enter a scaffold ID first!");
+            }
 
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'scaffold_graph':scaffold_graph,
@@ -1733,21 +1765,29 @@
         
         // Function to create barchart
         function create_vcf_barchart(json) {
-            
-            // Convert JSON to google charts data
-            let dataTable = google.visualization.arrayToDataTable(json);
-            
-            // Plot Options
-            let options = {
-                        title: `Count of Allele by location`,
-                        legend: { position: 'none' }
-                        //width
-                        //height
-                    };
-            
-            // Get div by id to put graph in 
-            let chart = new google.visualization.BarChart(document.getElementById("geno_dist_plot"));
-            chart.draw(dataTable, options);
+            let scaffold_graph = $("#scaffold_graph").val();
+            let geno_graph = $("#geno_graph").val();
+
+            if ( Object.values(json).length === 1 ) {
+                alert(`No ${geno_graph} genotypes found for ${scaffold_graph}`);
+                $("#geno_dist_plot").empty();
+
+            } else {
+                // Convert JSON to google charts data
+                let dataTable = google.visualization.arrayToDataTable(json);
+                
+                // Plot Options
+                let options = {
+                            title: `Count of Allele by location`,
+                            legend: { position: 'none' }
+                            //width
+                            //height
+                        };
+                
+                // Get div by id to put graph in 
+                let chart = new google.visualization.BarChart(document.getElementById("geno_dist_plot"));
+                chart.draw(dataTable, options);
+            }
         }
 
         // AJAX call for line graph query 
@@ -1757,6 +1797,10 @@
             $("#line_graph").empty();
             
             let tagid = $("#line_graph_tagID_input").val();
+
+            if (tagid == "") {
+                alert("Please enter a tag ID first!")
+            }
 
             $.get("https://bioed.bu.edu/cgi-bin/students_24/saumyapo/coral_cgi.py",
                 {'line_tagid':tagid},
@@ -1768,17 +1812,28 @@
 
         // Function for creating line graph
         function create_linechart(json) {
-			let dataTable = google.visualization.arrayToDataTable(json);
-            
+
             let tagid = $("#line_graph_tagID_input").val();
-            
-			let options = {
-				title: ` Ecological Volume of ${tagid} over recorded years`,
-				legend: { position: 'bottom' },
-                hAxis: {format: '0'}
-			};
-			let chart = new google.visualization.LineChart(document.getElementById("line_graph"));
-            chart.draw(dataTable, options);
+
+            if ( Object.values(json).length === 1 ) {
+                alert(`No data found for ${tagid}`);
+                $("#geno_dist_plot").empty();
+
+            } else {
+
+                let dataTable = google.visualization.arrayToDataTable(json);
+                
+                let tagid = $("#line_graph_tagID_input").val();
+                
+                let options = {
+                    title: ` Ecological Volume of ${tagid} over recorded years`,
+                    legend: { position: 'bottom' },
+                    hAxis: {format: '0'}
+                };
+                
+                let chart = new google.visualization.LineChart(document.getElementById("line_graph"));
+                chart.draw(dataTable, options);
+            }
 		}
 
     </script>

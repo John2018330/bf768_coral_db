@@ -64,6 +64,7 @@ if form:
     averages = form.getvalue("average")
     groupbys = form.getvalue("groupby")
     vcf = form.getvalue("vcf")
+    order_by = form.getvalue("order_by")
     
     # For genotype distribution graphs
     scaffold_graph = form.getvalue("scaffold_graph")
@@ -103,7 +104,7 @@ if form:
             # Execute the query
             results = execute_query(cursor, bar_query)
             #print('')
-
+            
             
             plot_data = [list(item) for item in results]
             y_axis = 'Number of ' + str(geno_graph) + ' Individuals'
@@ -124,10 +125,7 @@ if form:
             # Execute the query
             cursor.execute(line_query,[line_tagid])
                     
-                    
             results = cursor.fetchall()
-            #print('')
-
             
             plot_data = [list(item) for item in results]
             plot_data.insert(0,['Volume of coral','Year'])
@@ -157,7 +155,7 @@ if form:
                 zquery += " JOIN vcf on vcf.CORAL_ID = y" + i + ".tagid"
 
             #sliders are always added to query
-            zquery += " WHERE (eco_volume < " + str(ecological_vol) + " OR eco_volume is NULL) AND (length_cm < " + str(length) +  " OR length_cm is NULL) AND (width_cm < " + str(width) + " OR width_cm is NULL) AND (height_cm < " + str(height) + " OR height_cm is NULL)"
+            zquery += " WHERE (eco_volume < " + str(ecological_vol) + " OR eco_volume is NULL) AND (ln_eco_volume < " + str(ln_ecological_vol) + " OR ln_eco_volume is NULL) AND (length_cm < " + str(length) +  " OR length_cm is NULL) AND (width_cm < " + str(width) + " OR width_cm is NULL) AND (height_cm < " + str(height) + " OR height_cm is NULL)"
 
 
             #only uses vcf slider if vcf is yes to not create error
@@ -181,11 +179,11 @@ if form:
                 zquery += ")"
 
             if len(mortality) > 0:
-                zquery += " AND alive_status in ("
+                zquery += " AND alive_status REGEXP '"
                 for k in mortality:
-                    zquery +="'" + k + "', "
-                zquery = zquery[:-2]
-                zquery += ")"
+                    zquery += k + "|"
+                zquery = zquery[:-1]
+                zquery += "'"
 
             #groupby filters
 
@@ -196,7 +194,7 @@ if form:
             zquery += " UNION "
         zquery = zquery[:-6]
 
-
+        zquery += " ORDER BY " + order_by
 
 
 

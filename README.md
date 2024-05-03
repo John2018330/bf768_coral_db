@@ -13,12 +13,6 @@ Graph:
 ## To do before demonstration on 8th:
 
 ### !! IMPORTANT !!
-
-Data page:
-*  [ ] Download table data (Saumya)
-*  [ ] Group by working (John)
-*  [ ] Throw an error if no year is selected + if both tagid and scaffold ids have values (Zach)
-
 List of CGI forms (queries):
 
 *  [ ] Get VCF individuals (from 2018) that are alive
@@ -28,11 +22,6 @@ List of CGI forms (queries):
 *  [ ] GRAPH QUERY: Group by location Volume over 4 years
 *  [ ] Get counts of alive and dead by  location
 *  [ ] UPDATE [table] SET [column]= "-" WHERE [column] IS NULL
-
-Help Page:
-*  [ ] Explanation on reset buttons. (Saumya)
-*  [ ] Add that phenotypic data repeats (in a div tag) (Saumya)
-*  [ ] Add info on graph tab + links (Saumya)
 
 ## Done:
 
@@ -54,6 +43,9 @@ Data Page:
 *  [x] Make count and average of advanced filters a drop down menu
 *  [x] Fix allele frequency slider (Saumya)
 *  [x] Google charts (Add line chart)
+*  [x] Download table data (Saumya)
+*  [x] Group by working (John)
+*  [x] Throw an error if no year is selected + if both tagid and scaffold ids have values (Zach)
 
 Media Page:
 *  [x] Need to link to external database (coral pics)
@@ -65,6 +57,9 @@ Help Page:
 *  [x] Need to add more context for all tabs (length/width/height)
 *  [x] Links from your HTML forms explaining what the page does
 *  [x] Add the format of input (Note: exact format not needed. Add links to help page and maybe images of the slider being used).
+*  [X] Explanation on reset buttons. (Saumya)
+*  [X] Add that phenotypic data repeats (in a div tag) (Saumya)
+*  [X] Add info on graph tab + links (Saumya)
 
 UI to implement for phenotypic data:
 'WHERE' might be implemented by having a number of checkbox options for what to filter by, same with group by
