@@ -1806,6 +1806,10 @@
                 
                 // Get div by id to put graph in 
                 let chart = new google.visualization.BarChart(document.getElementById("geno_dist_plot"));
+				google.visualization.events.addListener(chart, 'ready', function () {
+					geno_dist_plot.innerHTML = '<img src="' + chart.getImageURI() + '">';
+					console.log(geno_dist_plot.innerHTML);
+				});
                 chart.draw(dataTable, options);
             }
         }
